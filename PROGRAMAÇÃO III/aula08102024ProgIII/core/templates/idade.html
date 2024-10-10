@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Minha Idade</title>
+</head>
+<body>
+    <p>Data de Nascimento: {{ dia }}/{{ mes }}/{{ ano }}</p>
+    <p>Idade: {{ idade }} anos</p>
+    {% if idade >= 18 %}
+        <p>Maior de Idade!</p>
+    {% else %}
+        <p>Menor de Idade!</p>
+    {% endif %}
+</body>
+</html>

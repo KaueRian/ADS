@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Média Notas</title>
+    <link rel="stylesheet"  href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+</head>
+<body>
+    <main class="container">
+        <article>
+            <form method="POST" action="{% url 'media' %}">
+                <input type="number" name="nota1" placeholder="nota 1">
+                <input type="number" name="nota2" placeholder="nota 2">
+                <input type="radio" name="tipo" value="A">Aritmética
+                <input type="radio" name="tipo" value="P">Ponderada
+                <input type="number" name="peso1" id="peso1" disabled placeholder="peso 1">
+                <input type="number" name="peso2" id="peso2" disabled placeholder="peso 2">
+                {% csrf_token %}
+                <input type="submit" role="button" value="enviar">
+            </form>
+        </article>
+        {% if request.method == 'POST' %}
+        <article>
+            <header> Resultado </header>
+            <p>Média</p>
+            <p>Nota 1 = {{ nota1 }}</p>
+            <p>Nota 2 = {{ nota2 }}</p>
+            <p>Media = {{ media }}</p>
+        </article>
+        {% endif %}
+    </main>
+    <script>
+        pond = document.getElementsByName('tipo')[1];
+        arit = document.getElementsByName('tipo')[0];
+        pond.onchange = function(){
+            if (pond.checked){
+                peso1.removeAttribute('disabled');
+                peso2.removeAttribute('disabled');
+            }
+        }
+        arit.onchange = function(){
+            if(this.checked){
+                peso1.setAttribute('disabled', peso1);
+                peso2.setAttribute('disabled', peso2);
+            }
+        }
+    </script>
+</body>
+</html>
