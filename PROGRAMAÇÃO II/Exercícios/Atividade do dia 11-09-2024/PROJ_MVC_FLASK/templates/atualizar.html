@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Atualizar Produto</title>
+</head>
+<body>
+    <h1>Atualizar Produto</h1>
+    <form method="POST">
+        <label for="descricao">Descrição:</label>
+        <input type="text" name="descricao" value="{{ produto.descricao }}" required>
+        <label for="preco">Preço:</label>
+        <input type="text" name="preco" value="{{ produto.preco }}" required>
+        <button type="submit">Atualizar</button>
+    </form>
+</body>
+</html>

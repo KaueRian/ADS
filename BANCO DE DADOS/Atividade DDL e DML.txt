@@ -1,0 +1,93 @@
+CREATE DATABASE banco;
+USE banco;
+
+CREATE TABLE cliente (
+cpf INT PRIMARY KEY,
+nome VARCHAR(255) NOT NULL,
+sexo CHAR(1) NOT NULL,
+endereco VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE banco (
+codigo INT PRIMARY KEY,
+nome VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE conta (
+numero_conta INT PRIMARY KEY,
+saldo DECIMAL(12,2) CHECK (saldo >=0) NOT NULL ,
+tipo_conta ENUM('CC', 'CP') NOT NULL,
+num_agencia INT NOT NULL
+);
+
+ALTER TABLE cliente DROP COLUMN sexo;
+
+ALTER TABLE cliente ADD sexo ENUM('F', 'M', 'NI') NOT NULL DEFAULT 'F';
+
+ALTER TABLE banco DROP COLUMN nome;
+
+ALTER TABLE banco ADD nome VARCHAR(255) NOT NULL UNIQUE;
+
+ALTER TABLE conta ADD UNIQUE (num_agencia);
+
+CREATE TABLE agencia (
+cod_banco INT PRIMARY KEY,
+numero_agencia INT NOT NULL,
+endereco VARCHAR(255) NOT NULL,
+FOREIGN KEY (cod_banco) REFERENCES banco(codigo) ON DELETE CASCADE,
+FOREIGN KEY (numero_agencia) REFERENCES conta(num_agencia) ON DELETE CASCADE
+);
+
+CREATE TABLE historico (
+cpf_cliente INT PRIMARY KEY,
+num_conta INT NOT NULL,
+data_inicio DATE NOT NULL,
+FOREIGN KEY (cpf_cliente) REFERENCES cliente(cpf),
+FOREIGN KEY (num_conta) REFERENCES conta(numero_conta)
+);
+
+CREATE TABLE telefone_cliente (
+cpf_cli INT PRIMARY KEY,
+telefone CHAR(10),
+FOREIGN KEY (cpf_cli) REFERENCES cliente(cpf)
+);
+
+INSERT INTO banco (codigo, nome) VALUES
+(1, 'Banco do Brasil'),
+(4, 'CEF');
+
+ALTER TABLE agencia
+DROP FOREIGN KEY agencia_ibfk_2;
+
+ALTER TABLE agencia
+MODIFY numero_agencia VARCHAR(7);
+
+ALTER TABLE historico
+DROP FOREIGN KEY historico_ibfk_2;
+
+ALTER TABLE historico
+MODIFY num_conta VARCHAR(7);
+
+ALTER TABLE conta DROP COLUMN numero_conta;
+
+DROP TABLE conta;
+
+CREATE TABLE conta (
+numero_conta VARCHAR(7) PRIMARY KEY,
+saldo DECIMAL(12,2) CHECK (saldo >= 0) NOT NULL,
+tipo_conta ENUM('CC', 'CP') NOT NULL,
+num_agencia INT NOT NULL,
+UNIQUE (num_agencia)
+);
+
+ALTER TABLE agencia
+ADD CONSTRAINT fk_agencia_numero_agencia
+FOREIGN KEY (numero_agencia) REFERENCES conta(numero_conta) ON DELETE CASCADE;
+
+ALTER TABLE historico
+ADD CONSTRAINT fk_historico_num_conta
+FOREIGN KEY (num_conta) REFERENCES conta(numero_conta);
+
+INSERT INTO conta (numero_conta, saldo, tipo_conta, num_agencia)
+VALUES ('86340-2', 763.05, 'CP', '3153'),
+('23584-7', 3879.10, 'CC', '0562');

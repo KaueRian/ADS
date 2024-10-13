@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Adicionar Novo Produto</title>
+{% endblock %}
+
+{% block body %}
+    <h3>Adicionar Novo Produto</h3>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{ messages[0] }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <script>
+                $(".alert").delay(5000).slideUp(200, function() {
+                    $(this).alert('close');
+                });
+            </script>
+        {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('novo_produto') }}" method="POST" autocomplete="off">
+        <div class="mb-3">
+            <label for="descricao" class="form-label">Descrição</label>
+            <input class="form-control" type="text" name="descricao" id="descricao" placeholder="Informe a descrição do produto" required autofocus />
+        </div>
+
+        <div class="mb-3">
+            <label for="preco" class="form-label">Preço</label>
+            <input class="form-control" type="text" name="preco" id="preco" placeholder="Informe o preço do produto" required />
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary mb-3">Cadastrar</button>
+        </div>
+    </form>
+
+    <h3>Produtos Cadastrados</h3>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Descrição</th>
+                <th>Preço</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produto in produtos %}
+                <tr>
+                    <td>{{ produto.id }}</td>
+                    <td>{{ produto.descricao }}</td>
+                    <td>{{ produto.preco }}</td>
+                    <td>{{ 'Ativo' if produto.status == 1 else 'Desativado' }}</td>
+                    <td>
+                        <a href="{{ url_for('atualizar_produto', id=produto.id, status=1 if produto.status==0 else 0) }}" class="btn btn-warning btn-sm">
+                            {{ 'Ativar' if produto.status==0 else 'Desativar' }}
+                        </a>
+                        <a href="{{ url_for('editar_produto', id=produto.id) }}" class="btn btn-primary btn-sm">Editar</a>
+                        <a href="{{ url_for('deletar_produto', id=produto.id) }}" class="btn btn-danger btn-sm">Deletar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
