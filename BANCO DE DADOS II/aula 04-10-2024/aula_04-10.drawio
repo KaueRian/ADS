@@ -1,0 +1,181 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36" version="24.7.17">
+  <diagram name="Página-1" id="IKjt2SQiRjq86tuLyzUk">
+    <mxGraphModel dx="1184" dy="677" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="Mercearia" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
+          <mxGeometry x="40" y="20" width="430" height="137" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="Venda Departamento" style="rounded=1;arcSize=40;strokeWidth=2" parent="2" vertex="1">
+          <mxGeometry x="19.4" y="40" width="123.67" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="Cliente" style="rounded=1;arcSize=40;strokeWidth=2" parent="2" vertex="1">
+          <mxGeometry x="189.49" y="40" width="51.02" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="Produtos" style="rounded=1;arcSize=40;strokeWidth=2" parent="2" vertex="1">
+          <mxGeometry x="183.64999999999998" y="89.5" width="62.71" height="29" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="Funcionarios" style="rounded=1;arcSize=40;strokeWidth=2" parent="2" vertex="1">
+          <mxGeometry x="340" y="40" width="73.47" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-23" value="Fornecedor" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="2">
+          <mxGeometry x="342.21" y="89.5" width="71.26" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-33" value="Vendas Efetuadas" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="2">
+          <mxGeometry x="19.4" y="89.5" width="110.6" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-43" value="Construção civil" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="190" width="430" height="137" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-44" value="Trabalhador" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-43">
+          <mxGeometry x="19.4" y="40" width="123.67" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-45" value="Cliente" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-43">
+          <mxGeometry x="189.49" y="40" width="51.02" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-46" value="Serviço" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-43">
+          <mxGeometry x="183.64999999999998" y="89.5" width="62.71" height="29" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-47" value="Projeto" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-43">
+          <mxGeometry x="340" y="40" width="73.47" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-48" value="Fornecedor" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-43">
+          <mxGeometry x="342.21" y="89.5" width="71.26" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-49" value="Pagamento" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-43">
+          <mxGeometry x="19.4" y="89.5" width="110.6" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-50" value="loja de doces" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="20" width="430" height="137" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-51" value="Produto" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-50">
+          <mxGeometry x="19.4" y="40" width="123.67" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-52" value="Cliente" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-50">
+          <mxGeometry x="170" y="40" width="51.02" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-53" value="Produtos" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-50">
+          <mxGeometry x="143.07" y="89.5" width="62.71" height="29" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-54" value="Funcionarios" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-50">
+          <mxGeometry x="340" y="40" width="73.47" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-55" value="Fornecedor" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-50">
+          <mxGeometry x="342.21" y="89.5" width="71.26" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-56" value="Vendas Efetuadas" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-50">
+          <mxGeometry x="19.4" y="89.5" width="110.6" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-57" value="Item_Venda" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-50">
+          <mxGeometry x="230" y="89" width="80" height="29" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-58" value="Categoria" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-50">
+          <mxGeometry x="250" y="40" width="60" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-59" value="Imobiliária" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="190" width="430" height="137" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-60" value="Imóvel" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-59">
+          <mxGeometry x="19.4" y="40" width="123.67" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-61" value="Cliente" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-59">
+          <mxGeometry x="170" y="40" width="51.02" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-62" value="Locação" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-59">
+          <mxGeometry x="143.07" y="89.5" width="62.71" height="29" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-63" value="Funcionarios" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-59">
+          <mxGeometry x="340" y="40" width="73.47" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-64" value="Fornecedor" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-59">
+          <mxGeometry x="342.21" y="89.5" width="71.26" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-65" value="Transação" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-59">
+          <mxGeometry x="19.4" y="89.5" width="110.6" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-66" value="Item_Venda" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-59">
+          <mxGeometry x="230" y="89" width="80" height="29" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-67" value="Corretor" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-59">
+          <mxGeometry x="250" y="40" width="60" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-68" value="Abrigo para cães" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="360" width="430" height="137" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-69" value="Cão" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-68">
+          <mxGeometry x="19.4" y="40" width="123.67" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-70" value="Cliente" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-68">
+          <mxGeometry x="170" y="40" width="51.02" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-71" value="Locação" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-68">
+          <mxGeometry x="158.31" y="89.5" width="62.71" height="29" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-72" value="Adoção" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-68">
+          <mxGeometry x="340" y="40" width="73.47" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-73" value="Fornecedor" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-68">
+          <mxGeometry x="250" y="90.5" width="71.26" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-74" value="Doação" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-68">
+          <mxGeometry x="19.4" y="89.5" width="110.6" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-76" value="Voluntário" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-68">
+          <mxGeometry x="250" y="40" width="70" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-77" value="Processo seletivo" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="360" width="430" height="137" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-78" value="Candidato" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-77">
+          <mxGeometry x="19.4" y="40" width="123.67" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-79" value="Vaga" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-77">
+          <mxGeometry x="170" y="40" width="51.02" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-80" value="Avaliação" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-77">
+          <mxGeometry x="341.90999999999997" y="40" width="62.71" height="29" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-81" value="Aplicador da prova" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-77">
+          <mxGeometry x="291.15" y="88.5" width="113.47" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-83" value="Resultado" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-77">
+          <mxGeometry x="19.4" y="89.5" width="110.6" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-84" value="Inscrição" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-77">
+          <mxGeometry x="160" y="88.5" width="80" height="29" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-85" value="Recrutador" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-77">
+          <mxGeometry x="240" y="40" width="80" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-86" value="Sistema de cursos" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" vertex="1" parent="1">
+          <mxGeometry x="960" y="20" width="430" height="137" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-87" value="Curso" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-86">
+          <mxGeometry x="19.4" y="40" width="123.67" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-88" value="Aluno" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-86">
+          <mxGeometry x="170" y="40" width="51.02" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-89" value="Inscrição" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-86">
+          <mxGeometry x="143.07" y="89.5" width="62.71" height="29" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-90" value="Avaliação" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-86">
+          <mxGeometry x="340" y="40" width="73.47" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-91" value="Matérias" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-86">
+          <mxGeometry x="342.21" y="89.5" width="71.26" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-92" value="Vendas Efetuadas" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-86">
+          <mxGeometry x="19.4" y="89.5" width="110.6" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-93" value="Instrutor" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-86">
+          <mxGeometry x="230" y="89" width="80" height="29" as="geometry" />
+        </mxCell>
+        <mxCell id="j_ibgAs28WKsIZmqIXQK-94" value="Categoria" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="j_ibgAs28WKsIZmqIXQK-86">
+          <mxGeometry x="250" y="40" width="60" height="28" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
