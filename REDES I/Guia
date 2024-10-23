@@ -1,1 +1,2 @@
-Observações: A placa de rede VirtualBox Host-Only Ethernet Adapter, é responsável por realizar a conexão entre a VM Gateway e o computador Físico, lembre de deixar ela configurada com IP: 200.50.100.1/24, com servidor DHCP desativado.
+Observações: A placa de rede VirtualBox Host-Only Ethernet Adapter, é responsável por realizar a conexão entre a VM Gateway e o computador Físico, lembre de deixar ela configurada com IP: 200.50.100.1/24,
+com servidor DHCP desativado.
