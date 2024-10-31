@@ -33,7 +33,7 @@ class Home extends StatelessWidget {
               ),
             ),
             const ButtonWidget(texto: "Criar uma nova conta"),
-            const ButtonWidget(texto: 'Esqueci minha senha.')
+            const ButtonWidget(texto: 'Esqueci minha senha')
           ],
         ),
       ),
