@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
@@ -11,7 +9,7 @@ class Home extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text("Faça seu login"),
+          title: const Text("Faça seu login"),
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
         ),
@@ -19,8 +17,8 @@ class Home extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            TextWidget(texto: 'E-mail', icone: Icon(Icons.email)),
-            TextWidget(texto: 'Senha', icone: Icon(Icons.lock)),
+            const TextWidget(texto: 'E-mail', icone: Icon(Icons.email)),
+            const TextWidget(texto: 'Senha', icone: Icon(Icons.lock)),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: FractionallySizedBox(
@@ -29,13 +27,13 @@ class Home extends StatelessWidget {
                     onPressed: () {},
                     style:
                         ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                    child: Text('Entrar',
+                    child: const Text('Entrar',
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold))),
               ),
             ),
-            ButtonWidget(texto: "Criar uma nova conta"),
-            ButtonWidget(texto: 'Esqueci minha senha.')
+            const ButtonWidget(texto: "Criar uma nova conta"),
+            const ButtonWidget(texto: 'Esqueci minha senha.')
           ],
         ),
       ),
@@ -56,10 +54,10 @@ class TextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: TextFormField(
         decoration: InputDecoration(
-            labelText: texto, prefixIcon: icone, border: OutlineInputBorder()),
+            labelText: texto, prefixIcon: icone, border: const OutlineInputBorder()),
       ),
     );
   }
@@ -76,8 +74,8 @@ class ButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Text(texto,
-            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)));
+            style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)));
   }
 }
