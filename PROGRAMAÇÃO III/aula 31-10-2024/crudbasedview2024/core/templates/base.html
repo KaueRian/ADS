@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% load bootstrap4 %}
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block titulo %}{% endblock %}</title>
+    {% bootstrap_css %}
+</head>
+<body>
+<div class="container">
+    <header class="jumbotron row">
+        <div class="col-2">
+            <a href="{% url 'home' %}" class="text-decoration-none">
+                <h5>🏚 Home</h5>
+            </a>
+        </div>
+        <div class="col-10">
+            <h3>Meus Produtos</h3>
+        </div>
+    </header>
+    {% block conteudo %}{% endblock %}
+</div>
+</body>
+</html>

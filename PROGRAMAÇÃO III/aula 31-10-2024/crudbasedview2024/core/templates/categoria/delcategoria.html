@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block titulo %}Deletar Categorias{% endblock %}
+
+{% block conteudo %}
+<h1>Exclusão de categoria.</h1>
+<form method="POST" class="form form-active">
+    {% csrf_token %}
+
+    <h4>Confirma a exclusão da categoria {{ categoria.descricao }}?</h4>
+
+    {% buttons %}
+    <button type="submit" class="btn btn-primary btn-danger">Confimar</button>
+    <a href="{% url 'listarCategorias' %}" class="btn btn-primary">
+        Cancelar
+    </a>
+    {% endbuttons %}
+</form>
+{% endblock %}
