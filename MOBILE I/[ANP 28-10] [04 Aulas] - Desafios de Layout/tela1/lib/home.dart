@@ -57,7 +57,9 @@ class TextWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       child: TextFormField(
         decoration: InputDecoration(
-            labelText: texto, prefixIcon: icone, border: const OutlineInputBorder()),
+            labelText: texto,
+            prefixIcon: icone,
+            border: const OutlineInputBorder()),
       ),
     );
   }
@@ -76,6 +78,7 @@ class ButtonWidget extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.all(8),
         child: Text(texto,
-            style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)));
+            style: const TextStyle(
+                color: Colors.blue, fontWeight: FontWeight.bold)));
   }
 }

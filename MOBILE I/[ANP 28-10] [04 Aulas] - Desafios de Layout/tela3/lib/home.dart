@@ -6,33 +6,38 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primaryColor: Colors.deepOrange,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.deepOrange,
+          foregroundColor: Colors.white,
+          centerTitle: true,
+        ),
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        ),
+      ),
       home: Scaffold(
         appBar: AppBar(
-          centerTitle: true,
-          title: Text('Jogo do Pedra, Papel e Tesoura'),
-          backgroundColor: Colors.deepOrange,
-          foregroundColor: Color.fromARGB(255, 250, 250, 250),
+          title: const Text('Jogo do Pedra, Papel e Tesoura'),
         ),
-        body: Center(
+        body: const Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  TextWidget(texto: 'Escolha da Máquina'),
-                  IconeWidget(textoIcone: '👊'),
-                  TextWidget(texto: 'Escolha uma opção abaixo'),
-                ],
-              ),
+              TextWidget(texto: 'Escolha da Máquina'),
+              IconeWidget(textoIcone: '👊'),
+              TextWidget(texto: 'Escolha uma opção abaixo'),
+              SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   IconeWidget(textoIcone: '👊'),
                   IconeWidget(textoIcone: '🤚'),
                   IconeWidget(textoIcone: '✌️'),
                 ],
               ),
+              SizedBox(height: 20),
               TextWidget(texto: 'Você ganhou!'),
             ],
           ),
@@ -45,7 +50,7 @@ class Home extends StatelessWidget {
 class TextWidget extends StatelessWidget {
   final String texto;
 
-  TextWidget({
+  const TextWidget({
     super.key,
     required this.texto,
   });
@@ -53,10 +58,10 @@ class TextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: Text(
         texto,
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        style: Theme.of(context).textTheme.bodyLarge,
       ),
     );
   }
@@ -65,7 +70,7 @@ class TextWidget extends StatelessWidget {
 class IconeWidget extends StatelessWidget {
   final String textoIcone;
 
-  IconeWidget({
+  const IconeWidget({
     super.key,
     required this.textoIcone,
   });
@@ -73,18 +78,20 @@ class IconeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       child: Container(
         width: 120,
         height: 120,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Color.fromARGB(255, 241, 241, 241),
-            border: Border.all(color: Color.fromARGB(100, 0, 0, 0), width: 4)),
+          shape: BoxShape.circle,
+          color: const Color(0xFFF1F1F1),
+          border:
+              Border.all(color: const Color.fromARGB(100, 0, 0, 0), width: 4),
+        ),
         child: Text(
           textoIcone,
-          style: TextStyle(fontSize: 64),
+          style: const TextStyle(fontSize: 64),
         ),
       ),
     );

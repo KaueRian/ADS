@@ -10,15 +10,15 @@ class Home extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.orange,
           foregroundColor: Colors.white,
-          title: Text('Preços de Criptomoedas'),
+          title: const Text('Preços de Criptomoedas'),
           actions: [
             IconButton(
-              icon: Icon(Icons.refresh),
+              icon: const Icon(Icons.refresh),
               onPressed: () {},
             ),
           ],
         ),
-        body: SingleChildScrollView(
+        body: const SingleChildScrollView(
           child: Column(
             children: [
               CryptoCard(
@@ -116,7 +116,7 @@ class CryptoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 100,
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -124,7 +124,7 @@ class CryptoCard extends StatelessWidget {
             imageUrl,
             width: 80,
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,7 +132,7 @@ class CryptoCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 24,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
@@ -140,7 +140,7 @@ class CryptoCard extends StatelessWidget {
                 ),
                 Text(
                   acronym,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 16,
                       color: Colors.black,
                       fontWeight: FontWeight.bold),
@@ -150,7 +150,7 @@ class CryptoCard extends StatelessWidget {
           ),
           Text(
             price,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 24,
               color: Colors.black,
               fontWeight: FontWeight.bold,
