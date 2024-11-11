@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}O seu portal de notícias.{% endblock %}
+{% block background %}background-image: url('/static/assets/img/home-bg.jpg'){% endblock %}
+{% block contheader %}
+<h1>Ifro News!!!</h1>
+<span class="subheading">💚 🐱‍💻Aqui você fica bem informado! 🐱‍💻  💚</span>
+{% endblock %}
+{% block conteudo %}
+{% for  n in news %}
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <!-- Post preview-->
+            <div class="post-preview">
+                <a href="{% url 'news:noticia' pk=n.pk %}">
+                    <h2 class="post-title">{{ n.titulo }}</h2>
+                    <p>{{ n.texto|truncatewords:10|linebreaks }}</p>
+                </a>
+                <p class="post-meta">
+                    Postado por
+                    <span>{{ n.autor }}</span>
+                    em {{ n.criado }}
+                </p>
+            </div>
+            <!-- Divider-->
+            <hr class="my-4"/>
+        </div>
+    </div>
+</div>
+{% empty %}
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="post-preview">
+                <h5>Que pena! Ainda não temos notícias por aqui.🙁</h5>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Mais
+                notícias →</a></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
