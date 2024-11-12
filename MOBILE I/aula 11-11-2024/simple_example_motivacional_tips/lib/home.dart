@@ -10,15 +10,16 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<String> frases = [''];
+  final List<String> frases = []; // Usar final para listas imutáveis
   String frase = '';
 
+  // Função para adicionar uma frase com input do usuário
   Future<void> adicionarFrase(BuildContext context) async {
     final resultado = await showTextInputDialog(
       context: context,
-      message: 'Digite aqui a sua frase motivadora para adicinar à lista:',
+      message: 'Digite aqui a sua frase motivadora para adicionar à lista:',
       textFields: [
-        DialogTextField(
+        const DialogTextField(
           hintText: 'Digite aqui a sua frase:',
         ),
       ],
@@ -31,10 +32,20 @@ class _HomeState extends State<Home> {
     }
   }
 
-  int sorteioIndex() {
-    Random random = new Random();
-    int resultado = random.nextInt(frases.length);
-    return resultado;
+  // Função para sortear índice de uma frase
+  int sorteioIndex() => Random().nextInt(frases.length);
+
+  // Função para sortear uma nova frase
+  void sortearFrase() {
+    if (frases.isNotEmpty) {
+      setState(() {
+        frase = frases[sorteioIndex()];
+      });
+    } else {
+      setState(() {
+        frase = 'Nenhuma frase adicionada!';
+      });
+    }
   }
 
   @override
@@ -42,38 +53,34 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          GestureDetector(
-            onTap: () {
-              adicionarFrase(context);
-            },
-            child: Padding(
-              padding: EdgeInsets.all(8),
-              child: Icon(Icons.add_box_sharp),
-            ),
-          )
+          IconButton(
+            icon: const Icon(Icons.add_box_sharp),
+            onPressed: () => adicionarFrase(context),
+          ),
         ],
         centerTitle: true,
-        title: Text('Frase Motivacional de Hoje'),
+        title: const Text('Frase Motivacional de Hoje'),
         backgroundColor: Colors.red,
         foregroundColor: Colors.white,
       ),
       body: Padding(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            verticalDirection: VerticalDirection.down,
             children: [
-              Text("Frase motivacional de hoje:"),
-              Text(frase),
+              const Text("Frase motivacional de hoje:"),
+              const SizedBox(height: 32),
+              Text(
+                frase,
+                style: const TextStyle(fontSize: 32),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 32),
               ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      var sorteio = sorteioIndex();
-                      frase = frases[sorteio];
-                    });
-                  },
-                  child: Text('Sortear frase'))
+                onPressed: sortearFrase,
+                child: const Text('Sortear frase'),
+              ),
             ],
           ),
         ),
