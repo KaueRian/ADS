@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block titulo %}Deletar Produtos{% endblock %}
+
+{% block conteudo %}
+<h1>Exclusão de produto.</h1>
+<form method="POST" class="form form-active">
+    {% csrf_token %}
+
+    <h4>Confirma a exclusão da produto {{ produto.descricao }}?</h4>
+
+    {% buttons %}
+    <button type="submit" class="btn btn-primary btn-danger">Confimar</button>
+    <a href="{% url 'listarProdutos' %}" class="btn btn-primary">
+        Cancelar
+    </a>
+    {% endbuttons %}
+</form>
+{% endblock %}
