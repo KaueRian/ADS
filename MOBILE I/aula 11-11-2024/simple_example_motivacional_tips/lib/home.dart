@@ -10,14 +10,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final List<String> frases = []; // Usar final para listas imutáveis
+  final List<String> frases = [];
   String frase = '';
 
-  // Função para adicionar uma frase com input do usuário
   Future<void> adicionarFrase(BuildContext context) async {
     final resultado = await showTextInputDialog(
       context: context,
-      message: 'Digite aqui a sua frase motivadora para adicionar à lista:',
+      message: 'Digite aqui a sua frase motivadora para adicinar à lista:',
       textFields: [
         const DialogTextField(
           hintText: 'Digite aqui a sua frase:',
@@ -32,20 +31,10 @@ class _HomeState extends State<Home> {
     }
   }
 
-  // Função para sortear índice de uma frase
-  int sorteioIndex() => Random().nextInt(frases.length);
-
-  // Função para sortear uma nova frase
-  void sortearFrase() {
-    if (frases.isNotEmpty) {
-      setState(() {
-        frase = frases[sorteioIndex()];
-      });
-    } else {
-      setState(() {
-        frase = 'Nenhuma frase adicionada!';
-      });
-    }
+  int sorteioIndex() {
+    Random random = Random();
+    int resultado = random.nextInt(frases.length);
+    return resultado;
   }
 
   @override
@@ -53,10 +42,15 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(
-            icon: const Icon(Icons.add_box_sharp),
-            onPressed: () => adicionarFrase(context),
-          ),
+          GestureDetector(
+            onTap: () {
+              adicionarFrase(context);
+            },
+            child: const Padding(
+              padding: EdgeInsets.all(8),
+              child: Icon(Icons.add_box_sharp),
+            ),
+          )
         ],
         centerTitle: true,
         title: const Text('Frase Motivacional de Hoje'),
@@ -68,19 +62,29 @@ class _HomeState extends State<Home> {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            verticalDirection: VerticalDirection.down,
             children: [
               const Text("Frase motivacional de hoje:"),
-              const SizedBox(height: 32),
+              const SizedBox(
+                height: 32,
+              ),
               Text(
                 frase,
-                style: const TextStyle(fontSize: 32),
-                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 32,
+                ),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(
+                height: 32,
+              ),
               ElevatedButton(
-                onPressed: sortearFrase,
-                child: const Text('Sortear frase'),
-              ),
+                  onPressed: () {
+                    setState(() {
+                      var sorteio = sorteioIndex();
+                      frase = frases[sorteio];
+                    });
+                  },
+                  child: const Text('Sortear frase'))
             ],
           ),
         ),
