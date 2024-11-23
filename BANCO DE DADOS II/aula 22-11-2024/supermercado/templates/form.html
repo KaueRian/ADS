@@ -1,0 +1,58 @@
+<!-- Claudinei de Oliveira -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Página inicial do sistema de supermercado, onde clientes e funcionários podem fazer login.">
+
+    <meta name="keywords" content="supermercado, login, cliente, funcionário, sistema web">
+    <title>Supermercado - Página Inicial</title>
+    <!-- Tenta carregar o CSS do CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/css/bootstrap.min.css">
+    <!-- Tenta carregar o CSS do CDN e usa o local se offline -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+</head>
+
+<body>
+    <h1 class="text-center mt-5">Bem-vindo ao Sistema do Supermercado</h1>
+    <div class="container">
+        <form action="/login" method="POST">
+            <div class="form-group">
+                <label for="username">Usuário</label> <input type="text" class="form-control" name="usuario"
+                    placeholder="Digite seu usuário">
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    placeholder="Enter email" name="email">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                    else.</small>
+            </div>
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" name="senha" class="form-control" id="password" placeholder="Digite sua senha">
+            </div> <button type="submit" value="Submit" class="btn btn-primary btn-block">Login</button>
+            <!-- Tenta remover o button e adicionar o <input> caso não funcione -->
+
+
+            <!--
+        <p>usuario <input type="text" name="name" /></p>
+        <p> <input type="integer" name="age" /></p>
+        <p>age <input type="integer" name="age" /></p>
+        <p><input type="submit" value="Submit" /></p>
+        -->
+        </form>
+    </div>
+    <!-- Tenta carregar o 35 do CON e usa o local se off Line -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+    <!-- Fallback para JS local se o CDN não estiver disponivel -->
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+
+</body>
+
+</html>
