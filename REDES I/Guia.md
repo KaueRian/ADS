@@ -4,6 +4,15 @@ Aqui está o guia revisado, com melhorias na organização, clareza e pequenas c
 
 # Guia de Configuração de Infraestrutura de Rede
 
+### Índice  
+1. **Pré-requisitos e Observações Gerais**  
+2. **Criação do Ambiente Virtual**  
+3. **Configuração do Gateway e Firewall**  
+4. **Configuração do Servidor DHCP no Gateway**  
+5. **Configuração dos Servidores DNS**  
+6. **Configuração da Máquina Web**  
+7. **Testes e Validação** 
+
 ## 1. Pré-requisitos e Observações
 - **Adaptador Host-Only**: Configure a placa de rede VirtualBox `Host-Only Ethernet Adapter` com o IP `200.50.100.1/24` e **desative o servidor DHCP**.
 - **Acesso SSH**: Para acessar as máquinas enquanto o firewall está ativo, utilize os seguintes comandos:
