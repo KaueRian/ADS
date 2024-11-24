@@ -13,7 +13,7 @@ Aqui está o guia revisado, com melhorias na organização, clareza e pequenas c
 6. **Configuração da Máquina Web**  
 7. **Testes e Validação** 
 
-## 1. Pré-requisitos e Observações
+### **1. Pré-requisitos e Observações Gerais**  
 - **Adaptador Host-Only**: Configure a placa de rede VirtualBox `Host-Only Ethernet Adapter` com o IP `200.50.100.1/24` e **desative o servidor DHCP**.
 - **Acesso SSH**: Para acessar as máquinas enquanto o firewall está ativo, utilize os seguintes comandos:
   - **Gateway**: `ssh -p 51000 aluno@200.50.100.2`
