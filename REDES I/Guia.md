@@ -387,4 +387,131 @@ Aqui está o guia revisado, com melhorias na organização, clareza e pequenas c
 
 ---
 
-Este guia agora está mais estruturado e completo, pronto para implementar uma infraestrutura de rede eficiente.
+## 7. Aula sobre DNS
+
+### Consulta Reversa
+- No DNS, a consulta reversa é escrita na ordem inversa do IP. Por exemplo:
+  - O endereço `172.16.100.0` vira `0.100.16.172`.
+
+### Configurações no Gateway
+1. **Atualize o sistema e instale o Bind9**:
+   ```bash
+   sudo apt update && sudo apt upgrade -y
+   sudo apt install bind9
+   ```
+
+2. **Verifique os serviços ativos**:
+   ```bash
+   ss -ntpl
+   ```
+
+3. **Navegue para a pasta de configuração**:
+   ```bash
+   cd /etc/bind
+   ```
+
+4. **Faça backup de arquivos existentes**:
+   ```bash
+   sudo cp named.conf.default-zones named.conf.default-zones.bkp
+   ```
+
+5. **Edite as zonas no arquivo de configuração**:
+   ```bash
+   sudo nano named.conf.default-zones
+   ```
+   Adicione:
+   ```bash
+   zone "laboratorio.lan" {
+           type master;
+           file "/etc/bind/ifro/lab.db";
+   };
+
+   zone "100.16.172.in-addr.arp" {
+           type master;
+           file "/etc/bind/ifro/lab.rev";
+   };
+   ```
+
+6. **Crie os arquivos de zona**:
+   ```bash
+   sudo mkdir ifro
+   sudo cp db.127 ifro/
+   sudo cp db.local ifro/
+   sudo mv ifro/db.127 ifro/lab.rev
+   sudo mv ifro/db.local ifro/lab.db
+   ```
+
+7. **Configure os arquivos de zona**:
+   - **Arquivo `lab.db`**:
+     ```bash
+     sudo nano ifro/lab.db
+     ```
+     Conteúdo:
+     ```bash
+     ;
+     ; BIND data file for local loopback interface
+     ;
+     $TTL    604800
+     @       IN      SOA     laboratorio.lan. root.laboratorio.lan. (
+                                  1         ; Serial
+                             604800         ; Refresh
+                              86400         ; Retry
+                            2419200         ; Expire
+                             604800 )       ; Negative Cache TTL
+     ;
+     @       IN      NS      laboratorio.lan.
+     @       IN      A       172.16.100.2
+     ns      IN      A       172.16.100.2
+     web     IN      A       172.16.100.4
+     www     IN      CNAME   web.laboratorio.lan.
+     dns1    IN      CNAME   ns.laboratorio.lan.
+     ```
+
+   - **Arquivo `lab.rev`**:
+     ```bash
+     sudo nano ifro/lab.rev
+     ```
+     Conteúdo:
+     ```bash
+     ;
+     ; BIND reverse data file for local loopback interface
+     ;
+     $TTL    604800
+     @       IN      SOA     laboratorio.lan. root.laboratorio.lan. (
+                                  1         ; Serial
+                             604800         ; Refresh
+                              86400         ; Retry
+                            2419200         ; Expire
+                             604800 )       ; Negative Cache TTL
+     ;
+     @       IN      NS      laboratorio.lan.
+     2       IN      PTR     laboratorio.lan.
+     4       IN      PTR     web.laboratorio.lan.
+     ```
+
+8. **Verifique a configuração dos arquivos**:
+   ```bash
+   sudo named-checkconf
+   sudo named-checkzone laboratorio.lan ifro/lab.db
+   sudo named-checkzone 100.16.172.in-addr.arp ifro/lab.rev
+   ```
+
+9. **Reinicie o Bind9 e teste o DNS**:
+   ```bash
+   sudo systemctl restart bind9
+   ping laboratorio.lan
+   ```
+
+10. **Configurar o resolv.conf**:
+    ```bash
+    sudo nano /etc/resolv.conf
+    ```
+    Adicione:
+    ```bash
+    nameserver 172.16.100.2
+    nameserver 8.8.8.8
+    ```
+
+**Observação**: Todos os computadores devem ter essa mesma configuração no arquivo `/etc/resolv.conf`.
+
+---
