@@ -1,138 +1,84 @@
 import 'package:flutter/material.dart';
 
 class Home1 extends StatelessWidget {
-  const Home1({super.key});
+  Home1({super.key});
 
-  // usar listview https://api.flutter.dev/flutter/widgets/ListView-class.html
+  // Lista de dados como uma lista de mapas
+  final List<Map<String, String>> lista = [
+    {
+      'imageUrl': 'https://s2.coinmarketcap.com/static/img/coins/64x64/1.png',
+      'title': 'Bitcoin',
+      'acronym': 'BTC',
+      'price': '\$71,920.25',
+    },
+    {
+      'imageUrl':
+          'https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png',
+      'title': 'Ethereum',
+      'acronym': 'ETH',
+      'price': '\$2,667.05',
+    },
+    {
+      'imageUrl': 'https://s2.coinmarketcap.com/static/img/coins/64x64/825.png',
+      'title': 'Tether',
+      'acronym': 'USDT',
+      'price': '\$1.00',
+    },
+    {
+      'imageUrl':
+          'https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png',
+      'title': 'BNB',
+      'acronym': 'BNB',
+      'price': '\$604.98',
+    },
+    {
+      'imageUrl':
+          'https://s2.coinmarketcap.com/static/img/coins/64x64/5426.png',
+      'title': 'Solana',
+      'acronym': 'SOL',
+      'price': '\$174.84',
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.orange,
-          foregroundColor: Colors.white,
-          title: const Text('Preços de Criptomoedas'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.refresh),
-              onPressed: () {},
-            ),
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Expanded(
-            child: Column(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      '/home2',
-                      arguments: CryptoCard(
-                          imageUrl:
-                          'https://s2.coinmarketcap.com/static/img/coins/64x64/1.png',
-                          title: 'Bitcoin',
-                          acronym: 'BTC',
-                          price: '\$71,920.25'),
-                    );
-                  },
-                  child: CryptoCard(
-                    imageUrl:
-                    "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png",
-                    title: "Bitcoin",
-                    acronym: "BTC",
-                    price: "\$71,920.25",
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      '/home2',
-                      arguments: CryptoCard(
-                        imageUrl:
-                        "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png",
-                        title: "Ethereum",
-                        acronym: "ETH",
-                        price: "\$2,667.05",
-                      ),
-                    );
-                  },
-                  child: CryptoCard(
-                    imageUrl:
-                    "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png",
-                    title: "Ethereum",
-                    acronym: "ETH",
-                    price: "\$2,667.05",
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      '/home2',
-                      arguments: CryptoCard(
-                        imageUrl:
-                        "https://s2.coinmarketcap.com/static/img/coins/64x64/825.png",
-                        title: "Tether",
-                        acronym: "USDT",
-                        price: "\$1.00",
-                      ),
-                    );
-                  },
-                  child: CryptoCard(
-                    imageUrl:
-                    "https://s2.coinmarketcap.com/static/img/coins/64x64/825.png",
-                    title: "Tether",
-                    acronym: "USDT",
-                    price: "\$1.00",
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      '/home2',
-                      arguments: CryptoCard(
-                          imageUrl:
-                          "https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png",
-                          title: "BNB",
-                          acronym: "BNB",
-                          price: "\$604.98"),
-                    );
-                  },
-                  child: CryptoCard(
-                      imageUrl:
-                      "https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png",
-                      title: "BNB",
-                      acronym: "BNB",
-                      price: "\$604.98"),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      '/home2',
-                      arguments: CryptoCard(
-                          imageUrl:
-                          "https://s2.coinmarketcap.com/static/img/coins/64x64/5426.png",
-                          title: "Solana",
-                          acronym: "SOL",
-                          price: "\$174.84"),
-                    );
-                  },
-                  child: CryptoCard(
-                      imageUrl:
-                      "https://s2.coinmarketcap.com/static/img/coins/64x64/5426.png",
-                      title: "Solana",
-                      acronym: "SOL",
-                      price: "\$174.84"),
-                ),
-              ],
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.orange,
+        foregroundColor: Colors.white,
+        title: const Text('Preços de Criptomoedas'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () {},
           ),
-        ),
+        ],
+      ),
+      body: ListView.builder(
+        itemCount: lista.length,
+        itemBuilder: (BuildContext context, int index) {
+          final item = lista[index];
+          return GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                '/home2',
+                arguments: CryptoCard(
+                  imageUrl: item['imageUrl']!,
+                  title: item['title']!,
+                  acronym: item['acronym']!,
+                  price: item['price']!,
+                ),
+              );
+            },
+            child: CryptoCard(
+              imageUrl: item['imageUrl']!,
+              title: item['title']!,
+              acronym: item['acronym']!,
+              price: item['price']!,
+            ),
+          );
+        },
       ),
     );
   }
@@ -193,9 +139,6 @@ class CryptoCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(
-                  height: 8,
-                )
               ],
             ),
           ),
