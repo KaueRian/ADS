@@ -1,92 +1,303 @@
-#!/bin/bash
+# Guia de Configuração de Infraestrutura de Rede
 
-#INICIALIZACAO AUTOMATICA
-#ln -s /home/aluno/firewall.sh /etc/init.d
-#update-rc.d firewall defaults 3
+### Índice  
+1. **Pré-requisitos e Observações Gerais**  
+2. **Criação do Ambiente Virtual**  
+3. **Configuração do Gateway e Firewall**  
+4. **Configuração do Servidor DHCP no Gateway**  
+5. **Configuração da Máquina Web**  
+6. **Configuração de SSL e Apache para Web**  
+7. **Testes e Validação**
 
-iptables -t nat -F
-iptables -F
+---
 
-SSH=200.50.100.2
-SSH2=200.50.100.3
-GATEWAY=172.16.100.1
-DNS1=172.16.100.2
-DNS2=172.16.100.3
-WEB=172.16.100.4
-ARQUIVO=172.16.100.5
-AUTENTICACAO=172.16.100.6
-SAMBA=172.16.100.7
-EMAIL=172.16.100.8
-ALL=0/0
+## 1. Pré-requisitos e Observações Gerais
+- **Adaptador Host-Only**: Configure a placa de rede VirtualBox `Host-Only Ethernet Adapter` com o IP `200.50.100.1/24` e **desative o servidor DHCP**.
+- **Acesso SSH**: Para acessar as máquinas enquanto o firewall está ativo, utilize os seguintes comandos:
+  - **Gateway**: `ssh -p 51000 aluno@200.50.100.2`
+  - **DNS1**: `ssh -p 52000 aluno@200.50.100.2`
+  - **DNS2**: `ssh -p 53000 aluno@200.50.100.2`
+  - **Web**: `ssh -p 54000 aluno@200.50.100.2`
 
-LAN=172.16.100.0/24
-LOCAL=200.50.100.0/24
+---
 
-echo "1" >/proc/sys/net/ipv4/ip_forward
+## 2. Criação do Ambiente Virtual
 
-iptables -t nat -A POSTROUTING -s $LAN -j MASQUERADE
+1. **Baixe as ISOs** das distribuições Debian e Ubuntu Server LTS.
+2. **Configuração das Máquinas Virtuais**:
+   - **Gateway**:
+     - Adaptador 1: Modo `NAT`
+     - Adaptador 2: Modo `Host-Only`, Nome: `VirtualBox Host-Only Ethernet Adapter`
+     - Adaptador 3: Modo `Rede Interna`, Nome: `SRC1`
+     - Instale o sistema e configure o IP manual: `172.16.100.1/24`
 
-###### 1.0 - Gateway
-iptables -A FORWARD -p tcp -s $LOCAL -d $GATEWAY --dport 51000 -j ACCEPT
-iptables -A FORWARD -p tcp -s $GATEWAY -d $LOCAL --sport 22 -j ACCEPT
-iptables -t nat -A PREROUTING -p tcp -s $LOCAL -d $SSH --dport 51000 -j DNAT --to $GATEWAY:22
+   - **DNS1**:
+     - Adaptador 1: Rede Interna `SRC1`
+   
+   - **Web**:
+     - Adaptador 1: Rede Interna `SRC1`
+   
+   - **DNS2**:
+     - Clone linkado da máquina **DNS1**
 
-###### 2.0 - DNS1
-iptables -A FORWARD -p tcp -s $LOCAL -d $DNS1 --dport 52000 -j ACCEPT
-iptables -A FORWARD -p tcp -s $DNS1 -d $LOCAL --sport 22 -j ACCEPT
-iptables -t nat -A PREROUTING -p tcp -s $LOCAL -d $SSH --dport 52000 -j DNAT --to $DNS1:22
+---
 
-###### 2.1 - DNS1
-iptables -A FORWARD -p udp -s $DNS1 -d $LOCAL --sport 53 -j ACCEPT
-iptables -A FORWARD -p udp -s $LOCAL -d $DNS1 --dport 53 -j ACCEPT
-iptables -t nat -A PREROUTING -p udp -s $LOCAL -d $SSH --dport 53 -j DNAT --to $DNS1:53
+## 3. Configuração do Firewall no Gateway
 
-###### 3.0 - DNS2
-iptables -A FORWARD -p tcp -s $LOCAL -d $DNS2 --dport 53000 -j ACCEPT
-iptables -A FORWARD -p tcp -s $DNS2 -d $LOCAL --sport 22 -j ACCEPT
-iptables -t nat -A PREROUTING -p tcp -s $LOCAL -d $SSH --dport 53000 -j DNAT --to $DNS2:22
+1. **Atualize o sistema**:
+   ```bash
+   sudo apt update && sudo apt upgrade -y
+   ```
 
-###### 3.1 - DNS2
-iptables -A FORWARD -p udp -s $DNS2 -d $LOCAL --sport 53 -j ACCEPT
-iptables -A FORWARD -p udp -s $LOCAL -d $DNS2 --dport 53 -j ACCEPT
-iptables -t nat -A PREROUTING -p udp -s $LOCAL -d $SSH2 --dport 53 -j DNAT --to $DNS2:53
+2. **Crie o script do firewall**:
+   - Navegue até a pasta de configuração:
+     ```bash
+     mkdir ~/firewall && cd ~/firewall
+     nano firewall
+     ```
+   - Adicione o conteúdo do script `firewall` (consultar conteúdo completo fornecido no início).
 
-###### 3.2 - EMAIL SMTP
-iptables -A FORWARD -p tcp -s $LAN -m multiport --dports 25,110,143,587,993,995 -j ACCEPT
-iptables -A FORWARD -p tcp -s $SSH2 -d $EMAIL -m multiport --dports 25,110,143,587,993,995 -j ACCEPT
+3. **Configuração de Regras de Firewall**:
+   - Crie o arquivo de regras:
+     ```bash
+     nano regras
+     ```
+   - Adicione as regras de firewall (consultar conteúdo completo fornecido no início).
 
+4. **Tornar scripts executáveis**:
+   ```bash
+   chmod +x firewall regras
+   ```
 
-###### 4.0 - WEB
-iptables -A FORWARD -p tcp -s $LOCAL -d $WEB --dport 54000 -j ACCEPT
-iptables -A FORWARD -p tcp -s $WEB -d $LOCAL --sport 22 -j ACCEPT
-iptables -t nat -A PREROUTING -p tcp -s $LOCAL -d $SSH --dport 54000 -j DNAT --to $WEB:22
+5. **Instale o iptables**:
+   ```bash
+   sudo apt install iptables -y
+   ```
 
-###### 5.0 - ARQUIVO
-iptables -A FORWARD -p tcp -s $LOCAL -d $ARQUIVO --dport 55000 -j ACCEPT
-iptables -A FORWARD -p tcp -s $ARQUIVO -d $LOCAL --sport 22 -j ACCEPT
-iptables -t nat -A PREROUTING -p tcp -s $LOCAL -d $SSH --dport 55000 -j DNAT --to $ARQUIVO:22
+6. **Executar o firewall**:
+   ```bash
+   sudo ./firewall start
+   ```
 
+---
 
-###### 6.0 - AUTENTICACAO
-iptables -A FORWARD -p tcp -s $LOCAL -d $AUTENTICACAO --dport 56000 -j ACCEPT
-iptables -A FORWARD -p tcp -s $AUTENTICACAO -d $LOCAL --sport 22 -j ACCEPT
-iptables -t nat -A PREROUTING -p tcp -s $LOCAL -d $SSH --dport 56000 -j DNAT --to $AUTENTICACAO:22
-iptables -A OUTPUT -p tcp -s $GATEWAY -d $AUTENTICACAO --dport 389 -j ACCEPT
+## 4. Configuração do DHCP no Gateway
 
-###### 7.0 - SAMBA
-iptables -A FORWARD -p tcp -s $LOCAL -d $SAMBA --dport 57000 -j ACCEPT
-iptables -A FORWARD -p tcp -s $SAMBA -d $LOCAL --sport 22 -j ACCEPT
-iptables -t nat -A PREROUTING -p tcp -s $LOCAL -d $SSH --dport 57000 -j DNAT --to $SAMBA:22
+1. **Instale o servidor DHCP**:
+   ```bash
+   sudo apt update && sudo apt install isc-dhcp-server -y
+   ```
 
-###### 8.0 - EMAIL
-iptables -A FORWARD -p tcp -s $LOCAL -d $EMAIL --dport 58000 -j ACCEPT
-iptables -A FORWARD -p tcp -s $EMAIL -d $LOCAL --sport 22 -j ACCEPT
-iptables -t nat -A PREROUTING -p tcp -s $LOCAL -d $SSH --dport 58000 -j DNAT --to $EMAIL:22
+2. **Edite o arquivo `/etc/dhcp/dhcpd.conf`**:
+   - Abra o arquivo de configuração:
+     ```bash
+     sudo nano /etc/dhcp/dhcpd.conf
+     ```
+   - Corrija a ordem do DNS. O conteúdo corrigido será:
+     ```bash
+     subnet 172.16.100.0 netmask 255.255.255.0 {
+       range 172.16.100.100 172.16.100.200;
+       option domain-name-servers 172.16.100.2, 172.16.100.3, 8.8.8.8;
+       option domain-name "laboratorio.lan";
+       option routers 172.16.100.1;
+       option broadcast-address 172.16.100.255;
+       default-lease-time 600;
+       max-lease-time 7200;
+     }
+     ```
 
-###EMail
-for MAIL in 25 110 143 587 993 995
-do
-  iptables -t nat -A PREROUTING -p tcp -s $ALL -d $SSH2 --dport $MAIL -j DNAT --to $EMAIL:$MAIL
-done
+3. **Configure o arquivo `/etc/default/isc-dhcp-server`**:
+   - Edite o arquivo:
+     ```bash
+     sudo nano /etc/default/isc-dhcp-server
+     ```
+   - Defina as interfaces:
+     ```bash
+     INTERFACESv4="enp0s9 enp0s10"
+     INTERFACESv6=""
+     ```
 
+4. **Inicie e verifique o servidor DHCP**:
+   ```bash
+   sudo systemctl restart isc-dhcp-server.service
+   sudo systemctl status isc-dhcp-server.service
+   ```
 
+5. **Acompanhe os logs**:
+   ```bash
+   sudo tail -f /var/lib/dhcp/dhcpd.leases
+   ```
+
+---
+
+## 5. Configuração da Máquina Web
+
+1. **Atualize o sistema e instale Apache**:
+   ```bash
+   sudo apt update && sudo apt install apache2 -y
+   ```
+
+2. **Crie um arquivo PHP de teste**:
+   - Edite o arquivo de index:
+     ```bash
+     sudo nano /var/www/html/index.php
+     ```
+   - Adicione o seguinte conteúdo:
+     ```php
+     <?php phpinfo(); ?>
+     ```
+
+3. **Instale o PHP**:
+   ```bash
+   sudo apt install php -y
+   ```
+
+4. **Configuração do Apache para acesso**:
+   - Crie backup do arquivo de configuração:
+     ```bash
+     sudo cp /etc/apache2/apache2.conf /etc/apache2/apache2.conf.backup
+     ```
+   - Edite o arquivo de configuração:
+     ```bash
+     sudo nano /etc/apache2/apache2.conf
+     ```
+   - Altere as permissões para o diretório `/srv`:
+     ```bash
+     <Directory /srv/>
+         Options Indexes FollowSymLinks
+         AllowOverride None
+         Require all granted
+     </Directory>
+     ```
+
+5. **Criação do VirtualHost para o site**:
+   - Navegue até o diretório de configurações de sites:
+     ```bash
+     cd /etc/apache2/sites-available/
+     ```
+   - Crie e edite o arquivo de configuração:
+     ```bash
+     sudo nano web_laboratorio.conf
+     ```
+   - Adicione o seguinte conteúdo para o VirtualHost:
+     ```bash
+     <VirtualHost *:80>
+         ServerAdmin meuemail@nao.com
+         ServerName laboratorio.lan
+         ServerAlias web.laboratorio.lan
+         DocumentRoot /srv/laboratorio/web
+         ErrorLog ${APACHE_LOG_DIR}/web_error.log
+         CustomLog ${APACHE_LOG_DIR}/web_access.log combined
+     </VirtualHost>
+     ```
+
+6. **Criação do diretório da aplicação web**:
+   - Crie o diretório:
+     ```bash
+     sudo mkdir -p /srv/laboratorio/web
+     ```
+
+7. **Criação do arquivo de index na nova pasta**:
+   - Edite o arquivo `index.php`:
+     ```bash
+     sudo nano /srv/laboratorio/web/index.php
+     ```
+   - Adicione o seguinte código:
+     ```php
+     <?php
+         echo getcwd() ."\n";
+         chdir('cvs');
+     ?>
+     ```
+
+8. **Ativar o site e recarregar o Apache**:
+   - Ative o site:
+     ```bash
+     sudo a2ensite web_laboratorio.conf
+     ```
+   - Recarregue o Apache:
+     ```bash
+     sudo systemctl reload apache2
+     ```
+
+---
+
+## 6. Configuração de SSL e Apache para Web
+
+1. **Instale o FTP (se necessário)**:
+   ```bash
+   sudo apt install ftp
+   ```
+
+2. **Criação dos certificados SSL**:
+   - Crie o diretório para armazenar os certificados:
+     ```bash
+     sudo mkdir /etc/apache2/ssl
+     ```
+   - Gere a chave privada:
+     ```bash
+     sudo openssl genrsa -out /etc/apache2/ssl/web.key 2048
+     ```
+   - Gere o CSR:
+     ```bash
+     sudo openssl req -new -key /etc/apache2/ssl/web.key -out /etc/apache2/ssl/web.csr
+     ```
+   - Gere o certificado autoassinado:
+     ```bash
+     sudo openssl x509 -req -days 365 -in /etc/apache2/ssl/web.csr -signkey /etc/apache2/ssl/web.key -out /etc/apache2/ssl/web.crt
+     ```
+
+3. **Permissões corretas para os arquivos SSL**:
+   ```bash
+   sudo chmod 600 /etc/apache2/ssl/web.csr
+   sudo chmod 600 /etc/apache2/ssl/web.key
+   ```
+
+4. **Configuração do VirtualHost SSL**:
+   - Copie o arquivo de configuração padrão:
+     ```bash
+     sudo cp /etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-available/web_ssl.conf
+     ```
+   - Edite o arquivo `web_ssl.conf`:
+     ```bash
+     sudo nano /etc/apache2/sites-available/web_ssl.conf
+     ```
+   - Altere e adicione o conteúdo:
+     ```bash
+     <VirtualHost *:443>
+         ServerName web.laboratorio.lan
+         DocumentRoot /srv/laboratorio/web
+         SSLEngine on
+         SS
+
+LCertificateFile /etc/apache2/ssl/web.crt
+         SSLCertificateKeyFile /etc/apache2/ssl/web.key
+         ErrorLog ${APACHE_LOG_DIR}/error.log
+         CustomLog ${APACHE_LOG_DIR}/access.log combined
+     </VirtualHost>
+     ```
+
+5. **Habilitar o módulo SSL e o site**:
+   ```bash
+   sudo a2enmod ssl
+   sudo a2ensite web_ssl.conf
+   sudo systemctl reload apache2
+   ```
+
+---
+
+## 7. Testes e Validação
+
+1. **Acesse o site Web** via navegador:
+   - Acesse `https://web.laboratorio.lan` e valide a configuração do site.
+   - Verifique se o PHP está funcionando corretamente.
+   - Confirme se a página inicial do site exibe o conteúdo conforme esperado.
+
+2. **Verifique o status do servidor**:
+   ```bash
+   sudo systemctl status apache2
+   ```
+
+---
+
+Este guia detalhado cobre todas as etapas para configurar a infraestrutura, incluindo o firewall, o DHCP, a web e SSL.

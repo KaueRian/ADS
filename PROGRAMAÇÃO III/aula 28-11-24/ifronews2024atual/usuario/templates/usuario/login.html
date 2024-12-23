@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %} Login de Usuário {% endblock %}
+{% block background %}background-image: url('/static/assets/img/contact-bg.jpg'){% endblock %}">
+{% block contheader %}
+<div class="page-heading">
+    <h1>Entrar</h1>
+    <span class="subheading">Seja Bem Vindo!</span>
+</div>
+{% endblock %}
+{% block conteudo %}
+<!-- Main Content-->
+<main class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div>
+                    {% if messages %}
+                    {% for m in messages %}
+                    <div class="alert alert-{{ m.tags }}">
+                        {{ m }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                <form method="post" class="form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" name="username" placeholder="Nome de usuário" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" placeholder="Senha" class="form-control">
+                    </div>
+                    <input type="submit" class="btn btn-primary" value="Salvar">
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

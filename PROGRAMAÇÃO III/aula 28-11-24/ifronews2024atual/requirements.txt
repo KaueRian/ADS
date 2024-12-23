@@ -1,0 +1,8 @@
+asgiref==3.8.1
+Django==4.2.16
+django-stdimage==6.0.2
+mysqlclient==2.2.5
+pillow==11.0.0
+sqlparse==0.5.1
+style==1.1.0
+tzdata==2024.2

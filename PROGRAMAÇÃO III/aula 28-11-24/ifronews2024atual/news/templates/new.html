@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block titulo %}Notícia {{ new.titulo }} {% endblock %}
+{% block background %} background-image: url('/static/assets/img/post-bg.jpg') {% endblock %}
+{% block contheader %}
+    <h1>{{ new.titulo }}</h1>
+    <span class="meta">
+        Postado por
+        <span>{{ new.autor.get_full_name }}</span>
+        em {{ new.criado }}
+    </span>
+{% endblock %}
+{% block conteudo %}
+        <!-- Post Content-->
+        <article class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        {{ new.texto|linebreaks }}
+                    </div>
+                    <div>
+                        <a href="{% url 'comentnew' new.id %}"
+                           class="btn btn-success">Comentar</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+{% endblock %}
