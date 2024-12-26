@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:simulado/widgets/colors.dart';
 
-class Cards extends StatefulWidget {
-  const Cards({super.key});
+class Cards extends StatelessWidget {
+  final String name;
+  final String description;
 
-  @override
-  State<Cards> createState() => _CardsState();
-}
+  const Cards({
+    super.key,
+    required this.name,
+    required this.description,
+  });
 
-class _CardsState extends State<Cards> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          
-        ],
+    return Container(
+      color: Cores.backgroundColor,
+      child: Column(
+        children: [Text(this.name), Text(this.description)],
       ),
     );
   }

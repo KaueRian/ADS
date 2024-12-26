@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simulado/widgets/colors.dart';
+import 'package:simulado/models/cards.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -20,7 +21,7 @@ class _DashboardState extends State<Dashboard> {
       ),
       body: Column(
         children: [
-          
+          Cards(name: 'Motivational Phrases', description: 'Motivational Phrases')
         ],
       ),
     );
