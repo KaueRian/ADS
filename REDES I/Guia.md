@@ -1,4 +1,4 @@
-Aqui está o guia revisado, com melhorias na organização, clareza e pequenas correções:
+# Apenas copiar a resposta
 
 ---
 
