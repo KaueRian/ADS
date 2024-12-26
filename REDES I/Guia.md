@@ -1,7 +1,3 @@
-# Apenas copiar a resposta
-
----
-
 # Guia de Configuração de Infraestrutura de Rede
 
 ### Índice  
@@ -524,3 +520,4 @@
 **Observação**: Todos os computadores devem ter essa mesma configuração no arquivo `/etc/resolv.conf`.
 
 ---
+Apenas copiar a resposta
