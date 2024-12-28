@@ -3,14 +3,14 @@ import 'package:simulado/widgets/colors.dart';
 import 'dart:math';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class MotivationalPhrases extends StatefulWidget {
+  const MotivationalPhrases({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<MotivationalPhrases> createState() => _MotivationalPhrasesState();
 }
 
-class _HomeState extends State<Home> {
+class _MotivationalPhrasesState extends State<MotivationalPhrases> {
   final List<String> frases = [];
   String frase = '';
 
@@ -55,8 +55,8 @@ class _HomeState extends State<Home> {
         ],
         centerTitle: true,
         title: const Text('Frase Motivacional de Hoje'),
-        backgroundColor: Colors.red,
-        foregroundColor: Colors.white,
+        backgroundColor: Cores.backgroundColor,
+        foregroundColor: Cores.foregroundColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8),

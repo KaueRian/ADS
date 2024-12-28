@@ -7,6 +7,7 @@ import 'screens/motivational_phrases.dart';
 
 void main () {
   runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
     initialRoute: '/dashboard',
     routes: {
       '/dashboard': (context) => Dashboard(),
