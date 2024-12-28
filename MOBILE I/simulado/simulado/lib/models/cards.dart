@@ -17,13 +17,13 @@ class Cards extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.pushNamed(context, '${this.screen}');
+        Navigator.pushNamed(context, screen);
       },
       child: Container(
         padding: EdgeInsets.all(16),
         color: Cores.backgroundColor,
         child: Column(
-          children: [Text(this.name), Text(this.description)],
+          children: [Text(name), Text(description)],
         ),
       ),
     );
