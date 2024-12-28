@@ -14,6 +14,7 @@ class _GuessingGameState extends State<GuessingGame> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Guessing Game'),
+        centerTitle: true,
         backgroundColor: Cores.backgroundColor,
         foregroundColor: Cores.foregroundColor,
       ),

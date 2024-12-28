@@ -20,8 +20,35 @@ class _DashboardState extends State<Dashboard> {
         foregroundColor: Cores.foregroundColor,
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Cards(name: 'Motivational Phrases', description: 'Motivational Phrases')
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Cards(
+                name: 'Motivational Phrases',
+                description: 'Motivational Phrases',
+                screen: '/motivationalPhrases',
+              ),
+              Cards(
+                  name: 'Api Consumer',
+                  description: 'Api Consumer',
+                  screen: '/apiConsumer'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Cards(
+                  name: 'Crypto Prices',
+                  description: 'Crypto Prices',
+                  screen: '/cryptoPrices'),
+              Cards(
+                  name: 'Guessing Game',
+                  description: 'Guessing Game',
+                  screen: '/guessingGame')
+            ],
+          )
         ],
       ),
     );
