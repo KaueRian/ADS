@@ -1,4 +1,27 @@
-Conteúdo da prova vai ser até proxy:
+Prova de redes
+
+    1 Criar as 5 VMS;
+        1.1  Criar o Gateway;
+            1.1.1 Configurar as regras do Firewall e acesso via SSH;
+        1.2  Criar o DNS1;
+        1.3  Criar o DNS2;
+        1.4  Criar o WEB;
+        1.5  Criar o UBUNTU;
+    2 Configurar o DHCP;
+        2.1  Instalar o DHCP no Gateway;
+        2.2  Configurar o UBUNTU com DHCP;
+    3 Configurar o DNS;
+        3.1  Configurar o DNS1 e DNS2;
+    4 Configurar o APACHE;
+        4.1  Configura o APACHE na máquina WEB;
+    5 Configurar o HTTPS;
+        5.1  Configurar o HTTPS na máquina WEB;
+    6 Configurar o FTP;
+        6.1  Configurar o FTP na máquina WEB;
+    7 Configurar o NFS;
+        7.1  Configurar o servidor NFS na máquina WEB;
+    8 Configurar o PROXY;
+        8.1  Configurar o PROXY na máquina GATEWAY;
 
 
 
