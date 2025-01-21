@@ -94,6 +94,12 @@ O Squid Proxy permite realizar uma série de bloqueios e permissões com base em
 sudo systemctl restart squid
 ```
 
+```bash
+sudo tail -f /var/log/squid/access.log
+```
+
+
+
 #### **Configuração do Navegador Firefox:**
 
 - Vá em **Configurações** > **Redes** > **Configurar Rede**.
