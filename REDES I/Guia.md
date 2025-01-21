@@ -43,6 +43,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 5. **Instalar `sudo`:**
    - `apt update && apt install sudo`
    - Edite o grupo com: `nano /etc/group`
+   - Clique em: `Alt + shift + 3`
    - Altere a linha 21 para: `sudo:x:27:aluno`
    - Salve e saia.
 
