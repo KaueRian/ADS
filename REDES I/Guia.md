@@ -33,11 +33,11 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ```bash
    allow-hotplug enp0s8
    iface enp0s8 inet static
-   address 192.168.56.2/24
+   address 172.16.100.1/24
 
    allow-hotplug enp0s9
    iface enp0s9 inet static
-   address 172.16.100.1/24
+   address 192.168.56.2/24
    ```
 
 5. **Instalar `sudo`:**
