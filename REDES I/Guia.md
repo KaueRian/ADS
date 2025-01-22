@@ -374,6 +374,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ```bash
    sudo reboot
    ```
+**Desligue e ligue novamente a placa de rede**
 
 5. **Teste a conexão com a internet e o ping para o domínio `lab.lan`.**
 
