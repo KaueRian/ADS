@@ -523,11 +523,7 @@ sudo rm /etc/resolv.conf
    sudo systemctl status bind9
    ```
 
-7. **Teste o DNS com o comando `ping laboratorio.lan`.**
-
-**Salve o SNAPSHOT do DNS**
-
-8. **Configurar o named.conf.options**
+7. **Configurar o named.conf.options**
    ```bash
    sudo nano /etc/bind/named.conf.options
    ```
@@ -541,6 +537,11 @@ sudo rm /etc/resolv.conf
            listen-on-v6 { any; };
    };
       ```
+
+8. **Teste o DNS com o comando `ping laboratorio.lan`.**
+
+**Salve o SNAPSHOT do DNS**
+
 ---
 
 ### **Configuração do DNS2**
