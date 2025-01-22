@@ -299,7 +299,26 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
      ```bash
      chmod +x firewall regras
      ```
-   
+
+     - Organize os repositorios:
+     ```bash
+     sudo nano /etc/apt/souces.list
+     ```
+  
+     ```bash
+     deb http://security.debian.org/debian-security bullseye-security main contrib non-free
+     deb-src http://security.debian.org/debian-security bullseye-security main contrib non-free
+
+     deb http://deb.debian.org/debian bullseye main contrib non-free
+     deb-src http://deb.debian.org/debian bullseye main contrib non-free
+
+     deb http://deb.debian.org/debian bullseye-updates main contrib non-free
+     deb-src http://deb.debian.org/debian bullseye-updates main contrib non-free
+
+     deb http://deb.debian.org/debian bullseye-backports main contrib non-free
+     deb-src http://deb.debian.org/debian bullseye-backports main contrib non-free
+     ```
+        
 4. **Instale o `iptables`:**
    ```bash
    sudo apt install iptables -y
