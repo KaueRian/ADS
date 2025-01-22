@@ -1,9 +1,22 @@
 repositorios para o debian:
-deb http://security.debian.org/debian-security bullseye-security main contrib non-free
-deb-src http://security.debian.org/debian-security bullseye-security main contrib non-free
+
+deb http://security.debian.org/debian-security bullseye-security main contrib non-deb http://security.debian.org/debian-security bullseye-security main contrib
+deb-src http://security.debian.org/debian-security bullseye-security main contrib
+
+deb http://deb.debian.org/debian bullseye main
+deb-src http://deb.debian.org/debian bullseye main
+
+deb http://deb.debian.org/debian-security/ bullseye-security main
+deb-src http://deb.debian.org/debian-security/ bullseye-security main
+
+deb http://deb.debian.org/debian bullseye-updates main
+deb-src http://deb.debian.org/debian bullseye-updates main
 
 deb http://deb.debian.org/debian bullseye main contrib non-free
 deb-src http://deb.debian.org/debian bullseye main contrib non-free
+
+deb http://deb.debian.org/debian-security/ bullseye-security main contrib non-free
+deb-src http://deb.debian.org/debian-security/ bullseye-security main contrib non-free
 
 deb http://deb.debian.org/debian bullseye-updates main contrib non-free
 deb-src http://deb.debian.org/debian bullseye-updates main contrib non-free
