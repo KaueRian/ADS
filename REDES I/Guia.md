@@ -354,6 +354,9 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 
 ### **Configuração do Ubuntu**
 1. **Adaptador 1:** Rede Interna `intnet`.
+
+  - Instale o ubuntu normalmente sem internet.
+
 2. **Configuração de IP via DHCP:**
    - Edite o arquivo `/etc/systemd/resolved.conf`:
    ```bash
