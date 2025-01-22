@@ -600,8 +600,25 @@ sudo rm /etc/resolv.conf
    ```bash
    sudo netplan apply
    ```
+
+**Configurar o Resolvedor Local**
+1. Certifique-se de que o DNS2 também aponta para o DNS1. Edite o arquivo do resolvedor:
+   ```bash
+   sudo nano /etc/systemd/resolved.conf
+   ```
+2. Adicione ou edite as seguintes linhas:
+   ```plaintext
+   [Resolve]
+   DNS=172.16.100.2 8.8.8.8
+   Domains=laboratorio.lan
+   ```
+
+3. Reinicie o resolvedor para aplicar as mudanças:
+   ```bash
+   sudo systemctl restart systemd-resolved
+   ```
    
-4. **Reiniciar e Verificar Conexão:**
+3. **Reiniciar e Verificar Conexão:**
    - Reinicie a máquina:
    ```bash
    sudo reboot
@@ -645,33 +662,12 @@ sudo rm /etc/resolv.conf
    };
    ```
 
-   > **Nota:** Corrigi pequenos erros na sintaxe, como o uso de aspas simples ("), e melhorei os comentários.
-
 ---
 
 #### **Passo 3: Criar Diretório para os Arquivos de Zona**
 1. Crie o diretório onde os arquivos de zona serão armazenados:
    ```bash
    sudo mkdir -p /etc/bind/ifro
-   ```
-
----
-
-#### **Passo 4: Configurar o Resolvedor Local**
-1. Certifique-se de que o DNS2 também aponta para o DNS1. Edite o arquivo do resolvedor:
-   ```bash
-   sudo nano /etc/systemd/resolved.conf
-   ```
-2. Adicione ou edite as seguintes linhas:
-   ```plaintext
-   [Resolve]
-   DNS=172.16.100.2 8.8.8.8
-   Domains=laboratorio.lan
-   ```
-
-3. Reinicie o resolvedor para aplicar as mudanças:
-   ```bash
-   sudo systemctl restart systemd-resolved
    ```
 
 ---
