@@ -360,7 +360,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 
 3. **Configurar o arquivo `/etc/default/isc-dhcp-server`:**
    ```bash
-   INTERFACESv4="enp0s9"
+   INTERFACESv4="enp0s8"
    ```
 
 4. **Configuração do arquivo `/etc/dhcp/dhcpd.conf`:**
