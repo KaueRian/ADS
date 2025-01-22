@@ -499,8 +499,8 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 5. **Verifique a configuração do BIND9:**
    ```bash
    sudo named-checkconf
-   sudo named-checkzone laboratorio.lan ifro/lab.db
-   sudo named-checkzone 100.16.172.in-addr.arp ifro/lab.rev
+   sudo named-checkzone laboratorio.lan lab.db
+   sudo named-checkzone 100.16.172.in-addr.arp lab.rev
    ```
 
 6. **Reinicie o serviço do BIND9:**
