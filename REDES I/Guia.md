@@ -451,6 +451,51 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ```
    - Edite os arquivos `lab.db` e `lab.rev` conforme as instruções fornecidas.
 
+   ```bash
+   sudo nano lab.db
+   ```
+
+   ```bash
+   ;
+   ; BIND data file for local loopback interface
+   ;
+   $TTL    604800
+   @       IN      SOA     laboratorio.lan. root.laboratorio.lan. (
+                   1         ; Serial
+                   604800    ; Refresh
+                   86400     ; Retry
+                   2419200   ; Expire
+                   604800 )  ; Negative Cache TTL
+   ;
+   @       IN      NS      laboratorio.lan.
+   @       IN      A       172.16.100.2
+   ns      IN      A       172.16.100.2
+   web     IN      A       172.16.100.4
+   www     IN      CNAME   web.laboratorio.lan.
+   dns1    IN      CNAME   ns.laboratorio.lan.
+   ```
+
+   ```bash
+   sudo nano lab.rev
+   ```
+
+   ```bash
+   ;
+   ; BIND reverse data file for local loopback interface
+   ;
+   $TTL    604800
+   @       IN      SOA     laboratorio.lan. root.laboratorio.lan. (
+                   1         ; Serial
+                   604800    ; Refresh
+                   86400     ; Retry
+                   2419200   ; Expire
+                   604800 )  ; Negative Cache TTL
+   ;
+   @       IN      NS      laboratorio.lan.
+   2       IN      PTR     laboratorio.lan.
+   4       IN      PTR     web.laboratorio.lan.
+   ```
+  
 5. **Verifique a configuração do BIND9:**
    ```bash
    sudo named-checkconf
