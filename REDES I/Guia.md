@@ -526,6 +526,21 @@ sudo rm /etc/resolv.conf
 7. **Teste o DNS com o comando `ping laboratorio.lan`.**
 
 **Salve o SNAPSHOT do DNS**
+
+8. **Configurar o named.conf.options**
+   ```bash
+   sudo nano /etc/bind/named.conf.options
+   ```
+   ```bash
+   options {
+           directory "/var/cache/bind";
+           forwarders {
+                   8.8.8.8;
+           };
+           dnssec-validation auto;
+           listen-on-v6 { any; };
+   };
+      ```
 ---
 
 ### **Configuração do DNS2**
