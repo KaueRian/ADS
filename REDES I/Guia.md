@@ -437,6 +437,18 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 
 4. **Criação e configuração das zonas e arquivos de DNS:**
    - Crie o diretório `ifro` e copie os arquivos necessários.
+   ```bash
+   cd /etc/bind
+   ```
+   ```bash
+   mkdir ifro
+   ```
+   ```bash
+   sudo cp db.local ifro/lab.db
+   ```
+   ```bash
+   sudo cp db.127 ifro/lab.rev
+   ```
    - Edite os arquivos `lab.db` e `lab.rev` conforme as instruções fornecidas.
 
 5. **Verifique a configuração do BIND9:**
