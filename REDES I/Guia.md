@@ -559,6 +559,11 @@ sudo rm /etc/resolv.conf
              via: 172.16.100.1
    ```
 
+   - Aplique a configuração:
+   ```bash
+   sudo netplan apply
+   ```
+   
 4. **Reiniciar e Verificar Conexão:**
    - Reinicie a máquina:
    ```bash
@@ -591,6 +596,11 @@ sudo rm /etc/resolv.conf
              via: 172.16.100.1
    ```
 
+   - Aplique a configuração:
+   ```bash
+   sudo netplan apply
+   ```
+
 2. **Configuração de DNS:**
    - Edite `/etc/systemd/resolved.conf`:
    ```ini
@@ -599,6 +609,7 @@ sudo rm /etc/resolv.conf
    Domains=laboratorio.lan
    ```
    - Reinicie a máquina e verifique o IP, teste internet com `ping laboratorio.lan` e `ping` para o gateway.
+   - Desligue a máquina e crie um snapshot.
 
 3. **Configuração do Apache:**
    - Instale e configure o Apache:
