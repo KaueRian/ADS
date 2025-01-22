@@ -193,8 +193,8 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
      iptables -t nat -F
      iptables -F
 
-     SSH=200.50.100.2
-     SSH2=200.50.100.3
+     SSH=192.168.56.2
+     SSH2=192.168.56.3
      GATEWAY=172.16.100.1
      DNS1=172.16.100.2
      DNS2=172.16.100.3
@@ -206,7 +206,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
      ALL=0/0
 
      LAN=172.16.100.0/24
-     LOCAL=200.50.100.0/24
+     LOCAL=192.168.56.0/24
 
      echo "1" >/proc/sys/net/ipv4/ip_forward
 
