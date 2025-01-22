@@ -275,7 +275,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 
      - Organize os repositorios:
      ```bash
-     sudo nano /etc/apt/souces.list
+     sudo nano /etc/apt/sources.list
      ```
   
      ```bash
