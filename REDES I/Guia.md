@@ -409,6 +409,13 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    sudo netplan apply
    ```
 
+   - Teste acesso via ssh:
+   ```bash
+   ssh -p 51000 aluno@192.168.56.2
+   ```
+
+   **Se funcionar faça Snapshot da configuração de rede concluída**
+
 2. **Instale e configure o BIND9 (DNS):**
    ```bash
    sudo apt install bind9
