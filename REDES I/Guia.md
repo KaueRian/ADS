@@ -289,7 +289,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    
 4. **Instale o `iptables`:**
    ```bash
-   sudo apt install iptables
+   sudo apt install iptables -y
    ```
 
 5. **Automatize a execução do firewall:**
