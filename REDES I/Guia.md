@@ -377,7 +377,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 
 5. **Teste a conexão com a internet e o ping para o domínio `lab.lan`.**
 
-6. **Desligue a máquina e crie o Snapshot.**
+6. **Desligue a máquina e crie o Snapshot da máquina Gateway e Ubuntu.**
 
 ---
 
