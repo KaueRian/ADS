@@ -519,13 +519,7 @@ Domains=laboratorio.lan
 sudo rm /etc/resolv.conf
 ```
 
-6. **Reinicie o serviço do BIND9:**
-   ```bash
-   sudo systemctl restart bind9
-   sudo systemctl status bind9
-   ```
-
-7. **Configurar o named.conf.options**
+6. **Configurar o named.conf.options**
    ```bash
    sudo nano /etc/bind/named.conf.options
    ```
@@ -539,6 +533,12 @@ sudo rm /etc/resolv.conf
            listen-on-v6 { any; };
    };
       ```
+
+7. **Reinicie o serviço do BIND9:**
+   ```bash
+   sudo systemctl restart bind9
+   sudo systemctl status bind9
+   ```
 
 8. **Teste o DNS com o comando `ping laboratorio.lan`.**
 
