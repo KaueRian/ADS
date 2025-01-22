@@ -557,6 +557,25 @@ sudo rm /etc/resolv.conf
    sudo hostnamectl set-hostname dns2
    ```
 
+**Definir o /etc/hosts:**
+   ```bash
+   sudo nano /etc/hosts
+   ```
+   ```bash
+   127.0.0.1 localhost
+   127.0.1.1 dns2
+   172.16.100.3    dns2    dns2.laboratorio.lan
+   172.16.100.2    dns1    dns1.laboratorio.lan
+   172.16.100.1    gateway gateway.laboratorio.lan
+
+   # The following lines are desirable for IPv6 capable hosts
+   ::1     ip6-localhost ip6-loopback
+   fe00::0 ip6-localnet
+   ff00::0 ip6-mcastprefix
+   ff02::1 ip6-allnodes
+   ff02::2 ip6-allrouters
+   ```
+
 3. **Configuração de IP Fixo:**
    - Edite o arquivo `/etc/netplan/50-cloud-init.yaml` com o seguinte conteúdo:
    ```yaml
