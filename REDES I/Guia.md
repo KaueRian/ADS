@@ -609,6 +609,108 @@ sudo rm /etc/resolv.conf
    - Teste o IP, ping para `laboratorio.lan` e o gateway.
    - Desligue a máquina e crie um snapshot.
 
+### Configuração do DNS2 como Slave no Bind9
+
+#### **Passo 1: Instalar o Bind9 no DNS2**
+1. Atualize o sistema:
+   ```bash
+   sudo apt update
+   ```
+2. Instale o Bind9:
+   ```bash
+   sudo apt install bind9
+   ```
+
+---
+
+#### **Passo 2: Configurar as Zonas no DNS2**
+1. Edite o arquivo de zonas padrão do Bind:
+   ```bash
+   sudo nano /etc/bind/named.conf.default-zones
+   ```
+2. Adicione as configurações abaixo para criar as zonas **laboratorio.lan** e a zona reversa **100.16.172.in-addr.arpa**:
+   ```bash
+   // Zona direta para laboratorio.lan
+   zone "laboratorio.lan" {
+       type slave;
+       file "/etc/bind/ifro/lab.db"; // Caminho do arquivo de zona
+       masters { 172.16.100.2; };    // IP do servidor master
+   };
+
+   // Zona reversa para 172.16.100.0/24
+   zone "100.16.172.in-addr.arpa" {
+       type slave;
+       file "/etc/bind/ifro/lab.rev"; // Caminho do arquivo de zona reversa
+       masters { 172.16.100.2; };     // IP do servidor master
+   };
+   ```
+
+   > **Nota:** Corrigi pequenos erros na sintaxe, como o uso de aspas simples ("), e melhorei os comentários.
+
+---
+
+#### **Passo 3: Criar Diretório para os Arquivos de Zona**
+1. Crie o diretório onde os arquivos de zona serão armazenados:
+   ```bash
+   sudo mkdir -p /etc/bind/ifro
+   ```
+
+---
+
+#### **Passo 4: Configurar o Resolvedor Local**
+1. Certifique-se de que o DNS2 também aponta para o DNS1. Edite o arquivo do resolvedor:
+   ```bash
+   sudo nano /etc/systemd/resolved.conf
+   ```
+2. Adicione ou edite as seguintes linhas:
+   ```plaintext
+   [Resolve]
+   DNS=172.16.100.2 8.8.8.8
+   Domains=laboratorio.lan
+   ```
+
+3. Reinicie o resolvedor para aplicar as mudanças:
+   ```bash
+   sudo systemctl restart systemd-resolved
+   ```
+
+---
+
+#### **Passo 5: Reiniciar o Serviço Bind9**
+1. Reinicie o serviço Bind9 para carregar as novas configurações:
+   ```bash
+   sudo systemctl restart bind9
+   ```
+
+2. Verifique se o serviço está ativo:
+   ```bash
+   sudo systemctl status bind9
+   ```
+   Certifique-se de que o serviço está **"active (running)"**.
+
+---
+
+#### **Passo 6: Testar as Configurações**
+1. Teste a resolução de nomes usando o **dig**:
+   ```bash
+   dig @172.16.100.3 laboratorio.lan
+   dig @172.16.100.3 -x 172.16.100.2
+   ```
+
+2. Se tudo estiver configurado corretamente, você verá as respostas das consultas apontando para o DNS1 como servidor mestre.
+
+---
+
+- Use o comando abaixo para identificar problemas:
+  ```bash
+  sudo named-checkconf
+  ```
+- Para validar arquivos de zona:
+  ```bash
+  sudo named-checkzone laboratorio.lan /etc/bind/ifro/lab.db
+  sudo named-checkzone 100.16.172.in-addr.arpa /etc/bind/ifro/lab.rev
+  ```
+
 ---
 
 ### **Configuração do WEB**
