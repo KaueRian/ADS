@@ -178,10 +178,6 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
      esac
      ```
 
-   - Torne os arquivos executáveis:
-   ```bash
-   chmod +x firewall regras
-   ```
    - Crie o arquivo de regras:
      ```bash
      nano regras
@@ -286,7 +282,11 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 
 
      ```
-
+     - Torne os arquivos executáveis:
+     ```bash
+     chmod +x firewall regras
+     ```
+   
 4. **Instale o `iptables`:**
    ```bash
    sudo apt install iptables
