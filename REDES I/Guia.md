@@ -22,7 +22,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 2. **Criar as 5 VMs:**
    - Criar o Gateway (Debian CLI).
    - Configurar a primeira placa de rede como primária, com DHCP ativo.
-   - Defina o domínio como `lab.lan` (ou conforme o professor informar).
+   - Defina o domínio como `laboratorio.lan` (ou conforme o professor informar).
 
 3. **Configuração de Rede:**
    - **Adaptador 1:** Modo NAT.
@@ -342,7 +342,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    subnet 172.16.100.0 netmask 255.255.255.0 {
      range 172.16.100.50 172.16.100.250;
      option domain-name-servers 8.8.8.8, 172.16.100.2, 172.16.100.3;
-     option domain-name "lab.lan";
+     option domain-name "laboratorio.lan";
      option routers 172.16.100.1;
      option broadcast-address 172.16.100.255;
      default-lease-time 600;
@@ -362,7 +362,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ```bash
    [Resolve]
    DNS=172.16.100.2 172.16.100.3 8.8.8.8
-   Domains=lab.lan
+   Domains=laboratorio.lan
    ```
 
 3. **Remova a configuração existente:**
@@ -376,7 +376,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ```
 **Desligue e ligue novamente a placa de rede**
 
-5. **Teste a conexão com a internet e o ping para o domínio `lab.lan`.**
+5. **Teste a conexão com a internet e o ping para o domínio `laboratorio.lan`.**
 
 6. **Desligue a máquina e crie o Snapshot da máquina Gateway e Ubuntu.**
 
@@ -399,7 +399,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
              addresses:
                - 8.8.8.8
              search:
-               - lab.lan
+               - laboratorio.lan
            routes:
              - to: default
                via: 172.16.100.1
@@ -503,14 +503,26 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    sudo named-checkzone 100.16.172.in-addr.arp lab.rev
    ```
 
+**Defina o DNS:**
+
+```bash
+sudo nano /etc/systemd/resolved.conf
+```
+```bash
+[Resolve]
+DNS=172.16.100.2 172.16.100.3 8.8.8.8
+Domains=laboratorio.lan
+```
+
 6. **Reinicie o serviço do BIND9:**
    ```bash
    sudo systemctl restart bind9
    sudo systemctl status bind9
    ```
 
-7. **Teste o DNS com o comando `ping lab.lan`.**
+7. **Teste o DNS com o comando `ping laboratorio.lan`.**
 
+**Salve o SNAPSHOT do DNS
 ---
 
 ### **Configuração do DNS2**
@@ -538,7 +550,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
            addresses:
              - 8.8.8.8
            search:
-             - lab.lan
+             - laboratorio.lan
          routes:
            - to: default
              via: 172.16.100.1
@@ -549,7 +561,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ```bash
    sudo reboot
    ```
-   - Teste o IP, ping para `lab.lan` e o gateway.
+   - Teste o IP, ping para `laboratorio.lan` e o gateway.
    - Desligue a máquina e crie um snapshot.
 
 ---
@@ -570,7 +582,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
            addresses:
              - 8.8.8.8
            search:
-             - lab.lan
+             - laboratorio.lan
          routes:
            - to: default
              via: 172.16.100.1
@@ -581,9 +593,9 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ```ini
    [Resolve]
    DNS=172.16.100.2 172.16.100.3 8.8.8.8
-   Domains=lab.lan
+   Domains=laboratorio.lan
    ```
-   - Reinicie a máquina e verifique o IP, teste internet com `ping lab.lan` e `ping` para o gateway.
+   - Reinicie a máquina e verifique o IP, teste internet com `ping laboratorio.lan` e `ping` para o gateway.
 
 3. **Configuração do Apache:**
    - Instale e configure o Apache:
@@ -605,8 +617,8 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ```apache
    <VirtualHost *:80>
    ServerAdmin meuemail@email.com
-   ServerName lab.lan
-   ServerAlias web.lab.lan
+   ServerName laboratorio.lan
+   ServerAlias web.laboratorio.lan
    DocumentRoot /srv/lab/web
    ErrorLog ${APACHE_LOG_DIR}/web_error.log
    CustomLog ${APACHE_LOG_DIR}/web_access.log combined
@@ -637,7 +649,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ```apache
    <VirtualHost *:443>
    ServerAdmin suporte@laboratorio.lan
-   ServerName web.lab.lan:443
+   ServerName web.laboratorio.lan:443
    DocumentRoot /srv/lab/web
    ErrorLog ${APACHE_LOG_DIR}/web-error.log
    CustomLog ${APACHE_LOG_DIR}/web.log combined
@@ -649,10 +661,10 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 
    <VirtualHost *:80>
    RewriteEngine on
-   ServerName web.lab.lan
+   ServerName web.laboratorio.lan
    Options FollowSymLinks
    RewriteCond %{SERVER_PORT} 80
-   RewriteRule ^(.*)$ https://web.lab.lan/ [R,L]
+   RewriteRule ^(.*)$ https://web.laboratorio.lan/ [R,L]
    </VirtualHost>
    ```
    - Ative o site e reinicie o Apache:
@@ -693,7 +705,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 
 3. **Teste FTP no Ubuntu:**
    ```bash
-   ftp ftp.lab.lan
+   ftp ftp.laboratorio.lan
    ```
 
 ---
