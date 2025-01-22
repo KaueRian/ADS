@@ -525,7 +525,7 @@ sudo rm /etc/resolv.conf
 
 7. **Teste o DNS com o comando `ping laboratorio.lan`.**
 
-**Salve o SNAPSHOT do DNS
+**Salve o SNAPSHOT do DNS**
 ---
 
 ### **Configuração do DNS2**
