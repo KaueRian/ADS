@@ -310,7 +310,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 
 7. **Verifique as regras do `iptables`:**
    ```bash
-   sudo iptables -L
+   sudo iptables -nL
    ```
 
 8. **Teste a automação:**
