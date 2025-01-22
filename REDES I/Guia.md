@@ -513,6 +513,9 @@ sudo nano /etc/systemd/resolved.conf
 DNS=172.16.100.2 172.16.100.3 8.8.8.8
 Domains=laboratorio.lan
 ```
+```bash
+sudo rm /etc/resolv.conf
+```
 
 6. **Reinicie o serviço do BIND9:**
    ```bash
