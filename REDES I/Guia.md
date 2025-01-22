@@ -424,14 +424,16 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 3. **Configure os arquivos do BIND9:**
    Edite `/etc/bind/named.conf.default-zones` para adicionar as zonas:
    ```bash
-   zone "laboratorio.lan" {
-     type master;
-     file "/etc/bind/ifro/lab.db";
+   zone “laboratorio.lan” {
+           type master;
+           file “/etc/bind/ifro/lab.db
+           allow-transfer { 172.16.100.3; };
    };
 
    zone "100.16.172.in-addr.arp" {
-     type master;
-     file "/etc/bind/ifro/lab.rev";
+           type master;
+           file "/etc/bind/ifro/lab.rev";
+           allow-transfer { 172.16.100.3; };
    };
    ```
 
