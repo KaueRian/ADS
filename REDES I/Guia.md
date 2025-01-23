@@ -752,7 +752,9 @@ sudo rm /etc/resolv.conf
 3. **Configuração do Apache:**
    - Instale e configure o Apache:
    ```bash
-   sudo apt update && sudo apt upgrade -y
+   sudo apt update
+   ```
+   ```bash
    sudo apt install apache2 -y
    sudo a2enmod ssl
    sudo a2enmod rewrite
