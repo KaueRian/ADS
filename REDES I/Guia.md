@@ -765,6 +765,9 @@ sudo rm /etc/resolv.conf
    ```php
    <?php phpinfo(); ?>
    ```
+   - No ubuntu tente acessar o web via: 172.16.100.4 e 172.16.100.4/index.php
+  
+   - Se funcionar salve snapshot
 
 4. **Configuração de VirtualHost:**
    - Edite `/etc/apache2/sites-available/web.lab.conf`:
