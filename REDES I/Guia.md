@@ -743,6 +743,9 @@ sudo rm /etc/resolv.conf
    DNS=172.16.100.2 172.16.100.3 8.8.8.8
    Domains=laboratorio.lan
    ```
+   ```bash
+   sudo rm /etc/resolv.conf
+   ```
    - Reinicie a máquina e verifique o IP, teste internet com `ping laboratorio.lan` e `ping` para o gateway.
    - Desligue a máquina e crie um snapshot.
 
