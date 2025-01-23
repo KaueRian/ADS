@@ -720,7 +720,7 @@ sudo rm /etc/resolv.conf
        enp0s3:
          dhcp4: false
          addresses:
-           - 172.16.100.3/24
+           - 172.16.100.4/24
          nameservers:
            addresses:
              - 8.8.8.8
