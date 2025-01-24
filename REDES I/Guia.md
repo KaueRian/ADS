@@ -753,60 +753,109 @@ sudo rm /etc/resolv.conf
    - Reinicie a máquina e verifique o IP, teste internet com `ping laboratorio.lan` e `ping` para o gateway.
    - Desligue a máquina e crie um snapshot.
 
-3. **Configuração do Apache:**
-   - Instale e configure o Apache:
-   ```bash
-   sudo apt update
-   ```
-   ```bash
-   sudo apt install apache2 -y
-   sudo a2enmod ssl
-   sudo a2enmod rewrite
-   sudo systemctl restart apache2
-   sudo apt install php -y
-   ```
-   - Crie o arquivo `/var/www/html/index.php`:
-   ```php
-   <?php phpinfo(); ?>
-   ```
-   - No ubuntu tente acessar o web via: 172.16.100.4 e 172.16.100.4/index.php
-  
-   - Se funcionar salve snapshot
 
----
+#### 3.1. Configurar o Apache na máquina WEB
 
-### 1. **Configuração do VirtualHost HTTP**
-1. Edite o arquivo `/etc/apache2/sites-available/web.lab.conf` com o seguinte conteúdo:
-   ```apache
-   <VirtualHost *:80>
-       ServerAdmin meuemail@email.com
-       ServerName laboratorio.lan
-       ServerAlias web.laboratorio.lan
-       DocumentRoot /srv/lab/web
-       ErrorLog ${APACHE_LOG_DIR}/web_error.log
-       CustomLog ${APACHE_LOG_DIR}/web_access.log combined
-   </VirtualHost>
-   ```
+1. **Atualizar o sistema**:
+    ```bash
+    sudo apt update && sudo apt upgrade -y
+    ```
 
-2. Crie a pasta para hospedar os arquivos do site:
-   ```bash
-   sudo mkdir -p /srv/lab/web
-   ```
+2. **Instalar o Apache2**:
+    ```bash
+    sudo apt install apache2 -y
+    ```
 
-3. Crie e edite o arquivo `index.php` no diretório `/srv/lab/web` com o seguinte conteúdo:
-   ```php
-   <?php
-   echo getcwd() . "\n";
-   chdir('cvs');
-   ?>
-   ```
+3. **Ativar o módulo SSL**:
+    ```bash
+    sudo a2enmod ssl
+    ```
 
-4. Ative o site e reinicie o Apache:
-   ```bash
-   sudo a2ensite web.lab.conf
-   sudo systemctl restart apache2
-   ```
+4. **Ativar o módulo Rewrite**:
+    ```bash
+    sudo a2enmod rewrite
+    ```
 
+5. **Reiniciar o Apache**:
+    ```bash
+    sudo systemctl restart apache2
+    ```
+
+6. **Instalar o PHP**:
+    ```bash
+    sudo apt install php -y
+    ```
+
+7. **Criar o arquivo de teste PHP**:
+    ```bash
+    sudo nano /var/www/html/index.php
+    ```
+    - Adicionar o conteúdo:
+      ```php
+      <?php phpinfo(); ?>
+      ```
+
+8. **Configurar o arquivo de configuração do Apache**:
+    ```bash
+    sudo nano /etc/apache2/apache2.conf
+    ```
+    - Adicionar a seguinte configuração:
+      ```apache
+      <Directory /srv/>
+          Options Indexes FollowSymLinks
+          AllowOverride None
+          Require all granted
+      </Directory>
+      ```
+
+9. **Acessar o diretório de sites disponíveis**:
+    ```bash
+    cd /etc/apache2/sites-available/
+    ```
+
+10. **Criar o arquivo de configuração do site**:
+    ```bash
+    sudo nano web.lab.conf
+    ```
+    - Adicionar o seguinte conteúdo:
+      ```apache
+      <VirtualHost *:80>
+          ServerAdmin meuemail@email.com
+          ServerName lab.lan
+          ServerAlias web.lab.lan
+          DocumentRoot /srv/lab/web
+          ErrorLog ${APACHE_LOG_DIR}/web_error.log
+          CustomLog ${APACHE_LOG_DIR}/web_access.log combined
+      </VirtualHost>
+      ```
+
+11. **Criar o diretório do site**:
+    ```bash
+    sudo mkdir -p /srv/lab/web
+    ```
+
+12. **Criar o arquivo de teste do site**:
+    ```bash
+    sudo nano /srv/lab/web/index.php
+    ```
+    - Adicionar o seguinte conteúdo:
+      ```php
+      <?php
+          echo getcwd() . "\n";
+          chdir('cvs');
+      ?>
+      ```
+
+13. **Ativar o site**:
+    ```bash
+    sudo a2ensite web.lab.conf
+    ```
+
+14. **Recarregar o Apache**:
+    ```bash
+    sudo systemctl reload apache2
+    ```
+    
 ---
 
 ### 2. **Instalação e Configuração de SSL**
