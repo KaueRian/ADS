@@ -596,6 +596,10 @@ sudo rm /etc/resolv.conf
              via: 172.16.100.1
    ```
 
+   ```bash
+   sudo rm /etc/resolv.conf
+   ```
+
    - Aplique a configuração:
    ```bash
    sudo netplan apply
