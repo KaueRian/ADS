@@ -422,7 +422,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ```
 
 3. **Configure os arquivos do BIND9:**
-   Edite `/etc/bind/named.conf.default-zones` para adicionar as zonas:
+   Edite `/etc/bind/named.conf.local` para adicionar as zonas:
    ```bash
    zone "laboratorio.lan" {
            type master;
@@ -643,7 +643,7 @@ sudo rm /etc/resolv.conf
 #### **Passo 2: Configurar as Zonas no DNS2**
 1. Edite o arquivo de zonas padrão do Bind:
    ```bash
-   sudo nano /etc/bind/named.conf.default-zones
+   sudo nano /etc/bind/named.conf.local
    ```
 2. Adicione as configurações abaixo para criar as zonas **laboratorio.lan** e a zona reversa **100.16.172.in-addr.arpa**:
    ```bash
