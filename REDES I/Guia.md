@@ -1187,7 +1187,7 @@ sudo rm /etc/resolv.conf
    - Remover linhas em branco.
    - Substituir múltiplas quebras de linha seguidas por apenas uma.
    ```bash
-   sudo sed -i '/^#/d; /^\s*$/d; :a;N;$!ba;s/\n\n\n*/\n\n/g' /etc/squid/squid.conf
+   sudo sed -i '/^\s*#/d; /^\s*$/d' squid.conf
    ```
 
 6. **Editar o arquivo de configuração do Squid**:
