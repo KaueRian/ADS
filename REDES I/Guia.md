@@ -1266,14 +1266,54 @@ Após a configuração e testes, crie um snapshot da máquina Ubuntu para garant
 
 ---
 
-### Observações Adicionais:
-- Se o proxy não estiver funcionando corretamente, você pode verificar o status do serviço Squid com o comando:
-  ```bash
-  sudo systemctl status squid
-  ```
-- Para reiniciar o serviço Squid, use o comando:
-  ```bash
-  sudo systemctl restart squid
-  ```
-  
-Com esse tutorial, você terá configurado e testado corretamente o Squid como servidor proxy em uma rede local, com máquinas configuradas para utilizá-lo como intermediário para acesso à internet.
+---
+
+# 7.5 Bloquear URLs usando `url_regex` no Squid
+
+Agora que o Squid está configurado e funcionando como proxy, podemos adicionar regras para bloquear acessos a URLs específicas usando expressões regulares (`url_regex`). A configuração será feita no arquivo de configuração do Squid, `squid.conf`.
+
+## 7.5.1 Editar o arquivo `squid.conf`
+
+1. **Abrir o arquivo de configuração do Squid**:
+   No diretório `/etc/squid`, abra o arquivo `squid.conf` para edição.
+   ```bash
+   sudo nano /etc/squid/squid.conf
+   ```
+
+2. **Definir as regras de bloqueio de URLs**:
+   
+   O `url_regex` permite bloquear URLs com base em padrões definidos por expressões regulares. Vamos adicionar uma regra de exemplo para bloquear URLs que contêm uma palavra ou expressão específica (por exemplo, bloquear qualquer URL que tenha "forbidden" nela).
+
+   - **Exemplo de bloqueio de URLs com `url_regex`**:
+     Adicione a seguinte linha no arquivo, definindo a expressão regular para bloquear URLs com a palavra "forbidden".
+     ```bash
+     acl blocked_urls url_regex -i ifro
+     ```
+
+   A opção `-i` torna a expressão regular case-insensitive (ignora maiúsculas e minúsculas), ou seja, ela bloqueará "forbidden", "Forbidden", "FORBIDDEN", etc.
+
+3. **Aplicar a regra de bloqueio nas configurações de acesso**:
+   
+   Agora que a ACL (Access Control List) foi definida, precisamos aplicá-la à política de acesso do Squid. Para bloquear essas URLs, adicione a seguinte linha logo após a configuração da rede interna (`http_access allow aula`):
+   ```bash
+   http_access deny blocked_urls
+   ```
+
+4. **Revisar o fluxo das regras de acesso**:
+   
+   O arquivo `squid.conf` deve ter uma ordem de regras bem definida. Certifique-se de que as regras de bloqueio são executadas antes da regra geral de negação (que nega todo o tráfego que não corresponde a uma exceção).
+
+   Exemplo de fluxo de regras:
+   ```bash
+   http_access allow aula
+   http_access deny blocked_urls
+   http_access deny all
+   ```
+
+   O Squid tentará acessar as URLs bloqueadas pela regra `blocked_urls` antes de negar o tráfego por padrão (linha `http_access deny all`).
+
+## 7.5.3 Salvar e fechar o arquivo
+
+Após adicionar as regras de bloqueio no arquivo `squid.conf`, salve e feche o editor. No `nano`, pressione `Ctrl + X`, depois `Y` para confirmar e `Enter` para salvar.
+
+---
