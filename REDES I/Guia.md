@@ -1317,3 +1317,163 @@ Agora que o Squid está configurado e funcionando como proxy, podemos adicionar 
 Após adicionar as regras de bloqueio no arquivo `squid.conf`, salve e feche o editor. No `nano`, pressione `Ctrl + X`, depois `Y` para confirmar e `Enter` para salvar.
 
 ---
+
+---
+
+### 1. **Bloquear uma Faixa de IP para Não Baixar Arquivos ZIP**
+
+Este exemplo mostra como bloquear o download de arquivos com extensão `.zip` para uma faixa de IP específica.
+
+**Passos:**
+
+1. Crie uma ACL para identificar arquivos ZIP:
+    ```bash
+    acl arquivos_zip url_regex zip
+    ```
+2. Defina a faixa de IP a ser bloqueada (exemplo: 192.168.0.0/24):
+    ```bash
+    acl proibido_acesso src 192.168.0.0/24
+    ```
+3. Bloqueie o acesso aos arquivos ZIP para essa faixa de IP:
+    ```bash
+    http_access deny proibido_acesso arquivos_zip
+    ```
+
+### Exemplo de configuração:
+```bash
+acl arquivos_zip url_regex zip
+acl proibido_acesso src 192.168.0.0/24
+http_access deny proibido_acesso arquivos_zip
+```
+
+---
+
+### 2. **Bloquear um Site para Todos os Usuários da Rede**
+
+Este exemplo mostra como bloquear um site (por exemplo, o Facebook) para todos os usuários da rede.
+
+**Passos:**
+
+1. Crie uma ACL para identificar o site a ser bloqueado:
+    ```bash
+    acl site_proibido dstdomain .facebook.com
+    ```
+2. Bloqueie o acesso a esse site para todos os usuários:
+    ```bash
+    http_access deny all site_proibido
+    ```
+
+### Exemplo de configuração:
+```bash
+acl site_proibido dstdomain .facebook.com
+http_access deny all site_proibido
+```
+
+---
+
+### 3. **Controlar o Acesso por Hora**
+
+Este exemplo configura o Squid para bloquear o acesso a um determinado horário para usuários de uma faixa de IP específica (exemplo: `192.168.0.0/24`).
+
+**Passos:**
+
+1. Defina uma ACL para o horário em que o acesso será bloqueado (exemplo: segunda a sexta-feira, das 08:05 às 11:40):
+    ```bash
+    acl fechado_para_aula time MTWHF 08:05-11:40
+    ```
+2. Defina uma ACL para a faixa de IP dos usuários (exemplo: `192.168.0.0/24`):
+    ```bash
+    acl hora_de_aula src 192.168.0.0/24
+    ```
+3. Bloqueie o acesso durante esse horário para os usuários dessa faixa de IP:
+    ```bash
+    http_access deny hora_de_aula fechado_para_aula
+    ```
+
+### Exemplo de configuração:
+```bash
+acl fechado_para_aula time MTWHF 08:05-11:40
+acl hora_de_aula src 192.168.0.0/24
+http_access deny hora_de_aula fechado_para_aula
+```
+
+---
+
+### 4. **Liberar o Acesso Somente em um Determinado Horário**
+
+Este exemplo configura o Squid para permitir o acesso a uma faixa de IP específica (exemplo: `192.168.0.0/24`) somente durante um horário determinado.
+
+**Passos:**
+
+1. Defina uma ACL para a faixa de IP dos usuários (exemplo: `192.168.0.0/24`):
+    ```bash
+    acl usuarios src 192.168.0.0/24
+    ```
+2. Defina uma ACL para o horário em que o acesso será liberado (exemplo: segunda a sexta-feira, das 11:40 às 13:05):
+    ```bash
+    acl libera_geral time MTWHF 11:40-13:05
+    ```
+3. Permita o acesso para os usuários nesse horário:
+    ```bash
+    http_access allow usuarios libera_geral
+    ```
+4. Bloqueie o acesso fora desse horário:
+    ```bash
+    http_access deny usuarios
+    ```
+
+### Exemplo de configuração:
+```bash
+acl usuarios src 192.168.0.0/24
+acl libera_geral time MTWHF 11:40-13:05
+http_access allow usuarios libera_geral
+http_access deny usuarios
+```
+
+---
+
+### 5. **Usar um Arquivo de Texto para Incluir Diversos Parâmetros de Bloqueio**
+
+Se a lista de sites ou usuários a serem bloqueados for muito longa, você pode usar um arquivo externo, como `arquivo_sites.txt`, que contém os sites a serem bloqueados. O exemplo abaixo mostra como configurar isso.
+
+**Passos:**
+
+1. Defina uma ACL para a faixa de IP dos usuários (exemplo: `192.168.0.0/24`):
+    ```bash
+    acl usuarios src 192.168.0.0/24
+    ```
+2. Crie uma ACL para carregar a lista de sites proibidos a partir de um arquivo:
+    ```bash
+    acl sites_proibidos url_regex "/caminho/para/arquivo_sites.txt"
+    ```
+3. Bloqueie o acesso a esses sites para os usuários dessa faixa de IP:
+    ```bash
+    http_access deny usuarios sites_proibidos
+    ```
+
+### Exemplo de configuração:
+```bash
+acl usuarios src 192.168.0.0/24
+acl sites_proibidos url_regex "/etc/squid/arquivo_sites.txt"
+http_access deny usuarios sites_proibidos
+```
+
+---
+
+### Considerações Finais:
+
+- **Lembre-se de sempre testar a configuração do Squid após as alterações**:
+    ```bash
+    sudo squid -k reconfigure
+    ```
+
+- **Backup**: Antes de fazer alterações no arquivo de configuração, é sempre recomendável fazer um backup:
+    ```bash
+    sudo cp /etc/squid/squid.conf /etc/squid/squid.conf.backup
+    ```
+
+- **Log**: Se você tiver problemas ou quiser verificar se as regras estão sendo aplicadas corretamente, os logs do Squid geralmente ficam em `/var/log/squid/access.log`.
+
+---
+
+Esse tutorial cobre as configurações para bloquear o acesso a determinados sites, controlar o acesso por horários e utilizar arquivos externos para facilitar a manutenção das configurações do Squid.
