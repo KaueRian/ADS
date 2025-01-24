@@ -1,5 +1,6 @@
 """
-Kauê Rian Silva - UTF8 - ptbr - mysql_config.py
+Kauê Rian Silva - UTF8 - ptbr
+mysql_config.py
 """
 
 from flask_sqlalchemy import SQLAlchemy

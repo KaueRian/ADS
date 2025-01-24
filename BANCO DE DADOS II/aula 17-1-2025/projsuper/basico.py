@@ -25,7 +25,7 @@ if __name__ == "__main__":
             # Tenta conectar ao banco de dados e executar uma consulta
             print("Conectando ao banco de dados...")
             cur = mysql.connection.cursor()
-            cur.execute("SELECT * FROM usuario;")  # Substitua pela sua tabela
+            cur.execute("SELECT * FROM clientes;")  # Substitua pela sua tabela
             users = cur.fetchall()
             cur.close()
             print(f"Usuários encontrados: {users}")  # Exibe os usuários retornados

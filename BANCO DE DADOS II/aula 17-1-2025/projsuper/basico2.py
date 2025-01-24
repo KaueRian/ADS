@@ -22,7 +22,7 @@ if __name__ == "__main__":
         try:
             print("Conectando ao banco de dados...")
             cur = mysql.connection.cursor()
-            cur.execute("SELECT * FROM usuario;")
+            cur.execute("SELECT * FROM clientes;")
             users = cur.fetchall()
             cur.close()
             print(f"Usuários encontrados: {users}")
