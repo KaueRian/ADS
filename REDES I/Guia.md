@@ -941,35 +941,94 @@ sudo rm /etc/resolv.conf
 
 ---
 
-### **Configuração do FTP**
+## 5. Configuração do FTP
 
-1. **Configurações no DNS1:**
-   - Edite `/etc/bind/lab/lab.db`:
+### 5.1 Configurações na máquina DNS1
+
+1. **Editar o arquivo de zona do BIND**  
+   Abra o arquivo de configuração do BIND para editar a zona do domínio `laboratorio.lan`:
    ```bash
-   @       IN      A       172.16.100.2
-   ns      IN      A       172.16.100.2
+   sudo nano /etc/bind/lab/lab.db
+   ```
+
+2. **Adicionar as configurações de DNS**  
+   Adicione ou edite as seguintes linhas no arquivo de zona:
+
+   ```txt
    web     IN      A       172.16.100.4
    ftp     IN      A       172.16.100.4
    ```
-   - Reinicie o Bind9:
+
+3. **Reiniciar o serviço BIND**  
+   Após editar o arquivo, reinicie o serviço BIND para aplicar as mudanças:
    ```bash
    sudo systemctl restart bind9
    ```
 
-2. **Configurações na Máquina WEB:**
-   - Instale e configure o ProFTPD:
+4. **Verificar a resolução DNS**  
+   Use o comando `dig` para verificar se o servidor FTP (`ftp.laboratorio.lan`) resolve corretamente para o IP `172.16.100.4`:
    ```bash
-   sudo apt install proftpd
+   dig ftp.laboratorio.lan
+   ```
+   O retorno esperado deve ser:
+   ```txt
+   ;; ANSWER SECTION:
+   ftp.laboratorio.lan.       604800  IN  A  172.16.100.4
+   ```
+
+---
+
+### 5.2 Configurações na máquina WEB
+
+1. **Instalar o ProFTPD**  
+   Para instalar o servidor FTP ProFTPD, execute o seguinte comando:
+   ```bash
+   sudo apt install proftpd -y
+   ```
+
+2. **Criar o diretório FTP**  
+   Crie o diretório onde os arquivos do FTP serão armazenados:
+   ```bash
    sudo mkdir -p /srv/lab/ftp
+   ```
+
+3. **Alterar a propriedade do diretório**  
+   Modifique a propriedade do diretório para o usuário e grupo `aluno`:
+   ```bash
    sudo chown aluno:aluno /srv/lab/ftp
+   ```
+
+4. **Ajustar as permissões do diretório**  
+   Defina as permissões adequadas para o diretório FTP:
+   ```bash
    sudo chmod 755 /srv/lab/ftp
+   ```
+
+5. **Configurar o ProFTPD**  
+   Abra o arquivo de configuração do ProFTPD para definir o nome do servidor e o diretório raiz:
+   ```bash
    sudo nano /etc/proftpd/proftpd.conf
-   ServerName "LAB"
+   ```
+
+   Adicione ou edite as seguintes linhas:
+   ```txt
+   ServerName "Laboratorio"
+   # Use this to jail all users in their homes
    DefaultRoot /srv/lab/ftp
+   ```
+
+6. **Reiniciar o ProFTPD**  
+   Após as configurações, reinicie o serviço ProFTPD para aplicar as mudanças:
+   ```bash
    sudo systemctl restart proftpd
    ```
 
-3. **Teste FTP no Ubuntu:**
+---
+
+### 5.3 Teste no Ubuntu
+
+1. **Testar a conexão FTP**  
+   No Ubuntu, execute o comando FTP para testar a conexão com o servidor FTP configurado:
    ```bash
    ftp ftp.laboratorio.lan
    ```
