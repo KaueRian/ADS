@@ -1035,33 +1035,124 @@ sudo rm /etc/resolv.conf
 
 ---
 
-### **Configuração do NFS**
+## 6. Configuração do NFS
 
-1. **Configuração do Servidor NFS na Máquina WEB:**
+### 6.1 Configurar o Servidor NFS na Máquina WEB
+
+1. **Atualizar o sistema**  
+   Antes de instalar o NFS, é importante atualizar o sistema:
+   ```bash
+   sudo apt update
+   ```
+
+2. **Instalar o NFS Kernel Server**  
+   Instale o pacote necessário para configurar o servidor NFS:
    ```bash
    sudo apt install nfs-kernel-server -y
-   sudo mkdir -p /srv/lab/docs
-   sudo chown nobody:nogroup /srv/lab/docs
-   sudo chmod 755 /srv/lab/docs
+   ```
+
+3. **Criar o diretório compartilhado**  
+   Crie o diretório que será compartilhado via NFS:
+   ```bash
+   sudo mkdir -p /srv/lab/nfs
+   ```
+
+4. **Alterar a propriedade do diretório**  
+   Defina a propriedade do diretório para o usuário `nobody` e grupo `nogroup`, que são comuns para compartilhamentos NFS:
+   ```bash
+   sudo chown nobody:nogroup /srv/lab/nfs
+   ```
+
+5. **Ajustar as permissões do diretório**  
+   Altere as permissões do diretório para permitir o acesso necessário:
+   ```bash
+   sudo chmod 755 /srv/lab/nfs
+   ```
+
+6. **Configurar o arquivo de exportação**  
+   Edite o arquivo `/etc/exports` para definir quais diretórios serão compartilhados e suas permissões. Abra o arquivo para edição:
+   ```bash
    sudo nano /etc/exports
-   /srv/lab/docs 172.16.100.0/24(rw,no_root_squash,sync)
+   ```
+
+   Adicione a seguinte linha para permitir o acesso ao diretório `/srv/lab/nfs` da rede `172.16.100.0/24` com permissões de leitura e gravação:
+   ```txt
+   /srv/lab/nfs 172.16.100.0/24(rw,no_root_squash,sync)
+   ```
+
+7. **Reiniciar o serviço NFS**  
+   Após a configuração, reinicie o serviço NFS para aplicar as mudanças:
+   ```bash
    sudo systemctl restart nfs-kernel-server
+   ```
+
+8. **Verificar os compartilhamentos NFS**  
+   Use o comando `exportfs -v` para verificar se o diretório foi corretamente exportado:
+   ```bash
    sudo exportfs -v
    ```
 
-2. **Configuração do Cliente NFS (Ubuntu):**
+**Criar snapshot da máquina WEB**
+
+---
+
+### 6.2 Configurar o Cliente NFS na Máquina Ubuntu
+
+1. **Atualizar o sistema**  
+   Assim como no servidor, é importante atualizar o sistema do cliente NFS:
+   ```bash
+   sudo apt update
+   ```
+
+2. **Instalar o NFS Common**  
+   Instale o pacote necessário para montar os compartilhamentos NFS:
    ```bash
    sudo apt install nfs-common -y
+   ```
+
+3. **Criar o diretório de montagem**  
+   Crie o diretório onde o compartilhamento NFS será montado:
+   ```bash
    sudo mkdir -p /nfs/docs
-   sudo mount 172.16.100.4:/srv/lab/docs /nfs/docs
+   ```
+
+4. **Montar o compartilhamento NFS**  
+   Monte o diretório compartilhado do servidor NFS no diretório de montagem local:
+   ```bash
+   sudo mount 172.16.100.4:/srv/lab/nfs /nfs/docs
+   ```
+
+5. **Verificar a montagem**  
+   Verifique se o compartilhamento foi montado corretamente, utilizando o comando `df -h`:
+   ```bash
    df -h
    ```
 
-3. **Configuração de Montagem Automática:**
-   - Edite `/etc/fstab`:
+6. **Realizar um teste**  
+   Teste o acesso ao compartilhamento, por exemplo, criando um arquivo no diretório montado:
    ```bash
-   172.16.100.4:/srv/lab/docs /nfs/docs nfs defaults 0 0
+   sudo touch /nfs/docs/teste.txt
    ```
+
+7. **Adicionar ao fstab para montagem automática**  
+   Para que o compartilhamento NFS seja montado automaticamente ao iniciar o sistema, edite o arquivo `/etc/fstab`:
+   ```bash
+   sudo nano /etc/fstab
+   ```
+
+   Adicione a seguinte linha ao final do arquivo:
+   ```txt
+   172.16.100.4:/srv/lab/nfs /nfs/docs nfs defaults 0 0
+   ```
+
+8. **Testar a montagem automática**  
+   Após editar o `fstab`, faça um teste reiniciando a máquina e verificando se o compartilhamento foi montado automaticamente:
+   ```bash
+   sudo reboot
+   df -h
+   ```
+
+**Criar snapshot da máquina UBUNTU**
 
 ---
 
