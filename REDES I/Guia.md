@@ -1156,33 +1156,124 @@ sudo rm /etc/resolv.conf
 
 ---
 
-### **Configuração do Proxy**
+# 7 Configurar o PROXY
 
-1. **Configuração do Proxy no Gateway:**
+## 7.1 Configurar o PROXY na máquina GATEWAY
+
+1. **Atualizar os pacotes da máquina**:
    ```bash
-   sudo apt install squid
-   sudo cp /etc/squid/squid.conf /etc/squid/squid.conf.original
-   sudo nano /etc/squid/squid.conf
-   # Adicione:
-   1342 # rede interna
-   1343 acl aula src 172.16.100.0/24
-   1552 #permitindo rede internta
-   1553 http_access allow aula
+   sudo apt update
    ```
 
-2. **Configuração do Proxy no Ubuntu (Firefox):**
-   - Vá para **Configurações > Rede > Configurar Rede**.
-   - Escolha **Configuração manual de proxy**.
-   - Insira:
-     - **Endereço do Proxy:** 172.16.100.1
-     - **Porta:** A porta definida no Squid (ex: 3128).
-   - Marque a opção **Usar também para HTTPS**.
+2. **Instalar o Squid (Proxy Server)**:
+   ```bash
+   sudo apt install squid -y
+   ```
 
-3. **Teste:**
-   - Salve as configurações e teste o proxy.
+3. **Acessar o diretório de configuração do Squid**:
+   ```bash
+   cd /etc/squid
+   ```
+
+4. **Criar um backup do arquivo de configuração original**:
+   Para garantir que você tenha uma cópia de segurança, execute o seguinte comando:
+   ```bash
+   sudo cp squid.conf squid.conf.backup
+   ```
+
+5. **Limpar e formatar o arquivo de configuração**:
+   O comando `sed` será usado para:
+   - Remover todos os comentários (`#` no início das linhas).
+   - Remover linhas em branco.
+   - Substituir múltiplas quebras de linha seguidas por apenas uma.
+   ```bash
+   sudo sed -i '/^#/d; /^\s*$/d; :a;N;$!ba;s/\n\n\n*/\n\n/g' /etc/squid/squid.conf
+   ```
+
+6. **Editar o arquivo de configuração do Squid**:
+   Agora, edite o arquivo `squid.conf` para definir as regras de acesso e configurar o proxy conforme necessário:
+   ```bash
+   sudo nano squid.conf
+   ```
+
+   **Exemplo de configurações a serem feitas dentro do arquivo**:
+
+   - **Definir a Rede Interna**:
+     No arquivo de configuração, adicione ou modifique as linhas para definir a rede interna.
+     ```bash
+     acl aula src 172.16.100.0/24
+     ```
+
+   - **Permitir o acesso da rede interna**:
+     Antes da linha `http_access deny all;`, insira a configuração para permitir o acesso à rede interna:
+     ```bash
+     # permitindo rede interna
+     http_access allow aula
+     ```
+
+7. **Salvar a configuração e fechar o editor**:
+   Após editar o arquivo conforme necessário, salve e feche o arquivo (no `nano`, pressione `Ctrl + X`, depois `Y` para confirmar e `Enter` para salvar).
+
+8. **Criar um snapshot da máquina GATEWAY**:
+   Para garantir que você possa restaurar o sistema caso algo dê errado, crie um snapshot da máquina GATEWAY.
 
 ---
 
-### **Finalização**
+## 7.2 Configurar o PROXY na máquina UBUNTU
 
-- Após concluir as configurações, crie snapshots para todas as máquinas configuradas.
+1. **No navegador Firefox**:
+   
+   - Abra o Firefox e vá até **Configurações** > **Rede** > **Configurar Rede**.
+   
+2. **Escolher a configuração manual de proxy**:
+   - Selecione a opção **Configuração manual de proxy**.
+   
+3. **Inserir os dados do Proxy**:
+   - **Endereço do Proxy**: Insira o IP do Gateway (por exemplo, `172.16.100.1`).
+   - **Porta**: Insira a porta do Squid (geralmente, `3128`).
+   
+4. **Configuração para HTTPS**:
+   - Marque a opção **Usar também para HTTPS** para que o proxy seja utilizado também para conexões HTTPS.
+
+5. **Salvar as configurações**:
+   Após inserir os dados corretamente, clique em **OK** ou **Salvar** para aplicar as configurações de proxy.
+
+---
+
+## 7.3 Teste da Configuração do Proxy
+
+1. **Realizar o teste de navegação**:
+   Após configurar o proxy, abra o navegador (Firefox) e tente acessar alguns sites para garantir que a navegação está sendo feita corretamente através do Proxy.
+
+2. **Verificar se a máquina Ubuntu está usando o proxy corretamente**:
+   - Você pode verificar se o tráfego está passando pelo proxy, observando os logs do Squid na máquina GATEWAY. O log padrão do Squid pode ser encontrado em:
+     ```bash
+     /var/log/squid/access.log
+     ```
+
+3. **Testar a conexão**:
+   - Teste a conectividade com o proxy usando o comando `curl`:
+     ```bash
+     curl --proxy http://172.16.100.1:3128 http://example.com
+     ```
+   Isso deve retornar a página solicitada, confirmando que o proxy está funcionando corretamente.
+
+---
+
+## 7.4 Criar Snapshot da Máquina Ubuntu
+
+Após a configuração e testes, crie um snapshot da máquina Ubuntu para garantir que você tenha um ponto de recuperação caso necessário.
+
+---
+
+### Observações Adicionais:
+- Se o proxy não estiver funcionando corretamente, você pode verificar o status do serviço Squid com o comando:
+  ```bash
+  sudo systemctl status squid
+  ```
+- Para reiniciar o serviço Squid, use o comando:
+  ```bash
+  sudo systemctl restart squid
+  ```
+  
+Com esse tutorial, você terá configurado e testado corretamente o Squid como servidor proxy em uma rede local, com máquinas configuradas para utilizá-lo como intermediário para acesso à internet.
