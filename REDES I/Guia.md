@@ -60,7 +60,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 ### **Configuração do Firewall e Acesso via SSH**
 1. **Atualize o sistema:**
    ```bash
-   sudo apt update && sudo apt upgrade -y
+   sudo apt update
    ```
 
 2. **Configuração do DNS:**
@@ -758,7 +758,7 @@ sudo rm /etc/resolv.conf
 
 1. **Atualizar o sistema**:
     ```bash
-    sudo apt update && sudo apt upgrade -y
+    sudo apt update
     ```
 
 2. **Instalar o Apache2**:
@@ -821,8 +821,8 @@ sudo rm /etc/resolv.conf
       ```apache
       <VirtualHost *:80>
           ServerAdmin meuemail@email.com
-          ServerName lab.lan
-          ServerAlias web.lab.lan
+          ServerName web.laboratorio.lan
+          ServerAlias web.laboratorio.lan
           DocumentRoot /srv/lab/web
           ErrorLog ${APACHE_LOG_DIR}/web_error.log
           CustomLog ${APACHE_LOG_DIR}/web_access.log combined
@@ -871,16 +871,31 @@ sudo rm /etc/resolv.conf
 
 3. Gere a chave privada e o CSR (Certificate Signing Request):
    ```bash
-   openssl genrsa -out /etc/apache2/ssl/web.key 2048
-   openssl req -new -key /etc/apache2/ssl/web.key -out /etc/apache2/ssl/web.csr
+   sudo openssl genrsa -out /etc/apache2/ssl/web.key 2048
+   sudo openssl req -new -key /etc/apache2/ssl/web.key -out /etc/apache2/ssl/web.csr
    ```
 
-4. Crie o certificado autoassinado:
    ```bash
-   openssl x509 -req -days 365 -in /etc/apache2/ssl/web.csr -signkey /etc/apache2/ssl/web.key -out /etc/apache2/ssl/web.crt
+   Country Name (2 letter code) [AU]:BR
+   State or Province Name (full name) [Some-State]:Rondonia
+   Locality Name (eg, city) []:Ariquemes
+   Organization Name (eg, company) [Internet Widgits Pty td]:Laboratório
+   Organizational Unit Name (eg, section) []:TI
+   Common Name (e.g. server FQDN or YOUR name) []:web.laboratorio.lan
+   Email Address []:suporte@laboratorio.lan
+
+   Please enter the following 'extra' attributes
+   to be sent with your certificate request
+   A challenge password []:aluno
+   An optional company name []:aluno
    ```
 
-5. Ajuste as permissões dos arquivos:
+5. Crie o certificado autoassinado:
+   ```bash
+   sudo openssl x509 -req -days 365 -in /etc/apache2/ssl/web.csr -signkey /etc/apache2/ssl/web.key -out /etc/apache2/ssl/web.crt
+   ```
+
+6. Ajuste as permissões dos arquivos:
    ```bash
    sudo chmod 600 /etc/apache2/ssl/web.key
    sudo chmod 600 /etc/apache2/ssl/web.csr
@@ -889,7 +904,7 @@ sudo rm /etc/resolv.conf
 ---
 
 ### 3. **Configuração do VirtualHost SSL e Redirecionamento**
-1. Edite o arquivo `/etc/apache2/sites-available/web-ssl.conf` com o seguinte conteúdo:
+1. Edite o arquivo `sudo nano /etc/apache2/sites-available/web-ssl.conf` com o seguinte conteúdo:
    ```apache
    <VirtualHost *:443>
        ServerAdmin suporte@laboratorio.lan
