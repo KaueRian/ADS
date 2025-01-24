@@ -773,19 +773,27 @@ sudo rm /etc/resolv.conf
   
    - Se funcionar salve snapshot
 
-4. **Configuração de VirtualHost:**
-   - Edite `/etc/apache2/sites-available/web.lab.conf`:
+---
+
+### 1. **Configuração do VirtualHost HTTP**
+1. Edite o arquivo `/etc/apache2/sites-available/web.lab.conf` com o seguinte conteúdo:
    ```apache
    <VirtualHost *:80>
-   ServerAdmin meuemail@email.com
-   ServerName laboratorio.lan
-   ServerAlias web.laboratorio.lan
-   DocumentRoot /srv/lab/web
-   ErrorLog ${APACHE_LOG_DIR}/web_error.log
-   CustomLog ${APACHE_LOG_DIR}/web_access.log combined
+       ServerAdmin meuemail@email.com
+       ServerName laboratorio.lan
+       ServerAlias web.laboratorio.lan
+       DocumentRoot /srv/lab/web
+       ErrorLog ${APACHE_LOG_DIR}/web_error.log
+       CustomLog ${APACHE_LOG_DIR}/web_access.log combined
    </VirtualHost>
    ```
-   - Crie a pasta `/srv/lab/web` e edite `index.php`:
+
+2. Crie a pasta para hospedar os arquivos do site:
+   ```bash
+   sudo mkdir -p /srv/lab/web
+   ```
+
+3. Crie e edite o arquivo `index.php` no diretório `/srv/lab/web` com o seguinte conteúdo:
    ```php
    <?php
    echo getcwd() . "\n";
@@ -793,44 +801,77 @@ sudo rm /etc/resolv.conf
    ?>
    ```
 
-5. **Configuração SSL/HTTPS:**
-   - Instale e configure SSL:
+4. Ative o site e reinicie o Apache:
+   ```bash
+   sudo a2ensite web.lab.conf
+   sudo systemctl restart apache2
+   ```
+
+---
+
+### 2. **Instalação e Configuração de SSL**
+1. Instale os pacotes necessários:
    ```bash
    sudo apt install openssl ssl-cert
+   ```
+
+2. Crie o diretório para armazenar os certificados:
+   ```bash
    sudo mkdir -p /etc/apache2/ssl
+   ```
+
+3. Gere a chave privada e o CSR (Certificate Signing Request):
+   ```bash
    openssl genrsa -out /etc/apache2/ssl/web.key 2048
    openssl req -new -key /etc/apache2/ssl/web.key -out /etc/apache2/ssl/web.csr
+   ```
+
+4. Crie o certificado autoassinado:
+   ```bash
    openssl x509 -req -days 365 -in /etc/apache2/ssl/web.csr -signkey /etc/apache2/ssl/web.key -out /etc/apache2/ssl/web.crt
+   ```
+
+5. Ajuste as permissões dos arquivos:
+   ```bash
    sudo chmod 600 /etc/apache2/ssl/web.key
    sudo chmod 600 /etc/apache2/ssl/web.csr
    ```
 
-6. **Configuração VirtualHost SSL:**
-   - Edite `/etc/apache2/sites-available/web-ssl.conf`:
+---
+
+### 3. **Configuração do VirtualHost SSL e Redirecionamento**
+1. Edite o arquivo `/etc/apache2/sites-available/web-ssl.conf` com o seguinte conteúdo:
    ```apache
    <VirtualHost *:443>
-   ServerAdmin suporte@laboratorio.lan
-   ServerName web.laboratorio.lan:443
-   DocumentRoot /srv/lab/web
-   ErrorLog ${APACHE_LOG_DIR}/web-error.log
-   CustomLog ${APACHE_LOG_DIR}/web.log combined
+       ServerAdmin suporte@laboratorio.lan
+       ServerName web.laboratorio.lan:443
+       DocumentRoot /srv/lab/web
+       ErrorLog ${APACHE_LOG_DIR}/web-error.log
+       CustomLog ${APACHE_LOG_DIR}/web.log combined
 
-   SSLEngine on
-   SSLCertificateFile /etc/apache2/ssl/web.crt
-   SSLCertificateKeyFile /etc/apache2/ssl/web.key
+       SSLEngine on
+       SSLCertificateFile /etc/apache2/ssl/web.crt
+       SSLCertificateKeyFile /etc/apache2/ssl/web.key
    </VirtualHost>
 
    <VirtualHost *:80>
-   RewriteEngine on
-   ServerName web.laboratorio.lan
-   Options FollowSymLinks
-   RewriteCond %{SERVER_PORT} 80
-   RewriteRule ^(.*)$ https://web.laboratorio.lan/ [R,L]
+       RewriteEngine on
+       ServerName web.laboratorio.lan
+       Options FollowSymLinks
+       RewriteCond %{SERVER_PORT} 80
+       RewriteRule ^(.*)$ https://web.laboratorio.lan/ [R,L]
    </VirtualHost>
    ```
-   - Ative o site e reinicie o Apache:
+
+2. Ative o site e os módulos necessários:
    ```bash
    sudo a2ensite web-ssl.conf
+   sudo a2enmod ssl
+   sudo a2enmod rewrite
+   ```
+
+3. Reinicie o Apache:
+   ```bash
    sudo systemctl restart apache2
    ```
 
