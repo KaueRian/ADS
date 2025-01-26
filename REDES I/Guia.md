@@ -1259,341 +1259,261 @@ Aqui está a versão melhorada e complementada do seu texto:
 
 ---
 
-   **Exemplo de configurações a serem feitas dentro do arquivo**:
-
-   - **Definir a Rede Interna**:
-     No arquivo de configuração, adicione ou modifique as linhas para definir a rede interna.
-     ```bash
-     acl aula src 172.16.100.0/24
-     ```
-
-   - **Permitir o acesso da rede interna**:
-     Antes da linha `http_access deny all;`, insira a configuração para permitir o acesso à rede interna:
-     ```bash
-     # permitindo rede interna
-     http_access allow aula
-     ```
-
-8. **Salvar a configuração e fechar o editor**:
-   Após editar o arquivo conforme necessário, salve e feche o arquivo (no `nano`, pressione `Ctrl + X`, depois `Y` para confirmar e `Enter` para salvar).
-
-```bash
-sudo squid -k reconfigure
-```
-```bash
-sudo systemctl restart squid
-```
-```bash
-sudo systemctl status squid
-```
+Aqui está a versão organizada e complementada da parte 2 do texto:
 
 ---
 
-## 7.2 Configurar o PROXY na máquina UBUNTU
+# 7.2 Configuração do PROXY na Máquina Ubuntu
 
-1. **No navegador Firefox**:
-   
-   - Abra o Firefox e vá até **Configurações** > **Rede** > **Configurar Rede**.
-   
-2. **Escolher a configuração manual de proxy**:
+### 1. **Configurar Proxy no Navegador Firefox**
+
+1. **Abrir o Firefox**:
+   - Acesse as configurações do navegador através de **Configurações** > **Rede** > **Configurar Rede**.
+
+2. **Escolher Configuração Manual de Proxy**:
    - Selecione a opção **Configuração manual de proxy**.
-   
-3. **Inserir os dados do Proxy**:
+
+3. **Inserir os Dados do Proxy**:
    - **Endereço do Proxy**: Insira o IP do Gateway (por exemplo, `172.16.100.1`).
    - **Porta**: Insira a porta do Squid (geralmente, `3128`).
-   
-4. **Configuração para HTTPS**:
-   - Marque a opção **Usar também para HTTPS** para que o proxy seja utilizado também para conexões HTTPS.
 
-5. **Salvar as configurações**:
-   Após inserir os dados corretamente, clique em **OK** ou **Salvar** para aplicar as configurações de proxy.
+4. **Configuração para HTTPS**:
+   - Marque a opção **Usar também para HTTPS** para garantir que o proxy seja utilizado também para conexões HTTPS.
+
+5. **Salvar Configurações**:
+   - Após inserir os dados corretamente, clique em **OK** ou **Salvar** para aplicar as configurações de proxy.
 
 ---
 
-## 7.3 Teste da Configuração do Proxy
+# 7.3 Teste da Configuração do Proxy
 
-1. **Realizar o teste de navegação**:
-   Após configurar o proxy, abra o navegador (Firefox) e tente acessar alguns sites para garantir que a navegação está sendo feita corretamente através do Proxy.
+### 1. **Realizar o Teste de Navegação**
 
-2. **Verificar se a máquina Ubuntu está usando o proxy corretamente**:
-   - Você pode verificar se o tráfego está passando pelo proxy, observando os logs do Squid na máquina GATEWAY. O log padrão do Squid pode ser encontrado em:
-     ```bash
-     /var/log/squid/access.log
-     ```
+   Após configurar o proxy, abra o navegador (Firefox) e tente acessar alguns sites para garantir que a navegação está sendo feita corretamente através do proxy.
 
-3. **Testar a conexão**:
-   - Teste a conectividade com o proxy usando o comando `curl`:
-     ```bash
-     curl --proxy http://172.16.100.1:3128 http://example.com
-     ```
+### 2. **Verificar o Uso do Proxy**
+
+   Para confirmar que a máquina Ubuntu está utilizando o proxy corretamente, verifique os logs do Squid na máquina GATEWAY. O log padrão do Squid pode ser encontrado em:
+   ```bash
+   /var/log/squid/access.log
+   ```
+
+### 3. **Testar a Conexão com o Proxy Usando `curl`**
+
+   Você pode usar o comando `curl` para testar a conectividade com o proxy:
+   ```bash
+   curl --proxy http://172.16.100.1:3128 http://example.com
+   ```
    Isso deve retornar a página solicitada, confirmando que o proxy está funcionando corretamente.
 
 ---
 
-## 7.4 Criar Snapshot da Máquina Ubuntu
+# 7.4 Criar Snapshot da Máquina Ubuntu
 
-Após a configuração e testes, crie um snapshot da máquina Ubuntu para garantir que você tenha um ponto de recuperação caso necessário.
-
-**Criar um snapshot da máquina GATEWAY**:
+Após a configuração e os testes, crie um snapshot da máquina Ubuntu para garantir um ponto de recuperação caso necessário.
 
 ---
 
----
+# 7.5 Bloquear URLs Usando `url_regex` no Squid
 
-# 7.5 Bloquear URLs usando `url_regex` no Squid
+Agora que o Squid está funcionando como proxy, podemos adicionar regras para bloquear acessos a URLs específicas usando expressões regulares (`url_regex`). Vamos configurar isso no arquivo de configuração do Squid (`squid.conf`).
 
-Agora que o Squid está configurado e funcionando como proxy, podemos adicionar regras para bloquear acessos a URLs específicas usando expressões regulares (`url_regex`). A configuração será feita no arquivo de configuração do Squid, `squid.conf`.
+## 7.5.1 Editar o Arquivo `squid.conf`
 
-## 7.5.1 Editar o arquivo `squid.conf`
+### 1. **Abrir o Arquivo de Configuração do Squid**
 
-1. **Abrir o arquivo de configuração do Squid**:
-   No diretório `/etc/squid`, abra o arquivo `squid.conf` para edição.
+   No diretório `/etc/squid`, abra o arquivo de configuração `squid.conf` para edição:
    ```bash
    sudo nano /etc/squid/squid.conf
    ```
 
-2. **Definir as regras de bloqueio de URLs**:
-   
-   O `url_regex` permite bloquear URLs com base em padrões definidos por expressões regulares. Vamos adicionar uma regra de exemplo para bloquear URLs que contêm uma palavra ou expressão específica (por exemplo, bloquear qualquer URL que tenha "forbidden" nela).
+### 2. **Definir as Regras de Bloqueio de URLs**
 
-   - **Exemplo de bloqueio de URLs com `url_regex`**:
-     Adicione a seguinte linha no arquivo, definindo a expressão regular para bloquear URLs com a palavra "forbidden".
+   O `url_regex` permite bloquear URLs com base em expressões regulares. A seguir, um exemplo para bloquear URLs que contenham a palavra "forbidden":
+
+   - **Exemplo de Bloqueio de URLs**:
+     Adicione a seguinte linha para bloquear URLs com a palavra "forbidden":
      ```bash
-     acl blocked_urls url_regex -i ifro
+     acl blocked_urls url_regex -i forbidden
      ```
+     A opção `-i` torna a expressão regular case-insensitive (ignorando maiúsculas e minúsculas), ou seja, bloqueará "forbidden", "Forbidden", "FORBIDDEN", etc.
 
-   A opção `-i` torna a expressão regular case-insensitive (ignora maiúsculas e minúsculas), ou seja, ela bloqueará "forbidden", "Forbidden", "FORBIDDEN", etc.
+### 3. **Aplicar a Regra de Bloqueio**
 
-3. **Aplicar a regra de bloqueio nas configurações de acesso**:
-   
-   Agora que a ACL (Access Control List) foi definida, precisamos aplicá-la à política de acesso do Squid. Para bloquear essas URLs, adicione a seguinte linha logo após a configuração da rede interna (`http_access allow aula`):
+   Para aplicar a regra de bloqueio no Squid, adicione a seguinte linha após a configuração da rede interna (`http_access allow aula`):
    ```bash
    http_access deny blocked_urls
    ```
+
+   Após editar o arquivo, reconfigure o Squid:
    ```bash
-    sudo squid -k reconfigure
-    ```
-   ```bash
+   sudo squid -k reconfigure
    sudo systemctl restart squid
-   ```
-   ```bash
    sudo systemctl status squid
    ```
-4. **Revisar o fluxo das regras de acesso**:
-   
-   O arquivo `squid.conf` deve ter uma ordem de regras bem definida. Certifique-se de que as regras de bloqueio são executadas antes da regra geral de negação (que nega todo o tráfego que não corresponde a uma exceção).
 
-   Exemplo de fluxo de regras:
+### 4. **Revisar o Fluxo das Regras de Acesso**
+
+   Certifique-se de que as regras de bloqueio estejam posicionadas corretamente, antes da regra geral de negação. O fluxo de regras deve ser similar a este:
+
    ```bash
    http_access allow aula
    http_access deny blocked_urls
    http_access deny all
    ```
 
-   O Squid tentará acessar as URLs bloqueadas pela regra `blocked_urls` antes de negar o tráfego por padrão (linha `http_access deny all`).
-
-## 7.5.3 Salvar e fechar o arquivo
-
-Após adicionar as regras de bloqueio no arquivo `squid.conf`, salve e feche o editor. No `nano`, pressione `Ctrl + X`, depois `Y` para confirmar e `Enter` para salvar.
-
 ---
 
----
+# Exemplos de Configuração de Bloqueios Específicos
 
 ### 1. **Bloquear uma Faixa de IP para Não Baixar Arquivos ZIP**
 
-Este exemplo mostra como bloquear o download de arquivos com extensão `.zip` para uma faixa de IP específica.
+   Para bloquear o download de arquivos com a extensão `.zip` para uma faixa de IP específica:
 
-**Passos:**
+   **Passos**:
+   1. Crie uma ACL para identificar arquivos `.zip`:
+      ```bash
+      acl arquivos_zip url_regex zip
+      ```
+   2. Defina a faixa de IP a ser bloqueada (por exemplo, `192.168.0.0/24`):
+      ```bash
+      acl proibido_acesso src 192.168.0.0/24
+      ```
+   3. Bloqueie o acesso aos arquivos ZIP para essa faixa de IP:
+      ```bash
+      http_access deny proibido_acesso arquivos_zip
+      ```
 
-1. Crie uma ACL para identificar arquivos ZIP:
-    ```bash
-    acl arquivos_zip url_regex zip
-    ```
-2. Defina a faixa de IP a ser bloqueada (exemplo: 192.168.0.0/24):
-    ```bash
-    acl proibido_acesso src 192.168.0.0/24
-    ```
-3. Bloqueie o acesso aos arquivos ZIP para essa faixa de IP:
-    ```bash
-    http_access deny proibido_acesso arquivos_zip
-    ```
-    ```bash
-    sudo squid -k reconfigure
-    ```
+   **Exemplo de configuração**:
    ```bash
-   sudo systemctl restart squid
+   acl arquivos_zip url_regex zip
+   acl proibido_acesso src 192.168.0.0/24
+   http_access deny proibido_acesso arquivos_zip
    ```
-   ```bash
-   sudo systemctl status squid
-   ```
-### Exemplo de configuração:
-```bash
-acl arquivos_zip url_regex zip
-acl proibido_acesso src 192.168.0.0/24
-http_access deny proibido_acesso arquivos_zip
-```
 
 ---
 
 ### 2. **Bloquear um Site para Todos os Usuários da Rede**
 
-Este exemplo mostra como bloquear um site (por exemplo, o Facebook) para todos os usuários da rede.
+   Para bloquear um site (exemplo: Facebook) para todos os usuários da rede:
 
-**Passos:**
+   **Passos**:
+   1. Crie uma ACL para identificar o site a ser bloqueado:
+      ```bash
+      acl site_proibido dstdomain .facebook.com
+      ```
+   2. Bloqueie o acesso a esse site para todos os usuários:
+      ```bash
+      http_access deny all site_proibido
+      ```
 
-1. Crie uma ACL para identificar o site a ser bloqueado:
-    ```bash
-    acl site_proibido dstdomain .facebook.com
-    ```
-2. Bloqueie o acesso a esse site para todos os usuários:
-    ```bash
-    http_access deny all site_proibido
-    ```
-    ```bash
-    sudo squid -k reconfigure
-    ```
+   **Exemplo de configuração**:
    ```bash
-   sudo systemctl restart squid
+   acl site_proibido dstdomain .facebook.com
+   http_access deny all site_proibido
    ```
-   ```bash
-   sudo systemctl status squid
-   ```
-### Exemplo de configuração:
-```bash
-acl site_proibido dstdomain .facebook.com
-http_access deny all site_proibido
-```
 
 ---
 
 ### 3. **Controlar o Acesso por Hora**
 
-Este exemplo configura o Squid para bloquear o acesso a um determinado horário para usuários de uma faixa de IP específica (exemplo: `192.168.0.0/24`).
+   Para bloquear o acesso durante determinados horários para usuários de uma faixa de IP específica (por exemplo, `192.168.0.0/24`):
 
-**Passos:**
+   **Passos**:
+   1. Defina a ACL para o horário (exemplo: segunda a sexta-feira, das 08:05 às 11:40):
+      ```bash
+      acl fechado_para_aula time MTWHF 08:05-11:40
+      ```
+   2. Defina a ACL para a faixa de IP (exemplo: `192.168.0.0/24`):
+      ```bash
+      acl hora_de_aula src 192.168.0.0/24
+      ```
+   3. Bloqueie o acesso durante esse horário:
+      ```bash
+      http_access deny hora_de_aula fechado_para_aula
+      ```
 
-1. Defina uma ACL para o horário em que o acesso será bloqueado (exemplo: segunda a sexta-feira, das 08:05 às 11:40):
-    ```bash
-    acl fechado_para_aula time MTWHF 08:05-11:40
-    ```
-2. Defina uma ACL para a faixa de IP dos usuários (exemplo: `192.168.0.0/24`):
-    ```bash
-    acl hora_de_aula src 192.168.0.0/24
-    ```
-3. Bloqueie o acesso durante esse horário para os usuários dessa faixa de IP:
-    ```bash
-    http_access deny hora_de_aula fechado_para_aula
-    ```
-    ```bash
-    sudo squid -k reconfigure
-    ```
+   **Exemplo de configuração**:
    ```bash
-   sudo systemctl restart squid
+   acl fechado_para_aula time MTWHF 08:05-11:40
+   acl hora_de_aula src 192.168.0.0/24
+   http_access deny hora_de_aula fechado_para_aula
    ```
-   ```bash
-   sudo systemctl status squid
-   ```
-### Exemplo de configuração:
-```bash
-acl fechado_para_aula time MTWHF 08:05-11:40
-acl hora_de_aula src 192.168.0.0/24
-http_access deny hora_de_aula fechado_para_aula
-```
 
 ---
 
 ### 4. **Liberar o Acesso Somente em um Determinado Horário**
 
-Este exemplo configura o Squid para permitir o acesso a uma faixa de IP específica (exemplo: `192.168.0.0/24`) somente durante um horário determinado.
+   Para permitir o acesso a uma faixa de IP específica (exemplo: `192.168.0.0/24`) apenas em um horário específico (exemplo: segunda a sexta-feira, das 11:40 às 13:05):
 
-**Passos:**
+   **Passos**:
+   1. Defina a ACL para a faixa de IP:
+      ```bash
+      acl usuarios src 192.168.0.0/24
+      ```
+   2. Defina a ACL para o horário (exemplo: das 11:40 às 13:05):
+      ```bash
+      acl libera_geral time MTWHF 11:40-13:05
+      ```
+   3. Permita o acesso para os usuários nesse horário:
+      ```bash
+      http_access allow usuarios libera_geral
+      ```
+   4. Bloqueie o acesso fora desse horário:
+      ```bash
+      http_access deny usuarios
+      ```
 
-1. Defina uma ACL para a faixa de IP dos usuários (exemplo: `192.168.0.0/24`):
-    ```bash
-    acl usuarios src 192.168.0.0/24
-    ```
-2. Defina uma ACL para o horário em que o acesso será liberado (exemplo: segunda a sexta-feira, das 11:40 às 13:05):
-    ```bash
-    acl libera_geral time MTWHF 11:40-13:05
-    ```
-3. Permita o acesso para os usuários nesse horário:
-    ```bash
-    http_access allow usuarios libera_geral
-    ```
-4. Bloqueie o acesso fora desse horário:
-    ```bash
-    http_access deny usuarios
-    ```
-    ```bash
-    sudo squid -k reconfigure
-    ```
+   **Exemplo de configuração**:
    ```bash
-   sudo systemctl restart squid
+   acl usuarios src 192.168.0.0/24
+   acl libera_geral time MTWHF 11:40-13:05
+   http_access allow usuarios libera_geral
+   http_access deny usuarios
    ```
-   ```bash
-   sudo systemctl status squid
-   ```
-### Exemplo de configuração:
-```bash
-acl usuarios src 192.168.0.0/24
-acl libera_geral time MTWHF 11:40-13:05
-http_access allow usuarios libera_geral
-http_access deny usuarios
-```
 
 ---
 
-### 5. **Usar um Arquivo de Texto para Incluir Diversos Parâmetros de Bloqueio**
+### 5. **Usar um Arquivo de Texto para Bloquear Diversos Sites**
 
-Se a lista de sites ou usuários a serem bloqueados for muito longa, você pode usar um arquivo externo, como `arquivo_sites.txt`, que contém os sites a serem bloqueados. O exemplo abaixo mostra como configurar isso.
+   Se a lista de sites ou usuários a serem bloqueados for longa, você pode usar um arquivo externo com os sites a serem bloqueados.
 
-**Passos:**
+   **Passos**:
+   1. Defina uma ACL para a faixa de IP:
+      ```bash
+      acl usuarios src 192.168.0.0/24
+      ```
+   2. Crie uma ACL para carregar a lista de sites bloqueados de um arquivo:
+      ```bash
+      acl sites_proibidos url_regex "/caminho/para/arquivo_sites.txt"
+      ```
+   3. Bloqueie o acesso a esses sites para a faixa de IP:
+      ```bash
+      http_access deny usuarios sites_proibidos
+      ```
 
-1. Defina uma ACL para a faixa de IP dos usuários (exemplo: `192.168.0.0/24`):
-    ```bash
-    acl usuarios src 192.168.0.0/24
-    ```
-2. Crie uma ACL para carregar a lista de sites proibidos a partir de um arquivo:
-    ```bash
-    acl sites_proibidos url_regex "/caminho/para/arquivo_sites.txt"
-    ```
-3. Bloqueie o acesso a esses sites para os usuários dessa faixa de IP:
-    ```bash
-    http_access deny usuarios sites_proibidos
-    ```
-    ```bash
-    sudo squid -k reconfigure
-    ```
+   **Exemplo de configuração**:
    ```bash
-   sudo systemctl restart squid
+   acl usuarios src 192.168.0.0/24
+   acl sites_proibidos url_regex "/etc/squid/arquivo_sites.txt"
+   http_access deny usuarios sites_proibidos
    ```
-   ```bash
-   sudo systemctl status squid
-   ```
-### Exemplo de configuração:
-```bash
-acl usuarios src 192.168.0.0/24
-acl sites_proibidos url_regex "/etc/squid/arquivo_sites.txt"
-http_access deny usuarios sites_proibidos
-```
 
 ---
 
-### Considerações Finais:
+### Considerações Finais
 
-- **Lembre-se de sempre testar a configuração do Squid após as alterações**:
-    ```bash
-    sudo squid -k reconfigure
-    ```
+- **Testar as Configurações**: Sempre teste as configurações após realizar alterações:
+  ```bash
+  sudo squid -k reconfigure
+  ```
 
-- **Backup**: Antes de fazer alterações no arquivo de configuração, é sempre recomendável fazer um backup:
-    ```bash
-    sudo cp /etc/squid/squid.conf /etc/squid/squid.conf.backup
-    ```
+- **Backup**: Antes de realizar qualquer modificação, é recomendável fazer um backup:
+  ```bash
+  sudo cp /etc/squid/squid.conf /etc/squid/squid.conf.backup
+  ```
 
-- **Log**: Se você tiver problemas ou quiser verificar se as regras estão sendo aplicadas corretamente, os logs do Squid geralmente ficam em `/var/log/squid/access.log`.
-
----
-
-Esse tutorial cobre as configurações para bloquear o acesso a determinados sites, controlar o acesso por horários e utilizar arquivos externos para facilitar a manutenção das configurações do Squid.
+- **Logs**: Para diagnóstico de problemas ou verificação das regras, consulte os logs do Squid, geralmente encontrados em:
+  ```bash
+  /var/log/squid/access.log
+  ```
