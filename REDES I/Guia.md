@@ -421,7 +421,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 
 2. **Instale e configure o BIND9 (DNS):**
    ```bash
-   sudo apt install bind9
+   sudo apt update && sudo apt install bind9 -y
    ```
 
 3. **Configure os arquivos do BIND9:**
@@ -642,7 +642,7 @@ sudo rm /etc/resolv.conf
    ```
 2. Instale o Bind9:
    ```bash
-   sudo apt install bind9
+   sudo apt update && sudo apt install bind9 -y
    ```
 
 ---
