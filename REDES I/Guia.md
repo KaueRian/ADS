@@ -713,7 +713,7 @@ sudo rm /etc/resolv.conf
   sudo named-checkzone laboratorio.lan /etc/bind/ifro/lab.db
   sudo named-checkzone 100.16.172.in-addr.arpa /etc/bind/ifro/lab.rev
   ```
-
+- **CRIE UM SNAPSHOT**
 ---
 
 ### **Configuração do WEB**
