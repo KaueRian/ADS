@@ -446,7 +446,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    cd /etc/bind
    ```
    ```bash
-   mkdir ifro
+   sudo mkdir ifro
    ```
    ```bash
    sudo cp db.local ifro/lab.db
