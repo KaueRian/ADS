@@ -457,6 +457,10 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    - Edite os arquivos `lab.db` e `lab.rev` conforme as instruções fornecidas.
 
    ```bash
+   cd ifro
+   ```
+
+   ```bash
    sudo nano lab.db
    ```
 
