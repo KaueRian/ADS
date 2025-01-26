@@ -429,7 +429,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ```bash
    zone "prova.lan" {
            type master;
-           file "/etc/bind/ifro/lab.db";
+           file "/etc/bind/ifro/prova.db";
            allow-transfer { 192.168.100.3; };
    };
 
@@ -449,19 +449,19 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    sudo mkdir ifro
    ```
    ```bash
-   sudo cp db.local ifro/lab.db
+   sudo cp db.local ifro/prova.db
    ```
    ```bash
    sudo cp db.127 ifro/lab.rev
    ```
-   - Edite os arquivos `lab.db` e `lab.rev` conforme as instruções fornecidas.
+   - Edite os arquivos `prova.db` e `lab.rev` conforme as instruções fornecidas.
 
    ```bash
    cd ifro
    ```
 
    ```bash
-   sudo nano lab.db
+   sudo nano prova.db
    ```
 
    ```bash
@@ -508,7 +508,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 5. **Verifique a configuração do BIND9:**
    ```bash
    sudo named-checkconf
-   sudo named-checkzone prova.lan lab.db
+   sudo named-checkzone prova.lan prova.db
    sudo named-checkzone 100.16.172.in-addr.arpa lab.rev
    ```
 
@@ -657,7 +657,7 @@ sudo rm /etc/resolv.conf
    // Zona direta para prova.lan
    zone "prova.lan" {
        type slave;
-       file "/etc/bind/ifro/lab.db"; // Caminho do arquivo de zona
+       file "/etc/bind/ifro/prova.db"; // Caminho do arquivo de zona
        masters { 192.168.100.2; };    // IP do servidor master
    };
 
@@ -710,7 +710,7 @@ sudo rm /etc/resolv.conf
   ```
 - Para validar arquivos de zona:
   ```bash
-  sudo named-checkzone prova.lan /etc/bind/ifro/lab.db
+  sudo named-checkzone prova.lan /etc/bind/ifro/prova.db
   sudo named-checkzone 100.16.172.in-addr.arpa /etc/bind/ifro/lab.rev
   ```
 - **CRIE UM SNAPSHOT**
@@ -949,7 +949,7 @@ sudo rm /etc/resolv.conf
 1. **Editar o arquivo de zona do BIND**  
    Abra o arquivo de configuração do BIND para editar a zona do domínio `prova.lan`:
    ```bash
-   sudo nano /etc/bind/ifro/lab.db
+   sudo nano /etc/bind/ifro/prova.db
    ```
 
 2. **Adicionar as configurações de DNS**  
