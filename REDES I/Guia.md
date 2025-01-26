@@ -1299,7 +1299,12 @@ Agora que o Squid está configurado e funcionando como proxy, podemos adicionar 
    ```bash
    http_access deny blocked_urls
    ```
-
+   ```bash
+   sudo systemctl restart squid
+   ```
+   ```bash
+   sudo systemctl status squid
+   ```
 4. **Revisar o fluxo das regras de acesso**:
    
    O arquivo `squid.conf` deve ter uma ordem de regras bem definida. Certifique-se de que as regras de bloqueio são executadas antes da regra geral de negação (que nega todo o tráfego que não corresponde a uma exceção).
@@ -1339,7 +1344,15 @@ Este exemplo mostra como bloquear o download de arquivos com extensão `.zip` pa
     ```bash
     http_access deny proibido_acesso arquivos_zip
     ```
-
+    ```bash
+    sudo squid -k reconfigure
+    ```
+   ```bash
+   sudo systemctl restart squid
+   ```
+   ```bash
+   sudo systemctl status squid
+   ```
 ### Exemplo de configuração:
 ```bash
 acl arquivos_zip url_regex zip
@@ -1363,7 +1376,15 @@ Este exemplo mostra como bloquear um site (por exemplo, o Facebook) para todos o
     ```bash
     http_access deny all site_proibido
     ```
-
+    ```bash
+    sudo squid -k reconfigure
+    ```
+   ```bash
+   sudo systemctl restart squid
+   ```
+   ```bash
+   sudo systemctl status squid
+   ```
 ### Exemplo de configuração:
 ```bash
 acl site_proibido dstdomain .facebook.com
@@ -1390,7 +1411,15 @@ Este exemplo configura o Squid para bloquear o acesso a um determinado horário 
     ```bash
     http_access deny hora_de_aula fechado_para_aula
     ```
-
+    ```bash
+    sudo squid -k reconfigure
+    ```
+   ```bash
+   sudo systemctl restart squid
+   ```
+   ```bash
+   sudo systemctl status squid
+   ```
 ### Exemplo de configuração:
 ```bash
 acl fechado_para_aula time MTWHF 08:05-11:40
@@ -1422,7 +1451,15 @@ Este exemplo configura o Squid para permitir o acesso a uma faixa de IP específ
     ```bash
     http_access deny usuarios
     ```
-
+    ```bash
+    sudo squid -k reconfigure
+    ```
+   ```bash
+   sudo systemctl restart squid
+   ```
+   ```bash
+   sudo systemctl status squid
+   ```
 ### Exemplo de configuração:
 ```bash
 acl usuarios src 192.168.0.0/24
@@ -1451,7 +1488,15 @@ Se a lista de sites ou usuários a serem bloqueados for muito longa, você pode 
     ```bash
     http_access deny usuarios sites_proibidos
     ```
-
+    ```bash
+    sudo squid -k reconfigure
+    ```
+   ```bash
+   sudo systemctl restart squid
+   ```
+   ```bash
+   sudo systemctl status squid
+   ```
 ### Exemplo de configuração:
 ```bash
 acl usuarios src 192.168.0.0/24
