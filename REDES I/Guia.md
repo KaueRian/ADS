@@ -1209,8 +1209,12 @@ sudo rm /etc/resolv.conf
 7. **Salvar a configuração e fechar o editor**:
    Após editar o arquivo conforme necessário, salve e feche o arquivo (no `nano`, pressione `Ctrl + X`, depois `Y` para confirmar e `Enter` para salvar).
 
-8. **Criar um snapshot da máquina GATEWAY**:
-   Para garantir que você possa restaurar o sistema caso algo dê errado, crie um snapshot da máquina GATEWAY.
+```bash
+sudo systemctl restart squid
+```
+```bash
+sudo systemctl status squid
+```
 
 ---
 
@@ -1258,6 +1262,8 @@ sudo rm /etc/resolv.conf
 ## 7.4 Criar Snapshot da Máquina Ubuntu
 
 Após a configuração e testes, crie um snapshot da máquina Ubuntu para garantir que você tenha um ponto de recuperação caso necessário.
+
+**Criar um snapshot da máquina GATEWAY**:
 
 ---
 
