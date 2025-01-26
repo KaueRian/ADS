@@ -856,6 +856,7 @@ sudo rm /etc/resolv.conf
     sudo systemctl reload apache2
     ```
     
+**Teste e salve SNAPSHOT**
 ---
 
 ### 2. **Instalação e Configuração de SSL**
