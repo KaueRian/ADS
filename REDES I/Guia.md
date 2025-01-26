@@ -343,7 +343,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    Adicione a configuração de rede:
    ```bash
    subnet 192.168.100.0 netmask 255.255.255.0 {
-     range 192.168.100.50 192.168.100.250;
+     range 192.168.100.50 192.168.100.70;
      option domain-name-servers 8.8.8.8, 192.168.100.2, 192.168.100.3;
      option domain-name "laboratorio.lan";
      option routers 192.168.100.1;
