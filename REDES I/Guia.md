@@ -1300,6 +1300,9 @@ Agora que o Squid está configurado e funcionando como proxy, podemos adicionar 
    http_access deny blocked_urls
    ```
    ```bash
+    sudo squid -k reconfigure
+    ```
+   ```bash
    sudo systemctl restart squid
    ```
    ```bash
