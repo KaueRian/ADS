@@ -600,46 +600,46 @@ $TTL    604800
 
 ---
 
-### **Configuração para o domínio `seunome.lab`**
-Supondo que o nome seja "joao.lab", o arquivo `joao.db` deve conter o seguinte:
+### **Configuração para o domínio `kaue.lab`**
+Supondo que o nome seja "kaue.lab", o arquivo `kaue.db` deve conter o seguinte:
 
-#### Arquivo de Zona Direta (`joao.db`):
+#### Arquivo de Zona Direta (`kaue.db`):
 ```plaintext
 ;
-; BIND data file for seunome.lab (exemplo: joao.lab)
+; BIND data file for kaue.lab (exemplo: kaue.lab)
 ;
 $TTL    604800
-@       IN      SOA     joao.lab. root.joao.lab. (
+@       IN      SOA     kaue.lab. root.kaue.lab. (
                 1         ; Serial
                 604800    ; Refresh
                 86400     ; Retry
                 2419200   ; Expire
                 604800 )  ; Negative Cache TTL
 ;
-@       IN      NS      ns.joao.lab.
+@       IN      NS      ns.kaue.lab.
 @       IN      A       192.168.200.2
 ns      IN      A       192.168.200.2
 web     IN      A       192.168.200.3
 site    IN      A       192.168.200.4
 ```
 
-#### Arquivo de Zona Reversa (`joao.rev`):
+#### Arquivo de Zona Reversa (`kaue.rev`):
 ```plaintext
 ;
-; BIND reverse data file for seunome.lab (exemplo: joao.lab)
+; BIND reverse data file for kaue.lab (exemplo: kaue.lab)
 ;
 $TTL    604800
-@       IN      SOA     joao.lab. root.joao.lab. (
+@       IN      SOA     kaue.lab. root.kaue.lab. (
                 1         ; Serial
                 604800    ; Refresh
                 86400     ; Retry
                 2419200   ; Expire
                 604800 )  ; Negative Cache TTL
 ;
-@       IN      NS      ns.joao.lab.
-2       IN      PTR     joao.lab.
-3       IN      PTR     web.joao.lab.
-4       IN      PTR     site.joao.lab.
+@       IN      NS      ns.kaue.lab.
+2       IN      PTR     kaue.lab.
+3       IN      PTR     web.kaue.lab.
+4       IN      PTR     site.kaue.lab.
 ```
 
 ---
@@ -660,15 +660,15 @@ $TTL    604800
        file "/etc/bind/prova.rev";
    };
 
-   // Configuração para joao.lab
-   zone "joao.lab" {
+   // Configuração para kaue.lab
+   zone "kaue.lab" {
        type master;
-       file "/etc/bind/joao.db";
+       file "/etc/bind/kaue.db";
    };
 
    zone "200.168.192.in-addr.arpa" {
        type master;
-       file "/etc/bind/joao.rev";
+       file "/etc/bind/kaue.rev";
    };
    ```
 
@@ -678,8 +678,8 @@ $TTL    604800
    sudo named-checkconf
    sudo named-checkzone prova.lan /etc/bind/prova.db
    sudo named-checkzone 100.168.192.in-addr.arpa /etc/bind/prova.rev
-   sudo named-checkzone joao.lab /etc/bind/joao.db
-   sudo named-checkzone 200.168.192.in-addr.arpa /etc/bind/joao.rev
+   sudo named-checkzone kaue.lab /etc/bind/kaue.db
+   sudo named-checkzone 200.168.192.in-addr.arpa /etc/bind/kaue.rev
    ```
 
 3. **Reinicie o serviço do BIND:**
@@ -701,8 +701,8 @@ $TTL    604800
    ```bash
    nslookup ava.prova.lan
    nslookup www.prova.lan
-   nslookup web.joao.lab
-   nslookup site.joao.lab
+   nslookup web.kaue.lab
+   nslookup site.kaue.lab
    ```
 
 **SALVE UM SNAPSHOT**
@@ -1077,10 +1077,10 @@ Edite novamente o arquivo `/etc/apache2/sites-available/prova.lan.conf` para adi
     CustomLog ${APACHE_LOG_DIR}/www_access.log combined
 </VirtualHost>
 
-# web.seunome.lab
+# web.kaue.lab
 <VirtualHost *:443>
     ServerAdmin admin@prova.lan
-    ServerName web.seunome.lab
+    ServerName web.kaue.lab
     DocumentRoot /srv/aula/web
 
     SSLEngine on
@@ -1091,10 +1091,10 @@ Edite novamente o arquivo `/etc/apache2/sites-available/prova.lan.conf` para adi
     CustomLog ${APACHE_LOG_DIR}/web_access.log combined
 </VirtualHost>
 
-# site.seunome.lab
+# site.kaue.lab
 <VirtualHost *:443>
     ServerAdmin admin@prova.lan
-    ServerName site.seunome.lab
+    ServerName site.kaue.lab
     DocumentRoot /srv/aula/site
 
     SSLEngine on
@@ -1118,8 +1118,8 @@ Edite novamente o arquivo `/etc/apache2/sites-available/prova.lan.conf` para adi
 2. **Acessar os domínios configurados via HTTPS no navegador:**
    - `https://ava.prova.lan`
    - `https://www.prova.lan`
-   - `https://web.seunome.lab`
-   - `https://site.seunome.lab`
+   - `https://web.kaue.lab`
+   - `https://site.kaue.lab`
 
 3. **Testar o PHPMyAdmin:**
    Acesse: `https://192.168.100.4/phpmyadmin`.
