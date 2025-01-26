@@ -1033,7 +1033,7 @@ sudo rm /etc/resolv.conf
    ```bash
    ftp ftp.laboratorio.lan
    ```
-
+**TESTE E SALVE SNAPSHOT, NO DNS1, WEB, E UBUNTU**
 ---
 
 ## 6. Configuração do NFS
