@@ -1210,6 +1210,9 @@ sudo rm /etc/resolv.conf
    Após editar o arquivo conforme necessário, salve e feche o arquivo (no `nano`, pressione `Ctrl + X`, depois `Y` para confirmar e `Enter` para salvar).
 
 ```bash
+sudo squid -k reconfigure
+```
+```bash
 sudo systemctl restart squid
 ```
 ```bash
