@@ -1132,7 +1132,7 @@ sudo rm /etc/resolv.conf
 6. **Realizar um teste**  
    Teste o acesso ao compartilhamento, por exemplo, criando um arquivo no diretório montado:
    ```bash
-   sudo touch /nfs/docs/teste.txt
+   sudo touch /mnt/nsf_docs/teste.txt
    ```
 
 7. **Adicionar ao fstab para montagem automática**  
@@ -1143,7 +1143,7 @@ sudo rm /etc/resolv.conf
 
    Adicione a seguinte linha ao final do arquivo:
    ```txt
-   172.16.100.4:/srv/lab/nfs /nfs/docs nfs defaults 0 0
+   172.16.100.4:/srv/lab/nfs /mnt/nfs_docs nfs defaults 0 0
    ```
 
 8. **Testar a montagem automática**  
