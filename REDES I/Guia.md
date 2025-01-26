@@ -479,8 +479,8 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    @       IN      NS      prova.lan.
    @       IN      A       192.168.100.2
    ns      IN      A       192.168.100.2
-   web     IN      A       192.168.100.4
-   www     IN      CNAME   web.prova.lan.
+   ava     IN      A       192.168.100.4
+   www     IN      CNAME   ava.prova.lan.
    dns1    IN      CNAME   ns.prova.lan.
    ```
 
@@ -502,7 +502,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ;
    @       IN      NS      prova.lan.
    2       IN      PTR     prova.lan.
-   4       IN      PTR     web.prova.lan.
+   4       IN      PTR     ava.prova.lan.
    ```
   
 5. **Verifique a configuração do BIND9:**
