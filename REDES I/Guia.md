@@ -324,9 +324,9 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 ---
 
 ### **Configuração do DHCP**
-1. **Acesse via SSH:**
+1. **Acesse via SSH o DNS1:**
    ```bash
-   ssh -p 51000 aluno@192.168.56.2
+   ssh -p 52000 aluno@192.168.56.2
    ```
 
 2. **Instalar e configurar o servidor DHCP:**
