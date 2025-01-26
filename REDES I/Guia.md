@@ -30,6 +30,9 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    - **Adaptador 3:** Modo Rede Interna, nome: `SRC1`.
 
 4. **Configuração de IP em `/etc/network/interfaces`:**
+   
+   `su root`
+   
    ```bash
    allow-hotplug enp0s8
    iface enp0s8 inet static
@@ -40,19 +43,19 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    address 192.168.56.2/24
    ```
 
-5. **Instalar `sudo`:**
+6. **Instalar `sudo`:**
    - `apt update && apt install sudo`
    - Edite o grupo com: `nano /etc/group`
    - Clique em: `Alt + shift + 3`
    - Altere a linha 21 para: `sudo:x:27:aluno`
    - Salve e saia.
 
-6. **Desligar a máquina:**
+7. **Desligar a máquina:**
    ```bash
    /sbin/shutdown -h now
    ```
 
-7. **Ligar a máquina em modo headless e acessar via SSH:**
+8. **Ligar a máquina em modo headless e acessar via SSH:**
    - Acesse via SSH: `ssh aluno@192.168.56.2`.
 
 ---
