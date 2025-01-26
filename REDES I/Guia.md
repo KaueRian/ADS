@@ -1,5 +1,5 @@
 ## Pré-requisitos e Observações Gerais
-- **Adaptador Host-Only**: Configure a placa de rede VirtualBox `Host-Only Ethernet Adapter` com o IP `192.168.56.1/24` e **desative o servidor DHCP**.
+- **Adaptador Host-Only**: Configure a placa de rede VirtualBox `Host-Only Ethernet Adapter` com o IP `192.168.56.1/24` e **ative o servidor DHCP**.
 - **Acesso SSH**: Para acessar as máquinas enquanto o firewall está ativo, utilize os seguintes comandos:
   - **Gateway**: `ssh -p 51000 aluno@192.168.56.2`
   - **DNS1**: `ssh -p 52000 aluno@192.168.56.2`
