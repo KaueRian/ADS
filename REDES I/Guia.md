@@ -1093,7 +1093,6 @@ sudo rm /etc/resolv.conf
    sudo exportfs -v
    ```
 
-**Criar snapshot da máquina WEB**
 
 ---
 
@@ -1153,7 +1152,7 @@ sudo rm /etc/resolv.conf
    df -h
    ```
 
-**Criar snapshot da máquina UBUNTU**
+**Criar snapshot da máquina UBUNTU e WEB**
 
 ---
 
