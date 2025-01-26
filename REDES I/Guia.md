@@ -917,7 +917,223 @@ $TTL    604800
 #### 3.1. Configurar o Apache na máquina WEB
 
 - `ssh -p 54000 aluno@192.168.56.2`
+
+Com base nos requisitos adicionais fornecidos, vou ajustar a configuração para garantir que:
+
+1. A máquina WEB tenha **Apache com suporte a PHP**, **MySQL** e **PHPMyAdmin** instalados e configurados.
+2. O servidor use exclusivamente HTTPS, com suporte a SSL, rejeitando conexões HTTP.
+3. O servidor utilize o IP **192.168.100.4**, conforme especificado.
+
+---
+
+### **Configuração Ajustada**
+
+#### **1. Atualizar e instalar os pacotes necessários**
+Execute os seguintes comandos para instalar o Apache, PHP, MySQL e PHPMyAdmin:
+
+```bash
+sudo apt update && sudo apt upgrade -y
+
+# Instalar Apache, MySQL e PHP
+sudo apt install apache2 mysql-server php libapache2-mod-php php-mysql php-cli -y
+
+# Instalar PHPMyAdmin
+sudo apt install phpmyadmin -y
+```
+
+#### **2. Configurar o IP fixo da máquina para 192.168.100.4**
+Edite o arquivo de configuração de rede, dependendo do gerenciador utilizado. Por exemplo:
+
+```bash
+sudo nano /etc/netplan/01-netcfg.yaml
+```
+
+Adicione ou edite as seguintes configurações:
+
+```yaml
+network:
+  version: 2
+  ethernets:
+    enp0s3:  # Substitua pelo nome correto da interface
+      addresses:
+        - 192.168.100.4/24
+      gateway4: 192.168.100.1
+      nameservers:
+        addresses:
+          - 8.8.8.8
+          - 8.8.4.4
+```
+
+Aplica as configurações:
+
+```bash
+sudo netplan apply
+```
+
+Verifique o IP:
+
+```bash
+ip addr
+```
+
+#### **3. Configurar Apache para HTTPS e bloquear HTTP**
+1. **Ativar o módulo SSL e criar um certificado autoassinado**:
+
+```bash
+sudo a2enmod ssl
+sudo mkdir /etc/apache2/ssl
+
+# Gerar um certificado autoassinado (válido por 1 ano)
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout /etc/apache2/ssl/apache-selfsigned.key \
+  -out /etc/apache2/ssl/apache-selfsigned.crt \
+  -subj "/C=BR/ST=Estado/L=Cidade/O=Organizacao/CN=prova.lan"
+```
+
+2. **Configurar o Apache para forçar HTTPS**:
+   Edite ou crie o arquivo de configuração `/etc/apache2/sites-available/prova.lan.conf` com o seguinte conteúdo:
+
+```apache
+# Redirecionar HTTP para HTTPS
+<VirtualHost *:80>
+    ServerName prova.lan
+    Redirect permanent / https://prova.lan/
+</VirtualHost>
+
+# Configuração HTTPS
+<VirtualHost *:443>
+    ServerAdmin admin@prova.lan
+    ServerName prova.lan
+
+    DocumentRoot /var/www/html
+
+    SSLEngine on
+    SSLCertificateFile /etc/apache2/ssl/apache-selfsigned.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/apache-selfsigned.key
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    <Directory /var/www/html>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
+```
+
+3. **Ativar a nova configuração e desativar HTTP**:
+   
+```bash
+sudo a2ensite prova.lan.conf
+sudo a2dissite 000-default.conf
+sudo systemctl reload apache2
+```
+
+#### **4. Configurar o PHPMyAdmin**
+Durante a instalação do PHPMyAdmin:
+- Escolha o servidor Apache2.
+- Configure o banco de dados do PHPMyAdmin durante o processo de instalação.
   
+Se necessário, reconfigure:
+
+```bash
+sudo dpkg-reconfigure phpmyadmin
+```
+
+Verifique se o PHPMyAdmin está acessível pelo HTTPS: `https://192.168.100.4/phpmyadmin`.
+
+---
+
+#### **5. Configurar as entradas do Apache para os domínios**
+Edite novamente o arquivo `/etc/apache2/sites-available/prova.lan.conf` para adicionar os blocos de configuração para cada domínio:
+
+```apache
+# ava.prova.lan
+<VirtualHost *:443>
+    ServerAdmin admin@prova.lan
+    ServerName ava.prova.lan
+    DocumentRoot /srv/prova/ava/moodle
+
+    SSLEngine on
+    SSLCertificateFile /etc/apache2/ssl/apache-selfsigned.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/apache-selfsigned.key
+
+    ErrorLog ${APACHE_LOG_DIR}/ava_error.log
+    CustomLog ${APACHE_LOG_DIR}/ava_access.log combined
+</VirtualHost>
+
+# www.prova.lan
+<VirtualHost *:443>
+    ServerAdmin admin@prova.lan
+    ServerName www.prova.lan
+    DocumentRoot /srv/prova/www
+
+    SSLEngine on
+    SSLCertificateFile /etc/apache2/ssl/apache-selfsigned.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/apache-selfsigned.key
+
+    ErrorLog ${APACHE_LOG_DIR}/www_error.log
+    CustomLog ${APACHE_LOG_DIR}/www_access.log combined
+</VirtualHost>
+
+# web.seunome.lab
+<VirtualHost *:443>
+    ServerAdmin admin@prova.lan
+    ServerName web.seunome.lab
+    DocumentRoot /srv/aula/web
+
+    SSLEngine on
+    SSLCertificateFile /etc/apache2/ssl/apache-selfsigned.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/apache-selfsigned.key
+
+    ErrorLog ${APACHE_LOG_DIR}/web_error.log
+    CustomLog ${APACHE_LOG_DIR}/web_access.log combined
+</VirtualHost>
+
+# site.seunome.lab
+<VirtualHost *:443>
+    ServerAdmin admin@prova.lan
+    ServerName site.seunome.lab
+    DocumentRoot /srv/aula/site
+
+    SSLEngine on
+    SSLCertificateFile /etc/apache2/ssl/apache-selfsigned.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/apache-selfsigned.key
+
+    ErrorLog ${APACHE_LOG_DIR}/site_error.log
+    CustomLog ${APACHE_LOG_DIR}/site_access.log combined
+</VirtualHost>
+```
+
+---
+
+### **6. Testes**
+1. **Verificar os serviços do Apache e MySQL**:
+   ```bash
+   sudo systemctl status apache2
+   sudo systemctl status mysql
+   ```
+
+2. **Acessar os domínios configurados via HTTPS no navegador:**
+   - `https://ava.prova.lan`
+   - `https://www.prova.lan`
+   - `https://web.seunome.lab`
+   - `https://site.seunome.lab`
+
+3. **Testar o PHPMyAdmin:**
+   Acesse: `https://192.168.100.4/phpmyadmin`.
+
+---
+
+Essa configuração atende aos requisitos fornecidos. Caso tenha dúvidas ou problemas, posso ajudar a ajustar os detalhes.
+
+
+
+
+
+
+
 1. **Instalar o Apache2**:
     ```bash
     sudo apt update && sudo apt install apache2 -y
