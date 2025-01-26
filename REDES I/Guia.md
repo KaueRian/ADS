@@ -1156,40 +1156,108 @@ sudo rm /etc/resolv.conf
 
 ---
 
-# 7 Configurar o PROXY
+Aqui está a versão melhorada e complementada do seu texto:
+
+---
+
+## 7. Configurar o PROXY
 
 ## 7.1 Configurar o PROXY na máquina GATEWAY
 
-1. **Instalar o Squid (Proxy Server)**:
+### 1. **Instalar o Squid (Proxy Server)**
+   Para instalar o Squid, um dos servidores proxy mais populares, execute o seguinte comando:
    ```bash
    sudo apt update && sudo apt install squid -y
    ```
 
-3. **Acessar o diretório de configuração do Squid**:
+### 2. **Acessar o diretório de configuração do Squid**
+   O arquivo de configuração do Squid está localizado no diretório `/etc/squid`. Acesse o diretório com o comando:
    ```bash
    cd /etc/squid
    ```
 
-4. **Criar um backup do arquivo de configuração original**:
-   Para garantir que você tenha uma cópia de segurança, execute o seguinte comando:
+### 3. **Criar um backup do arquivo de configuração original**
+   Antes de fazer qualquer alteração no arquivo de configuração, é recomendado criar um backup do arquivo original para garantir que você possa restaurá-lo em caso de problemas:
    ```bash
    sudo cp squid.conf squid.conf.backup
    ```
 
-5. **Limpar e formatar o arquivo de configuração**:
-   O comando `sed` será usado para:
-   - Remover todos os comentários (`#` no início das linhas).
-   - Remover linhas em branco.
-   - Substituir múltiplas quebras de linha seguidas por apenas uma.
+### 4. **Limpar e formatar o arquivo de configuração**
+   O arquivo de configuração do Squid pode conter comentários e linhas em branco que não são necessários. Use o comando `sed` para limpar o arquivo, removendo:
+   - Comentários (linhas que começam com `#`).
+   - Linhas em branco.
+   - Múltiplas quebras de linha consecutivas, que serão substituídas por apenas uma.
+   
+   Para fazer isso, execute:
    ```bash
    sudo sed -i '/^\s*#/d; /^\s*$/d' squid.conf
    ```
 
-6. **Editar o arquivo de configuração do Squid**:
-   Agora, edite o arquivo `squid.conf` para definir as regras de acesso e configurar o proxy conforme necessário:
+### 5. **Editar o arquivo de configuração do Squid**
+   Agora, edite o arquivo `squid.conf` para configurar o proxy conforme necessário. Use o seguinte comando para abrir o arquivo em um editor de texto:
    ```bash
    sudo nano squid.conf
    ```
+
+   **ATENÇÃO:** O Squid segue uma ordem de prioridade nas regras. Aqui está uma sequência recomendada para a organização das regras:
+
+#### 5.1. **Definir Permissões Explícitas**
+   Primeiramente, defina regras que permitam acessos específicos, que devem ter prioridade sobre as outras configurações.
+   
+   Exemplo:
+   ```bash
+   acl usuarios src 192.168.0.0/24  # Definindo a rede de usuários permitidos
+   acl libera_geral time MTWHF 11:40-13:05  # Definindo o horário de acesso liberado
+   http_access allow usuarios libera_geral  # Permitindo acesso durante o horário especificado
+   ```
+
+#### 5.2. **Estabelecer Restrições Explícitas**
+   Em seguida, defina as regras que bloqueiam acessos indesejados, como bloqueios por URL ou palavras-chave específicas.
+   
+   Exemplo:
+   ```bash
+   # Bloqueando URL que contém a palavra 'ifro'
+   acl blocked_urls url_regex -i ifro
+   http_access deny aula blocked_urls  # Negando acesso para usuários da rede 'aula'
+   ```
+
+#### 5.3. **Permitir Acesso para a Rede Local**
+   Agora, permita o acesso à rede local ou a outros grupos amplos de usuários sem restrições específicas.
+   
+   Exemplo:
+   ```bash
+   # Permitindo o acesso à rede interna (sub-rede 172.16.100.0/24)
+   acl aula src 172.16.100.0/24
+   http_access allow aula  # Permitindo acesso à rede interna
+   ```
+
+#### 5.4. **Definir Bloqueio Geral**
+   Por fim, adicione uma regra que negue todo o tráfego que não corresponda a nenhuma das regras anteriores. Essa é a última linha de defesa, que bloqueia todas as conexões não autorizadas.
+   
+   Exemplo:
+   ```bash
+   # Bloqueando todo o tráfego não autorizado
+   http_access deny all
+   ```
+
+### 6. **Salvar e Aplicar as Configurações**
+   Após editar o arquivo de configuração, salve as alterações e saia do editor. Para que as novas configurações entrem em vigor, reinicie o serviço do Squid com o seguinte comando:
+   ```bash
+   sudo systemctl restart squid
+   ```
+
+### 7. **Verificar o Status do Squid**
+   Verifique se o Squid está funcionando corretamente após reiniciar o serviço:
+   ```bash
+   sudo systemctl status squid
+   ```
+
+   O serviço deve estar ativo e funcionando. Se houver algum erro, verifique os logs para mais informações:
+   ```bash
+   sudo tail -f /var/log/squid/access.log
+   ```
+
+---
 
    **Exemplo de configurações a serem feitas dentro do arquivo**:
 
@@ -1206,7 +1274,7 @@ sudo rm /etc/resolv.conf
      http_access allow aula
      ```
 
-7. **Salvar a configuração e fechar o editor**:
+8. **Salvar a configuração e fechar o editor**:
    Após editar o arquivo conforme necessário, salve e feche o arquivo (no `nano`, pressione `Ctrl + X`, depois `Y` para confirmar e `Enter` para salvar).
 
 ```bash
