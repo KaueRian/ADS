@@ -435,7 +435,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 
    zone "100.16.172.in-addr.arpa" {
            type master;
-           file "/etc/bind/ifro/lab.rev";
+           file "/etc/bind/ifro/prova.rev";
            allow-transfer { 192.168.100.3; };
    };
    ```
@@ -452,9 +452,9 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    sudo cp db.local ifro/prova.db
    ```
    ```bash
-   sudo cp db.127 ifro/lab.rev
+   sudo cp db.127 ifro/prova.rev
    ```
-   - Edite os arquivos `prova.db` e `lab.rev` conforme as instruções fornecidas.
+   - Edite os arquivos `prova.db` e `prova.rev` conforme as instruções fornecidas.
 
    ```bash
    cd ifro
@@ -485,7 +485,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ```
 
    ```bash
-   sudo nano lab.rev
+   sudo nano prova.rev
    ```
 
    ```bash
@@ -509,7 +509,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ```bash
    sudo named-checkconf
    sudo named-checkzone prova.lan prova.db
-   sudo named-checkzone 100.16.172.in-addr.arpa lab.rev
+   sudo named-checkzone 100.16.172.in-addr.arpa prova.rev
    ```
 
 **Defina o DNS:**
@@ -664,7 +664,7 @@ sudo rm /etc/resolv.conf
    // Zona reversa para 192.168.100.0/24
    zone "100.16.172.in-addr.arpa" {
        type slave;
-       file "/etc/bind/ifro/lab.rev"; // Caminho do arquivo de zona reversa
+       file "/etc/bind/ifro/prova.rev"; // Caminho do arquivo de zona reversa
        masters { 192.168.100.2; };     // IP do servidor master
    };
    ```
@@ -711,7 +711,7 @@ sudo rm /etc/resolv.conf
 - Para validar arquivos de zona:
   ```bash
   sudo named-checkzone prova.lan /etc/bind/ifro/prova.db
-  sudo named-checkzone 100.16.172.in-addr.arpa /etc/bind/ifro/lab.rev
+  sudo named-checkzone 100.16.172.in-addr.arpa /etc/bind/ifro/prova.rev
   ```
 - **CRIE UM SNAPSHOT**
 ---
