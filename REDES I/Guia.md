@@ -1114,13 +1114,13 @@ sudo rm /etc/resolv.conf
 3. **Criar o diretório de montagem**  
    Crie o diretório onde o compartilhamento NFS será montado:
    ```bash
-   sudo mkdir -p /nfs/docs
+   sudo mkdir -p /mnt/nfs_docs
    ```
 
 4. **Montar o compartilhamento NFS**  
    Monte o diretório compartilhado do servidor NFS no diretório de montagem local:
    ```bash
-   sudo mount 172.16.100.4:/srv/lab/nfs /nfs/docs
+   sudo mount 172.16.100.4:/srv/lab/nfs /mnt/nfs_docs
    ```
 
 5. **Verificar a montagem**  
