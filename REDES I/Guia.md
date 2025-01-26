@@ -949,7 +949,7 @@ sudo rm /etc/resolv.conf
 1. **Editar o arquivo de zona do BIND**  
    Abra o arquivo de configuração do BIND para editar a zona do domínio `laboratorio.lan`:
    ```bash
-   sudo nano /etc/bind/lab/lab.db
+   sudo nano /etc/bind/ifro/lab.db
    ```
 
 2. **Adicionar as configurações de DNS**  
