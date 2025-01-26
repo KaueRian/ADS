@@ -22,7 +22,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 2. **Criar as 5 VMs:**
    - Criar o Gateway (Debian CLI).
    - Configurar a primeira placa de rede como primária, com DHCP ativo.
-   - Defina o domínio como `laboratorio.lan` (ou conforme o professor informar).
+   - Defina o domínio como `prova.lan` (ou conforme o professor informar).
 
 3. **Configuração de Rede:**
    - **Adaptador 1:** Modo NAT.
@@ -345,7 +345,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    subnet 192.168.100.0 netmask 255.255.255.0 {
      range 192.168.100.50 192.168.100.70;
      option domain-name-servers 8.8.8.8, 192.168.100.2, 192.168.100.3;
-     option domain-name "laboratorio.lan";
+     option domain-name "prova.lan";
      option routers 192.168.100.1;
      option broadcast-address 192.168.100.255;
      default-lease-time 600;
@@ -365,7 +365,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ```bash
    [Resolve]
    DNS=192.168.100.2 192.168.100.3 8.8.8.8
-   Domains=laboratorio.lan
+   Domains=prova.lan
    ```
 
 3. **Remova a configuração existente:**
@@ -402,7 +402,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
              addresses:
                - 8.8.8.8
              search:
-               - laboratorio.lan
+               - prova.lan
            routes:
              - to: default
                via: 192.168.100.1
@@ -427,7 +427,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 3. **Configure os arquivos do BIND9:**
    Edite `/etc/bind/named.conf.local` para adicionar as zonas:
    ```bash
-   zone "laboratorio.lan" {
+   zone "prova.lan" {
            type master;
            file "/etc/bind/ifro/lab.db";
            allow-transfer { 192.168.100.3; };
@@ -469,19 +469,19 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ; BIND data file for local loopback interface
    ;
    $TTL    604800
-   @       IN      SOA     laboratorio.lan. root.laboratorio.lan. (
+   @       IN      SOA     prova.lan. root.prova.lan. (
                    1         ; Serial
                    604800    ; Refresh
                    86400     ; Retry
                    2419200   ; Expire
                    604800 )  ; Negative Cache TTL
    ;
-   @       IN      NS      laboratorio.lan.
+   @       IN      NS      prova.lan.
    @       IN      A       192.168.100.2
    ns      IN      A       192.168.100.2
    web     IN      A       192.168.100.4
-   www     IN      CNAME   web.laboratorio.lan.
-   dns1    IN      CNAME   ns.laboratorio.lan.
+   www     IN      CNAME   web.prova.lan.
+   dns1    IN      CNAME   ns.prova.lan.
    ```
 
    ```bash
@@ -493,22 +493,22 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ; BIND reverse data file for local loopback interface
    ;
    $TTL    604800
-   @       IN      SOA     laboratorio.lan. root.laboratorio.lan. (
+   @       IN      SOA     prova.lan. root.prova.lan. (
                    1         ; Serial
                    604800    ; Refresh
                    86400     ; Retry
                    2419200   ; Expire
                    604800 )  ; Negative Cache TTL
    ;
-   @       IN      NS      laboratorio.lan.
-   2       IN      PTR     laboratorio.lan.
-   4       IN      PTR     web.laboratorio.lan.
+   @       IN      NS      prova.lan.
+   2       IN      PTR     prova.lan.
+   4       IN      PTR     web.prova.lan.
    ```
   
 5. **Verifique a configuração do BIND9:**
    ```bash
    sudo named-checkconf
-   sudo named-checkzone laboratorio.lan lab.db
+   sudo named-checkzone prova.lan lab.db
    sudo named-checkzone 100.16.172.in-addr.arpa lab.rev
    ```
 
@@ -520,7 +520,7 @@ sudo nano /etc/systemd/resolved.conf
 ```bash
 [Resolve]
 DNS=192.168.100.2 192.168.100.3 8.8.8.8
-Domains=laboratorio.lan
+Domains=prova.lan
 ```
 ```bash
 sudo rm /etc/resolv.conf
@@ -547,7 +547,7 @@ sudo rm /etc/resolv.conf
    sudo systemctl status bind9
    ```
 
-8. **Teste o DNS com o comando `ping laboratorio.lan`.**
+8. **Teste o DNS com o comando `ping prova.lan`.**
 
 **Salve o SNAPSHOT do DNS**
 
@@ -571,9 +571,9 @@ sudo rm /etc/resolv.conf
    ```bash
    127.0.0.1 localhost
    127.0.1.1 dns2
-   192.168.100.3    dns2    dns2.laboratorio.lan
-   192.168.100.2    dns1    dns1.laboratorio.lan
-   192.168.100.1    gateway gateway.laboratorio.lan
+   192.168.100.3    dns2    dns2.prova.lan
+   192.168.100.2    dns1    dns1.prova.lan
+   192.168.100.1    gateway gateway.prova.lan
 
    # The following lines are desirable for IPv6 capable hosts
    ::1     ip6-localhost ip6-loopback
@@ -597,7 +597,7 @@ sudo rm /etc/resolv.conf
            addresses:
              - 8.8.8.8
            search:
-             - laboratorio.lan
+             - prova.lan
          routes:
            - to: default
              via: 192.168.100.1
@@ -621,7 +621,7 @@ sudo rm /etc/resolv.conf
    ```plaintext
    [Resolve]
    DNS=192.168.100.2 8.8.8.8
-   Domains=laboratorio.lan
+   Domains=prova.lan
    ```
 
 3. Reinicie o resolvedor para aplicar as mudanças:
@@ -634,7 +634,7 @@ sudo rm /etc/resolv.conf
    ```bash
    sudo reboot
    ```
-   - Teste o IP, ping para `laboratorio.lan` e o gateway.
+   - Teste o IP, ping para `prova.lan` e o gateway.
    - Desligue a máquina e crie um snapshot.
 
 ### Configuração do DNS2 como Slave no Bind9
@@ -652,10 +652,10 @@ sudo rm /etc/resolv.conf
    ```bash
    sudo nano /etc/bind/named.conf.local
    ```
-2. Adicione as configurações abaixo para criar as zonas **laboratorio.lan** e a zona reversa **100.16.172.in-addr.arpa**:
+2. Adicione as configurações abaixo para criar as zonas **prova.lan** e a zona reversa **100.16.172.in-addr.arpa**:
    ```bash
-   // Zona direta para laboratorio.lan
-   zone "laboratorio.lan" {
+   // Zona direta para prova.lan
+   zone "prova.lan" {
        type slave;
        file "/etc/bind/ifro/lab.db"; // Caminho do arquivo de zona
        masters { 192.168.100.2; };    // IP do servidor master
@@ -696,7 +696,7 @@ sudo rm /etc/resolv.conf
 #### **Passo 6: Testar as Configurações**
 1. Teste a resolução de nomes usando o **dig**:
    ```bash
-   dig @192.168.100.3 laboratorio.lan
+   dig @192.168.100.3 prova.lan
    dig @192.168.100.3 -x 192.168.100.2
    ```
 
@@ -710,7 +710,7 @@ sudo rm /etc/resolv.conf
   ```
 - Para validar arquivos de zona:
   ```bash
-  sudo named-checkzone laboratorio.lan /etc/bind/ifro/lab.db
+  sudo named-checkzone prova.lan /etc/bind/ifro/lab.db
   sudo named-checkzone 100.16.172.in-addr.arpa /etc/bind/ifro/lab.rev
   ```
 - **CRIE UM SNAPSHOT**
@@ -732,7 +732,7 @@ sudo rm /etc/resolv.conf
            addresses:
              - 8.8.8.8
            search:
-             - laboratorio.lan
+             - prova.lan
          routes:
            - to: default
              via: 192.168.100.1
@@ -748,12 +748,12 @@ sudo rm /etc/resolv.conf
    ```ini
    [Resolve]
    DNS=192.168.100.2 192.168.100.3 8.8.8.8
-   Domains=laboratorio.lan
+   Domains=prova.lan
    ```
    ```bash
    sudo rm /etc/resolv.conf
    ```
-   - Reinicie a máquina e verifique o IP, teste internet com `ping laboratorio.lan` e `ping` para o gateway.
+   - Reinicie a máquina e verifique o IP, teste internet com `ping prova.lan` e `ping` para o gateway.
    - Desligue a máquina e crie um snapshot.
 
 
@@ -821,8 +821,8 @@ sudo rm /etc/resolv.conf
       ```apache
       <VirtualHost *:80>
           ServerAdmin meuemail@email.com
-          ServerName web.laboratorio.lan
-          ServerAlias web.laboratorio.lan
+          ServerName web.prova.lan
+          ServerAlias web.prova.lan
           DocumentRoot /srv/lab/web
           ErrorLog ${APACHE_LOG_DIR}/web_error.log
           CustomLog ${APACHE_LOG_DIR}/web_access.log combined
@@ -882,8 +882,8 @@ sudo rm /etc/resolv.conf
    Locality Name (eg, city) []:Ariquemes
    Organization Name (eg, company) [Internet Widgits Pty td]:Laboratório
    Organizational Unit Name (eg, section) []:TI
-   Common Name (e.g. server FQDN or YOUR name) []:web.laboratorio.lan
-   Email Address []:suporte@laboratorio.lan
+   Common Name (e.g. server FQDN or YOUR name) []:web.prova.lan
+   Email Address []:suporte@prova.lan
 
    Please enter the following 'extra' attributes
    to be sent with your certificate request
@@ -908,8 +908,8 @@ sudo rm /etc/resolv.conf
 1. Edite o arquivo `sudo nano /etc/apache2/sites-available/web-ssl.conf` com o seguinte conteúdo:
    ```apache
    <VirtualHost *:443>
-       ServerAdmin suporte@laboratorio.lan
-       ServerName web.laboratorio.lan:443
+       ServerAdmin suporte@prova.lan
+       ServerName web.prova.lan:443
        DocumentRoot /srv/lab/web
        ErrorLog ${APACHE_LOG_DIR}/web-error.log
        CustomLog ${APACHE_LOG_DIR}/web.log combined
@@ -921,10 +921,10 @@ sudo rm /etc/resolv.conf
 
    <VirtualHost *:80>
        RewriteEngine on
-       ServerName web.laboratorio.lan
+       ServerName web.prova.lan
        Options FollowSymLinks
        RewriteCond %{SERVER_PORT} 80
-       RewriteRule ^(.*)$ https://web.laboratorio.lan/ [R,L]
+       RewriteRule ^(.*)$ https://web.prova.lan/ [R,L]
    </VirtualHost>
    ```
 
@@ -947,7 +947,7 @@ sudo rm /etc/resolv.conf
 ### 5.1 Configurações na máquina DNS1
 
 1. **Editar o arquivo de zona do BIND**  
-   Abra o arquivo de configuração do BIND para editar a zona do domínio `laboratorio.lan`:
+   Abra o arquivo de configuração do BIND para editar a zona do domínio `prova.lan`:
    ```bash
    sudo nano /etc/bind/ifro/lab.db
    ```
@@ -967,14 +967,14 @@ sudo rm /etc/resolv.conf
    ```
 
 4. **Verificar a resolução DNS**  
-   Use o comando `dig` para verificar se o servidor FTP (`ftp.laboratorio.lan`) resolve corretamente para o IP `192.168.100.4`:
+   Use o comando `dig` para verificar se o servidor FTP (`ftp.prova.lan`) resolve corretamente para o IP `192.168.100.4`:
    ```bash
-   dig ftp.laboratorio.lan
+   dig ftp.prova.lan
    ```
    O retorno esperado deve ser:
    ```txt
    ;; ANSWER SECTION:
-   ftp.laboratorio.lan.       604800  IN  A  192.168.100.4
+   ftp.prova.lan.       604800  IN  A  192.168.100.4
    ```
 
 ---
@@ -1031,7 +1031,7 @@ sudo rm /etc/resolv.conf
 1. **Testar a conexão FTP**  
    No Ubuntu, execute o comando FTP para testar a conexão com o servidor FTP configurado:
    ```bash
-   ftp ftp.laboratorio.lan
+   ftp ftp.prova.lan
    ```
 **TESTE E SALVE SNAPSHOT, NO DNS1, WEB, E UBUNTU**
 ---
