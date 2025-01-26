@@ -370,7 +370,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 
 3. **Remova a configuração existente:**
    ```bash
-   sudo rm /etc/resolved.conf
+   sudo rm /etc/resolv.conf
    ```
 
 4. **Reinicie a máquina:**
