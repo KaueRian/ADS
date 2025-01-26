@@ -1160,14 +1160,9 @@ sudo rm /etc/resolv.conf
 
 ## 7.1 Configurar o PROXY na máquina GATEWAY
 
-1. **Atualizar os pacotes da máquina**:
+1. **Instalar o Squid (Proxy Server)**:
    ```bash
-   sudo apt update
-   ```
-
-2. **Instalar o Squid (Proxy Server)**:
-   ```bash
-   sudo apt install squid -y
+   sudo apt update && sudo apt install squid -y
    ```
 
 3. **Acessar o diretório de configuração do Squid**:
