@@ -36,7 +36,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ```bash
    allow-hotplug enp0s8
    iface enp0s8 inet static
-   address 172.16.100.1/24
+   address 192.168.100.1/24
 
    allow-hotplug enp0s9
    iface enp0s9 inet static
@@ -88,7 +88,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 2. **Configuração do DNS:**
    - Edite o arquivo `/etc/dhcp/dhclient.conf` e adicione:
    ```bash
-   supersede domain-name-servers 172.16.100.2, 172.16.100.3, 8.8.8.8;
+   supersede domain-name-servers 192.168.100.2, 192.168.100.3, 8.8.8.8;
    ```
 
 3. **Criação do Script de Firewall:**
@@ -203,17 +203,17 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 
      SSH=192.168.56.2
      SSH2=192.168.56.3
-     GATEWAY=172.16.100.1
-     DNS1=172.16.100.2
-     DNS2=172.16.100.3
-     WEB=172.16.100.4
-     ARQUIVO=172.16.100.5
-     AUTENTICACAO=172.16.100.6
-     SAMBA=172.16.100.7
-     EMAIL=172.16.100.8
+     GATEWAY=192.168.100.1
+     DNS1=192.168.100.2
+     DNS2=192.168.100.3
+     WEB=192.168.100.4
+     ARQUIVO=192.168.100.5
+     AUTENTICACAO=192.168.100.6
+     SAMBA=192.168.100.7
+     EMAIL=192.168.100.8
      ALL=0/0
 
-     LAN=172.16.100.0/24
+     LAN=192.168.100.0/24
      LOCAL=192.168.56.0/24
 
      echo "1" >/proc/sys/net/ipv4/ip_forward
@@ -342,12 +342,12 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 4. **Configuração do arquivo `/etc/dhcp/dhcpd.conf`:**
    Adicione a configuração de rede:
    ```bash
-   subnet 172.16.100.0 netmask 255.255.255.0 {
-     range 172.16.100.50 172.16.100.250;
-     option domain-name-servers 8.8.8.8, 172.16.100.2, 172.16.100.3;
+   subnet 192.168.100.0 netmask 255.255.255.0 {
+     range 192.168.100.50 192.168.100.250;
+     option domain-name-servers 8.8.8.8, 192.168.100.2, 192.168.100.3;
      option domain-name "laboratorio.lan";
-     option routers 172.16.100.1;
-     option broadcast-address 172.16.100.255;
+     option routers 192.168.100.1;
+     option broadcast-address 192.168.100.255;
      default-lease-time 600;
      max-lease-time 7200;
    }
@@ -364,7 +364,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    - Edite o arquivo `/etc/systemd/resolved.conf`:
    ```bash
    [Resolve]
-   DNS=172.16.100.2 172.16.100.3 8.8.8.8
+   DNS=192.168.100.2 192.168.100.3 8.8.8.8
    Domains=laboratorio.lan
    ```
 
@@ -397,7 +397,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
          enp0s3:
            dhcp4: false
            addresses:
-             - 172.16.100.2/24
+             - 192.168.100.2/24
            nameservers:
              addresses:
                - 8.8.8.8
@@ -405,7 +405,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
                - laboratorio.lan
            routes:
              - to: default
-               via: 172.16.100.1
+               via: 192.168.100.1
      ```
    - Aplique a configuração:
    ```bash
@@ -430,13 +430,13 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    zone "laboratorio.lan" {
            type master;
            file "/etc/bind/ifro/lab.db";
-           allow-transfer { 172.16.100.3; };
+           allow-transfer { 192.168.100.3; };
    };
 
    zone "100.16.172.in-addr.arpa" {
            type master;
            file "/etc/bind/ifro/lab.rev";
-           allow-transfer { 172.16.100.3; };
+           allow-transfer { 192.168.100.3; };
    };
    ```
 
@@ -477,9 +477,9 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
                    604800 )  ; Negative Cache TTL
    ;
    @       IN      NS      laboratorio.lan.
-   @       IN      A       172.16.100.2
-   ns      IN      A       172.16.100.2
-   web     IN      A       172.16.100.4
+   @       IN      A       192.168.100.2
+   ns      IN      A       192.168.100.2
+   web     IN      A       192.168.100.4
    www     IN      CNAME   web.laboratorio.lan.
    dns1    IN      CNAME   ns.laboratorio.lan.
    ```
@@ -519,7 +519,7 @@ sudo nano /etc/systemd/resolved.conf
 ```
 ```bash
 [Resolve]
-DNS=172.16.100.2 172.16.100.3 8.8.8.8
+DNS=192.168.100.2 192.168.100.3 8.8.8.8
 Domains=laboratorio.lan
 ```
 ```bash
@@ -571,9 +571,9 @@ sudo rm /etc/resolv.conf
    ```bash
    127.0.0.1 localhost
    127.0.1.1 dns2
-   172.16.100.3    dns2    dns2.laboratorio.lan
-   172.16.100.2    dns1    dns1.laboratorio.lan
-   172.16.100.1    gateway gateway.laboratorio.lan
+   192.168.100.3    dns2    dns2.laboratorio.lan
+   192.168.100.2    dns1    dns1.laboratorio.lan
+   192.168.100.1    gateway gateway.laboratorio.lan
 
    # The following lines are desirable for IPv6 capable hosts
    ::1     ip6-localhost ip6-loopback
@@ -592,7 +592,7 @@ sudo rm /etc/resolv.conf
        enp0s3:
          dhcp4: false
          addresses:
-           - 172.16.100.3/24
+           - 192.168.100.3/24
          nameservers:
            addresses:
              - 8.8.8.8
@@ -600,7 +600,7 @@ sudo rm /etc/resolv.conf
              - laboratorio.lan
          routes:
            - to: default
-             via: 172.16.100.1
+             via: 192.168.100.1
    ```
 
    ```bash
@@ -620,7 +620,7 @@ sudo rm /etc/resolv.conf
 2. Adicione ou edite as seguintes linhas:
    ```plaintext
    [Resolve]
-   DNS=172.16.100.2 8.8.8.8
+   DNS=192.168.100.2 8.8.8.8
    Domains=laboratorio.lan
    ```
 
@@ -658,14 +658,14 @@ sudo rm /etc/resolv.conf
    zone "laboratorio.lan" {
        type slave;
        file "/etc/bind/ifro/lab.db"; // Caminho do arquivo de zona
-       masters { 172.16.100.2; };    // IP do servidor master
+       masters { 192.168.100.2; };    // IP do servidor master
    };
 
-   // Zona reversa para 172.16.100.0/24
+   // Zona reversa para 192.168.100.0/24
    zone "100.16.172.in-addr.arpa" {
        type slave;
        file "/etc/bind/ifro/lab.rev"; // Caminho do arquivo de zona reversa
-       masters { 172.16.100.2; };     // IP do servidor master
+       masters { 192.168.100.2; };     // IP do servidor master
    };
    ```
 
@@ -696,8 +696,8 @@ sudo rm /etc/resolv.conf
 #### **Passo 6: Testar as Configurações**
 1. Teste a resolução de nomes usando o **dig**:
    ```bash
-   dig @172.16.100.3 laboratorio.lan
-   dig @172.16.100.3 -x 172.16.100.2
+   dig @192.168.100.3 laboratorio.lan
+   dig @192.168.100.3 -x 192.168.100.2
    ```
 
 2. Se tudo estiver configurado corretamente, você verá as respostas das consultas apontando para o DNS1 como servidor mestre.
@@ -727,7 +727,7 @@ sudo rm /etc/resolv.conf
        enp0s3:
          dhcp4: false
          addresses:
-           - 172.16.100.4/24
+           - 192.168.100.4/24
          nameservers:
            addresses:
              - 8.8.8.8
@@ -735,7 +735,7 @@ sudo rm /etc/resolv.conf
              - laboratorio.lan
          routes:
            - to: default
-             via: 172.16.100.1
+             via: 192.168.100.1
    ```
 
    - Aplique a configuração:
@@ -747,7 +747,7 @@ sudo rm /etc/resolv.conf
    - Edite `/etc/systemd/resolved.conf`:
    ```ini
    [Resolve]
-   DNS=172.16.100.2 172.16.100.3 8.8.8.8
+   DNS=192.168.100.2 192.168.100.3 8.8.8.8
    Domains=laboratorio.lan
    ```
    ```bash
@@ -956,8 +956,8 @@ sudo rm /etc/resolv.conf
    Adicione ou edite as seguintes linhas no arquivo de zona:
 
    ```txt
-   web     IN      A       172.16.100.4
-   ftp     IN      A       172.16.100.4
+   web     IN      A       192.168.100.4
+   ftp     IN      A       192.168.100.4
    ```
 
 3. **Reiniciar o serviço BIND**  
@@ -967,14 +967,14 @@ sudo rm /etc/resolv.conf
    ```
 
 4. **Verificar a resolução DNS**  
-   Use o comando `dig` para verificar se o servidor FTP (`ftp.laboratorio.lan`) resolve corretamente para o IP `172.16.100.4`:
+   Use o comando `dig` para verificar se o servidor FTP (`ftp.laboratorio.lan`) resolve corretamente para o IP `192.168.100.4`:
    ```bash
    dig ftp.laboratorio.lan
    ```
    O retorno esperado deve ser:
    ```txt
    ;; ANSWER SECTION:
-   ftp.laboratorio.lan.       604800  IN  A  172.16.100.4
+   ftp.laboratorio.lan.       604800  IN  A  192.168.100.4
    ```
 
 ---
@@ -1076,9 +1076,9 @@ sudo rm /etc/resolv.conf
    sudo nano /etc/exports
    ```
 
-   Adicione a seguinte linha para permitir o acesso ao diretório `/srv/lab/nfs` da rede `172.16.100.0/24` com permissões de leitura e gravação:
+   Adicione a seguinte linha para permitir o acesso ao diretório `/srv/lab/nfs` da rede `192.168.100.0/24` com permissões de leitura e gravação:
    ```txt
-   /srv/lab/nfs 172.16.100.0/24(rw,no_root_squash,sync)
+   /srv/lab/nfs 192.168.100.0/24(rw,no_root_squash,sync)
    ```
 
 7. **Reiniciar o serviço NFS**  
@@ -1119,7 +1119,7 @@ sudo rm /etc/resolv.conf
 4. **Montar o compartilhamento NFS**  
    Monte o diretório compartilhado do servidor NFS no diretório de montagem local:
    ```bash
-   sudo mount 172.16.100.4:/srv/lab/nfs /mnt/nfs_docs
+   sudo mount 192.168.100.4:/srv/lab/nfs /mnt/nfs_docs
    ```
 
 5. **Verificar a montagem**  
@@ -1142,7 +1142,7 @@ sudo rm /etc/resolv.conf
 
    Adicione a seguinte linha ao final do arquivo:
    ```txt
-   172.16.100.4:/srv/lab/nfs /mnt/nfs_docs nfs defaults 0 0
+   192.168.100.4:/srv/lab/nfs /mnt/nfs_docs nfs defaults 0 0
    ```
 
 8. **Testar a montagem automática**  
@@ -1226,8 +1226,8 @@ Aqui está a versão melhorada e complementada do seu texto:
    
    Exemplo:
    ```bash
-   # Permitindo o acesso à rede interna (sub-rede 172.16.100.0/24)
-   acl aula src 172.16.100.0/24
+   # Permitindo o acesso à rede interna (sub-rede 192.168.100.0/24)
+   acl aula src 192.168.100.0/24
    http_access allow aula  # Permitindo acesso à rede interna
    ```
 
@@ -1274,7 +1274,7 @@ Aqui está a versão organizada e complementada da parte 2 do texto:
    - Selecione a opção **Configuração manual de proxy**.
 
 3. **Inserir os Dados do Proxy**:
-   - **Endereço do Proxy**: Insira o IP do Gateway (por exemplo, `172.16.100.1`).
+   - **Endereço do Proxy**: Insira o IP do Gateway (por exemplo, `192.168.100.1`).
    - **Porta**: Insira a porta do Squid (geralmente, `3128`).
 
 4. **Configuração para HTTPS**:
@@ -1302,7 +1302,7 @@ Aqui está a versão organizada e complementada da parte 2 do texto:
 
    Você pode usar o comando `curl` para testar a conectividade com o proxy:
    ```bash
-   curl --proxy http://172.16.100.1:3128 http://example.com
+   curl --proxy http://192.168.100.1:3128 http://example.com
    ```
    Isso deve retornar a página solicitada, confirmando que o proxy está funcionando corretamente.
 
