@@ -759,14 +759,11 @@ sudo rm /etc/resolv.conf
 
 #### 3.1. Configurar o Apache na máquina WEB
 
-1. **Atualizar o sistema**:
+- `ssh -p 54000 aluno@192.168.56.2`
+  
+1. **Instalar o Apache2**:
     ```bash
-    sudo apt update
-    ```
-
-2. **Instalar o Apache2**:
-    ```bash
-    sudo apt install apache2 -y
+    sudo apt update && sudo apt install apache2 -y
     ```
 
 3. **Ativar o módulo SSL**:
