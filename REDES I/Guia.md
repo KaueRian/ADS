@@ -640,11 +640,7 @@ sudo rm /etc/resolv.conf
 ### Configuração do DNS2 como Slave no Bind9
 
 #### **Passo 1: Instalar o Bind9 no DNS2**
-1. Atualize o sistema:
-   ```bash
-   sudo apt update
-   ```
-2. Instale o Bind9:
+1. Instale o Bind9:
    ```bash
    sudo apt update && sudo apt install bind9 -y
    ```
