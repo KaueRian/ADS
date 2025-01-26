@@ -705,6 +705,179 @@ $TTL    604800
    nslookup site.kaue.lab
    ```
 
+
+
+
+
+
+Aqui está a versão corrigida para refletir o IP correto (**192.168.100.4**) no domínio **kaue.lab**. Todas as ocorrências de **192.168.200.4** foram ajustadas.
+
+---
+
+### Configuração do Arquivo **prova.db**
+
+```bind
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     prova.lan. root.prova.lan. (
+                1         ; Serial
+                604800    ; Refresh
+                86400     ; Retry
+                2419200   ; Expire
+                604800 )  ; Negative Cache TTL
+;
+@       IN      NS      ns.prova.lan.
+@       IN      A       192.168.100.2
+ns      IN      A       192.168.100.2
+ava     IN      A       192.168.100.4
+www     IN      CNAME   ava.prova.lan.
+dns1    IN      CNAME   ns.prova.lan.
+```
+
+---
+
+### Configuração do Arquivo **prova.rev**
+
+```bind
+;
+; BIND reverse data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     prova.lan. root.prova.lan. (
+                1         ; Serial
+                604800    ; Refresh
+                86400     ; Retry
+                2419200   ; Expire
+                604800 )  ; Negative Cache TTL
+;
+@       IN      NS      ns.prova.lan.
+2       IN      PTR     prova.lan.
+4       IN      PTR     ava.prova.lan.
+```
+
+---
+
+### Configuração do Arquivo **kaue.db**
+
+```bind
+;
+; BIND data file for kaue.lab
+;
+$TTL    604800
+@       IN      SOA     kaue.lab. root.kaue.lab. (
+                1         ; Serial
+                604800    ; Refresh
+                86400     ; Retry
+                2419200   ; Expire
+                604800 )  ; Negative Cache TTL
+;
+@       IN      NS      ns.kaue.lab.
+@       IN      A       192.168.100.2
+ns      IN      A       192.168.100.2
+web     IN      A       192.168.100.3
+site    IN      A       192.168.100.4
+```
+
+---
+
+### Configuração do Arquivo **kaue.rev**
+
+```bind
+;
+; BIND reverse data file for kaue.lab
+;
+$TTL    604800
+@       IN      SOA     kaue.lab. root.kaue.lab. (
+                1         ; Serial
+                604800    ; Refresh
+                86400     ; Retry
+                2419200   ; Expire
+                604800 )  ; Negative Cache TTL
+;
+@       IN      NS      ns.kaue.lab.
+2       IN      PTR     kaue.lab.
+3       IN      PTR     web.kaue.lab.
+4       IN      PTR     site.kaue.lab.
+```
+
+---
+
+### Passos Atualizados para Configurar o BIND9
+
+Adicione os arquivos de zona ao BIND: Edite o arquivo `/etc/bind/named.conf.local` para incluir as zonas diretas e reversas:
+
+```bind
+// Configuração para prova.lan
+zone "prova.lan" {
+    type master;
+    file "/etc/bind/prova.db";
+};
+
+zone "100.168.192.in-addr.arpa" {
+    type master;
+    file "/etc/bind/prova.rev";
+};
+
+// Configuração para kaue.lab
+zone "kaue.lab" {
+    type master;
+    file "/etc/bind/kaue.db";
+};
+
+zone "100.168.192.in-addr.arpa" {
+    type master;
+    file "/etc/bind/kaue.rev";
+};
+```
+
+---
+
+### Verificação e Reinício
+
+1. **Verifique a Configuração:**
+
+   ```bash
+   sudo named-checkconf
+   sudo named-checkzone prova.lan /etc/bind/prova.db
+   sudo named-checkzone 100.168.192.in-addr.arpa /etc/bind/prova.rev
+   sudo named-checkzone kaue.lab /etc/bind/kaue.db
+   sudo named-checkzone 100.168.192.in-addr.arpa /etc/bind/kaue.rev
+   ```
+
+2. **Reinicie o BIND9:**
+
+   ```bash
+   sudo systemctl restart bind9
+   ```
+
+---
+
+### Testes de Resolução
+
+Configure o DNS local na máquina cliente adicionando no `/etc/resolv.conf`:
+
+```plaintext
+nameserver 192.168.100.2
+```
+
+Teste as resoluções com os comandos:
+
+```bash
+nslookup ava.prova.lan
+nslookup www.prova.lan
+nslookup web.kaue.lab
+nslookup site.kaue.lab
+```
+
+---
+
+Com essas alterações, todas as entradas DNS agora estão configuradas corretamente para apontar para o IP real (**192.168.100.4**).
+
+
+
+
 **SALVE UM SNAPSHOT**
 
 
