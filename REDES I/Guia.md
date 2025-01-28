@@ -760,6 +760,13 @@ sudo apt install apache2 mysql-server php libapache2-mod-php php-mysql php-cli -
 sudo apt install phpmyadmin -y
 ```
 
+
+#### **4. Configurar o PHPMyAdmin**
+Durante a instalação do PHPMyAdmin:
+- Escolha o servidor Apache2.
+- Configure o banco de dados do PHPMyAdmin durante o processo de instalação.
+- Mysql
+
 #### **3. Configurar Apache para HTTPS e bloquear HTTP**
 1. **Ativar o módulo SSL e criar um certificado autoassinado**:
 
@@ -814,11 +821,7 @@ sudo a2dissite 000-default.conf
 sudo systemctl reload apache2
 ```
 
-#### **4. Configurar o PHPMyAdmin**
-Durante a instalação do PHPMyAdmin:
-- Escolha o servidor Apache2.
-- Configure o banco de dados do PHPMyAdmin durante o processo de instalação.
-  
+- 
 Se necessário, reconfigure:
 
 ```bash
