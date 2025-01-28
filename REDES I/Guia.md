@@ -514,7 +514,7 @@ sudo rm /etc/resolv.conf
 
 3. **Configurar o arquivo `/etc/default/isc-dhcp-server`:**
    ```bash
-   INTERFACESv4="enp0s8"
+   INTERFACESv4="enp0s3"
    ```
 
 4. **Configuração do arquivo `/etc/dhcp/dhcpd.conf`:**
