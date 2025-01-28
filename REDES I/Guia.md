@@ -623,7 +623,7 @@ sudo rm /etc/resolv.conf
    ```bash
    sudo reboot
    ```
-   - Teste o IP, ping para `prova.lan` e o gateway.
+   - Teste o IP, ping para `prova.lan`.
    - Desligue a máquina e crie um snapshot.
 
 ### Configuração do DNS2 como Slave no Bind9
@@ -647,6 +647,12 @@ sudo rm /etc/resolv.conf
    zone "prova.lan" {
        type slave;
        file "/etc/bind/ifro/prova.db"; // Caminho do arquivo de zona
+       masters { 192.168.100.2; };    // IP do servidor master
+   };
+
+   zone "mylena.lab" {
+       type slave;
+       file "/etc/bind/ifro/mylena.db"; // Caminho do arquivo de zona
        masters { 192.168.100.2; };    // IP do servidor master
    };
 
