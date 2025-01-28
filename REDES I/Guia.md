@@ -697,19 +697,7 @@ sudo rm /etc/resolv.conf
 
 2. Se tudo estiver configurado corretamente, você verá as respostas das consultas apontando para o DNS1 como servidor mestre.
 
----
-
-- Use o comando abaixo para identificar problemas:
-  ```bash
-  sudo named-checkconf
-  ```
-- Para validar arquivos de zona:
-  ```bash
-  sudo named-checkzone prova.lan /etc/bind/ifro/prova.db
-  sudo named-checkzone 100.16.172.in-addr.arpa /etc/bind/ifro/mylena-prova.rev
-  ```
-- **CRIE UM SNAPSHOT**
----
+CRIE UM SNAPSHOT
 
 ### **Configuração do WEB**
 
