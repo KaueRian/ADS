@@ -308,7 +308,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 1. **Ubuntu Server CLI:**
    - **Adaptador 1:** Rede Interna (mesma do gateway).
    - **Configuração de IP fixo:**
-     Edite o arquivo `sudo /etc/netplan/50-cloud-init.yaml`:
+     Edite o arquivo `sudo nano /etc/netplan/50-cloud-init.yaml`:
      ```yaml
      network:
        version: 2
