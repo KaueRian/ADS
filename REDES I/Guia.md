@@ -409,14 +409,14 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ; BIND data file for local loopback interface
    ;
    $TTL    604800
-   @       IN      SOA     mylena.lan. root.prova.lan. (
+   @       IN      SOA     mylena.lab. root.prova.lab. (
                    1         ; Serial
                    604800    ; Refresh
                    86400     ; Retry
                    2419200   ; Expire
                    604800 )  ; Negative Cache TTL
    ;
-   @       IN      NS      mylena.lan.
+   @       IN      NS      mylena.lab.
    @       IN      A       192.168.100.2
    ns      IN      A       192.168.100.2
    site    IN      A       192.168.100.4
