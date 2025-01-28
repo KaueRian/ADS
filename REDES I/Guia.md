@@ -533,13 +533,6 @@ sudo rm /etc/resolv.conf
    }
    ```
 
-
-   2. **Configuração do DNS:**
-   - Edite o arquivo `/etc/dhcp/dhclient.conf` e adicione:
-   ```bash
-   supersede domain-name-servers 192.168.100.2, 192.168.100.3, 8.8.8.8;
-   ```
-
 ### **Configuração do Ubuntu**
 1. **Adaptador 1:** Rede Interna `intnet`.
 
