@@ -536,26 +536,7 @@ sudo rm /etc/resolv.conf
 
   - Instale o ubuntu normalmente sem internet.
 
-2. **Configuração de IP via DHCP:**
-   - Edite o arquivo `/etc/systemd/resolved.conf`:
-   ```bash
-   [Resolve]
-   DNS=192.168.100.2 192.168.100.3 8.8.8.8
-   Domains=prova.lan
-   ```
-
-3. **Remova a configuração existente:**
-   ```bash
-   sudo rm /etc/resolv.conf
-   ```
-
-4. **Reinicie a máquina:**
-   ```bash
-   sudo reboot
-   ```
-**Desligue e ligue novamente a placa de rede**
-
-5. **Teste a conexão com a internet.**
+5. **Tente executar o cmando **
 
 6. **Desligue a máquina e crie o Snapshot da máquina DNS1 e Ubuntu.**
 
