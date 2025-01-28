@@ -409,7 +409,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ; BIND data file for local loopback interface
    ;
    $TTL    604800
-   @       IN      SOA     mylena.lan. mylena.prova.lan. (
+   @       IN      SOA     mylena.lan. root.prova.lan. (
                    1         ; Serial
                    604800    ; Refresh
                    86400     ; Retry
@@ -419,9 +419,8 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    @       IN      NS      prova.lan.
    @       IN      A       192.168.100.2
    ns      IN      A       192.168.100.2
-   ava     IN      A       192.168.100.4
-   www     IN      CNAME   ava.prova.lan.
-   dns1    IN      CNAME   ns.prova.lan.
+   site    IN      A       192.168.100.4
+   web     IN      A       192.168.100.4
    ```
 
    ```bash
