@@ -743,7 +743,7 @@ Com base nos requisitos adicionais fornecidos, vou ajustar a configuração para
 1. A máquina WEB tenha **Apache com suporte a PHP**, **MySQL** e **PHPMyAdmin** instalados e configurados.
 2. O servidor use exclusivamente HTTPS, com suporte a SSL, rejeitando conexões HTTP.
 3. O servidor utilize o IP **192.168.100.4**, conforme especificado.
-
+Fdp
 ---
 
 ### **Configuração Ajustada**
@@ -842,6 +842,13 @@ sudo mkdir -p /srv/prova/phpmyadmin
 ```bash
 sudo ln -s /usr/share/phpmyadmin /srv/prova/phpmyadmin
 ```
+
+**NO DNS1 RODE:** 
+```bash
+sudo systemctl restart isc-dhcp-server
+```
+
+
 
 Verifique se o PHPMyAdmin está acessível pelo HTTPS na máquina ubuntu, **TODO ACESSO EM HTTPS, DEVE SER FEITO NA MÁQUINA UBUNTU COM INTERFACE GRAFICA**: `https://192.168.100.4/phpmyadmin`.
 
