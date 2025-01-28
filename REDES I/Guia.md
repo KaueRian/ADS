@@ -27,7 +27,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 3. **Configuração de Rede:**
    - **Adaptador 1:** Modo NAT.
    - **Adaptador 2:** Modo Host-Only, nome: `VirtualBox Host-Only Ethernet Adapter`.
-   - **Adaptador 3:** Modo Rede Interna, nome: `SRC1`.
+   - **Adaptador 3:** Modo Rede Interna, nome: `que você criou com ip 192.168.56.1/24`.
 
 4. **Configuração de IP em `/etc/network/interfaces`:**
    
