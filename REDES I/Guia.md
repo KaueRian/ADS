@@ -455,7 +455,15 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    sudo named-checkzone mylena.lab mylena.db
    sudo named-checkzone 100.16.172.in-addr.arpa mylena-prova.rev
    ```
-
+   
+2. Teste as resoluções:
+   ```bash
+   nslookup ava.prova.lan
+   nslookup www.prova.lan
+   nslookup web.mylena.lab
+   nslookup site.mylena.lab
+   ```
+   
 **Defina o DNS:**
 
 ```bash
@@ -539,155 +547,6 @@ sudo rm /etc/resolv.conf
 5. **Tente executar o comando `ping prova.lan`**
 
 6. **Desligue a máquina e crie o Snapshot da máquina DNS1 e Ubuntu.**
-
-### **Configuração para o arquivo `prova.db`**
-Certifique-se de que o arquivo contém as configurações para o domínio `prova.lan` e as entradas correspondentes, como segue:
-
-```plaintext
-;
-; BIND data file for local loopback interface
-;
-$TTL    604800
-@       IN      SOA     prova.lan. root.prova.lan. (
-                1         ; Serial
-                604800    ; Refresh
-                86400     ; Retry
-                2419200   ; Expire
-                604800 )  ; Negative Cache TTL
-;
-@       IN      NS      ns.prova.lan.
-@       IN      A       192.168.100.2
-ns      IN      A       192.168.100.2
-ava     IN      A       192.168.100.4
-www     IN      CNAME   ava.prova.lan.
-dns1    IN      CNAME   ns.prova.lan.
-```
-
-```plaintext
-;
-; BIND data file for mylena.lab (exemplo: mylena.lab)
-;
-$TTL    604800
-@       IN      SOA     mylena.lab. root.mylena.lab. (
-                1         ; Serial
-                604800    ; Refresh
-                86400     ; Retry
-                2419200   ; Expire
-                604800 )  ; Negative Cache TTL
-;
-@       IN      NS      ns.mylena.lab.
-@       IN      A       192.168.200.2
-ns      IN      A       192.168.200.2
-web     IN      A       192.168.200.3
-site    IN      A       192.168.200.4
-```
-
----
-
-### **Configuração para o arquivo `mylena-prova.rev`**
-Configure o arquivo de zona reversa para mapear IPs para os nomes de domínio:
-
-```plaintext
-;
-; BIND reverse data file for local loopback interface
-;
-$TTL    604800
-@       IN      SOA     prova.lan. root.prova.lan. (
-                1         ; Serial
-                604800    ; Refresh
-                86400     ; Retry
-                2419200   ; Expire
-                604800 )  ; Negative Cache TTL
-;
-@       IN      NS      ns.prova.lan.
-2       IN      PTR     prova.lan.
-4       IN      PTR     ava.prova.lan.
-2       IN      PTR     mylena.lab.
-3       IN      PTR     web.mylena.lab.
-4       IN      PTR     site.mylena.lab.
-```
-
----
-
-### **Configuração para o domínio `mylena.lab`**
-Supondo que o nome seja "mylena.lab", o arquivo `mylena.db` deve conter o seguinte:
-
-#### Arquivo de Zona Direta (`mylena.db`):
-```plaintext
-;
-; BIND data file for mylena.lab (exemplo: mylena.lab)
-;
-$TTL    604800
-@       IN      SOA     mylena.lab. root.mylena.lab. (
-                1         ; Serial
-                604800    ; Refresh
-                86400     ; Retry
-                2419200   ; Expire
-                604800 )  ; Negative Cache TTL
-;
-@       IN      NS      ns.mylena.lab.
-@       IN      A       192.168.200.2
-ns      IN      A       192.168.200.2
-web     IN      A       192.168.200.3
-site    IN      A       192.168.200.4
-```
-
----
-
-### **Passos para Configurar o BIND9**
-1. **Adicione os arquivos de zona ao BIND:**
-   Edite o arquivo `/etc/bind/named.conf.local` para incluir as zonas diretas e reversas:
-
-   ```plaintext
-   // Configuração para prova.lan
-   zone "prova.lan" {
-       type master;
-       file "/etc/bind/prova.db";
-   };
-
-   zone "100.168.192.in-addr.arpa" {
-       type master;
-       file "/etc/bind/mylena-prova.rev";
-   };
-
-   // Configuração para mylena.lab
-   zone "mylena.lab" {
-       type master;
-       file "/etc/bind/mylena.db";
-   };
-   ```
-
-2. **Verifique a configuração do BIND:**
-   Execute os comandos abaixo para verificar a sintaxe:
-   ```bash
-   sudo named-checkconf
-   sudo named-checkzone prova.lan /etc/bind/prova.db
-   sudo named-checkzone 100.168.192.in-addr.arpa /etc/bind/mylena-prova.rev
-   sudo named-checkzone mylena.lab /etc/bind/mylena.db
-   ```
-
-3. **Reinicie o serviço do BIND:**
-   Após verificar que não há erros, reinicie o BIND9:
-   ```bash
-   sudo systemctl restart bind9
-   ```
-
----
-
-### **Teste as Configurações**
-1. Configure o DNS local apontando para o servidor:
-   No arquivo `/etc/resolv.conf` da máquina cliente, adicione:
-   ```plaintext
-   nameserver 192.168.100.2
-   ```
-
-2. Teste as resoluções:
-   ```bash
-   nslookup ava.prova.lan
-   nslookup www.prova.lan
-   nslookup web.mylena.lab
-   nslookup site.mylena.lab
-   ```
 
 ---
 
