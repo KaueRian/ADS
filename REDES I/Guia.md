@@ -777,15 +777,15 @@ sudo mkdir /etc/apache2/ssl
 
 # Gerar um certificado autoassinado (válido por 1 ano)
 sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-  -keyout /etc/apache2/ssl/web.key \
-  -out /etc/apache2/ssl/web.csr \
+  -keyout /etc/apache2/ssl/apache-selfsigned.key \
+  -out /etc/apache2/ssl/apache-selfsigned.crt \
   -subj "/C=BR/ST=Estado/L=Cidade/O=Organizacao/CN=prova.lan"
 ```
 
 6. Ajuste as permissões dos arquivos:
    ```bash
-   sudo chmod 600 /etc/apache2/ssl/web.key
-   sudo chmod 600 /etc/apache2/ssl/web.csr
+   sudo chmod 600 /etc/apache2/ssl/apache-selfsigned.key
+   sudo chmod 600 /etc/apache2/ssl/apache-selfsigned.crt
    ```
    
 2. **Configurar o Apache para forçar HTTPS**:
