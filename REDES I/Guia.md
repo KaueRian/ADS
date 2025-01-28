@@ -416,7 +416,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
                    2419200   ; Expire
                    604800 )  ; Negative Cache TTL
    ;
-   @       IN      NS      prova.lan.
+   @       IN      NS      mylena.lan.
    @       IN      A       192.168.100.2
    ns      IN      A       192.168.100.2
    site    IN      A       192.168.100.4
@@ -746,6 +746,10 @@ $TTL    604800
 @       IN      NS      ns.prova.lan.
 2       IN      PTR     prova.lan.
 4       IN      PTR     ava.prova.lan.
+4       IN      PTR     www.prova.lan
+2       IN      PTR     mylena.lab.
+3       IN      PTR     web.mylena.lab.
+4       IN      PTR     site.mylena.lab.
 ```
 
 ---
