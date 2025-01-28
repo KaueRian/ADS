@@ -828,9 +828,27 @@ Se necessário, reconfigure:
 sudo dpkg-reconfigure phpmyadmin
 ```
 
+
+```bash
+sudo ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
+```
+
 Verifique se o PHPMyAdmin está acessível pelo HTTPS: `https://192.168.100.4/phpmyadmin`.
 
 ---
+
+8. **Configurar o arquivo de configuração do Apache**:
+    ```bash
+    sudo nano /etc/apache2/apache2.conf
+    ```
+    - Adicionar a seguinte configuração:
+      ```apache
+      <Directory /srv/>
+          Options Indexes FollowSymLinks
+          AllowOverride None
+          Require all granted
+      </Directory>
+      ```
 
 #### **5. Configurar as entradas do Apache para os domínios**
 Edite novamente o arquivo `/etc/apache2/sites-available/prova.lan.conf` para adicionar os blocos de configuração para cada domínio:
@@ -893,7 +911,9 @@ Edite novamente o arquivo `/etc/apache2/sites-available/prova.lan.conf` para adi
 </VirtualHost>
 ```
 
----
+
+
+
 
 ### **6. Testes**
 1. **Verificar os serviços do Apache e MySQL**:
@@ -915,79 +935,6 @@ Edite novamente o arquivo `/etc/apache2/sites-available/prova.lan.conf` para adi
 
 Essa configuração atende aos requisitos fornecidos. Caso tenha dúvidas ou problemas, posso ajudar a ajustar os detalhes.
 
-
-
-
-
-
-
-1. **Instalar o Apache2**:
-    ```bash
-    sudo apt update && sudo apt install apache2 -y
-    ```
-
-3. **Ativar o módulo SSL**:
-    ```bash
-    sudo a2enmod ssl
-    ```
-
-4. **Ativar o módulo Rewrite**:
-    ```bash
-    sudo a2enmod rewrite
-    ```
-
-5. **Reiniciar o Apache**:
-    ```bash
-    sudo systemctl restart apache2
-    ```
-
-6. **Instalar o PHP**:
-    ```bash
-    sudo apt install php -y
-    ```
-
-7. **Criar o arquivo de teste PHP**:
-    ```bash
-    sudo nano /var/www/html/index.php
-    ```
-    - Adicionar o conteúdo:
-      ```php
-      <?php phpinfo(); ?>
-      ```
-
-8. **Configurar o arquivo de configuração do Apache**:
-    ```bash
-    sudo nano /etc/apache2/apache2.conf
-    ```
-    - Adicionar a seguinte configuração:
-      ```apache
-      <Directory /srv/>
-          Options Indexes FollowSymLinks
-          AllowOverride None
-          Require all granted
-      </Directory>
-      ```
-
-9. **Acessar o diretório de sites disponíveis**:
-    ```bash
-    cd /etc/apache2/sites-available/
-    ```
-
-10. **Criar o arquivo de configuração do site**:
-    ```bash
-    sudo nano web.lab.conf
-    ```
-    - Adicionar o seguinte conteúdo:
-      ```apache
-      <VirtualHost *:80>
-          ServerAdmin meuemail@email.com
-          ServerName web.prova.lan
-          ServerAlias web.prova.lan
-          DocumentRoot /srv/lab/web
-          ErrorLog ${APACHE_LOG_DIR}/web_error.log
-          CustomLog ${APACHE_LOG_DIR}/web_access.log combined
-      </VirtualHost>
-      ```
 
 11. **Criar o diretório do site**:
     ```bash
@@ -1680,32 +1627,6 @@ Agora que o Squid está funcionando como proxy, podemos adicionar regras para bl
 
 
 
-Para instalar o **phpMyAdmin** em um **Ubuntu Server**, você pode seguir os seguintes passos. O phpMyAdmin é uma ferramenta web popular para gerenciar bancos de dados MySQL/MariaDB e oferece uma interface gráfica para facilitar a administração dos bancos de dados. O processo de instalação é bem simples. Vou te guiar em como fazer isso.
-
-### 1. Atualizar o sistema
-Primeiro, sempre é bom garantir que os pacotes do seu servidor estão atualizados:
-
-```bash
-sudo apt update && sudo apt upgrade -y
-```
-
-### 2. Instalar o PHP e outras dependências
-O **phpMyAdmin** requer o PHP para funcionar. Caso não tenha o PHP instalado ainda, execute:
-
-```bash
-sudo apt install php php-mbstring php-zip php-gd php-json php-curl php-mysqli libapache2-mod-php -y
-```
-
-Se você já tiver o PHP instalado, pode pular essa etapa.
-
-### 3. Instalar o phpMyAdmin
-Agora você pode instalar o **phpMyAdmin**:
-
-```bash
-sudo apt install phpmyadmin -y
-```
-
-Durante a instalação, você será solicitado a escolher o servidor web. Se estiver usando o **Apache**, selecione o Apache2. Se não aparecer a opção, você pode configurar manualmente depois.
 
 ### 4. Configurar o Apache (se necessário)
 Se o Apache não foi configurado automaticamente, você precisa ativar o phpMyAdmin. Faça isso criando um link simbólico para o diretório do phpMyAdmin dentro do diretório do Apache:
