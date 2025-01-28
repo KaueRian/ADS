@@ -536,7 +536,7 @@ sudo rm /etc/resolv.conf
 
   - Instale o ubuntu normalmente sem internet.
 
-5. **Tente executar o cmando **
+5. **Tente executar o comando `ping prova.lan`**
 
 6. **Desligue a máquina e crie o Snapshot da máquina DNS1 e Ubuntu.**
 
