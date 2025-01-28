@@ -304,44 +304,6 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 
 ---
 
-### **Configuração do DHCP**
-1. **Acesse via SSH o DNS1:**
-   ```bash
-   ssh -p 52000 aluno@192.168.56.2
-   ```
-
-   2. **Configuração do DNS:**
-   - Edite o arquivo `/etc/dhcp/dhclient.conf` e adicione:
-   ```bash
-   supersede domain-name-servers 192.168.100.2, 192.168.100.3, 8.8.8.8;
-   ```
-
-2. **Instalar e configurar o servidor DHCP:**
-   ```bash
-   sudo apt update && sudo apt install isc-dhcp-server -y
-   ```
-
-3. **Configurar o arquivo `/etc/default/isc-dhcp-server`:**
-   ```bash
-   INTERFACESv4="enp0s8"
-   ```
-
-4. **Configuração do arquivo `/etc/dhcp/dhcpd.conf`:**
-   Adicione a configuração de rede:
-   ```bash
-   subnet 192.168.100.0 netmask 255.255.255.0 {
-     range 192.168.100.50 192.168.100.70;
-     option domain-name-servers 192.168.100.2, 192.168.100.3, 8.8.8.8;
-     option domain-name "prova.lan";
-     option routers 192.168.100.1;
-     option broadcast-address 192.168.100.255;
-     default-lease-time 600;
-     max-lease-time 7200;
-   }
-   ```
-
----
-
 ### **Configuração do DNS1 (Servidor DNS)**
 1. **Ubuntu Server CLI:**
    - **Adaptador 1:** Rede Interna (mesma do gateway).
@@ -505,6 +467,41 @@ sudo rm /etc/resolv.conf
 
 **Salve o SNAPSHOT do DNS**
 
+### **Configuração do DHCP**
+1. **Acesse via SSH o DNS1:**
+   ```bash
+   ssh -p 52000 aluno@192.168.56.2
+   ```
+
+   2. **Configuração do DNS:**
+   - Edite o arquivo `/etc/dhcp/dhclient.conf` e adicione:
+   ```bash
+   supersede domain-name-servers 192.168.100.2, 192.168.100.3, 8.8.8.8;
+   ```
+
+2. **Instalar e configurar o servidor DHCP:**
+   ```bash
+   sudo apt update && sudo apt install isc-dhcp-server -y
+   ```
+
+3. **Configurar o arquivo `/etc/default/isc-dhcp-server`:**
+   ```bash
+   INTERFACESv4="enp0s8"
+   ```
+
+4. **Configuração do arquivo `/etc/dhcp/dhcpd.conf`:**
+   Adicione a configuração de rede:
+   ```bash
+   subnet 192.168.100.0 netmask 255.255.255.0 {
+     range 192.168.100.50 192.168.100.70;
+     option domain-name-servers 192.168.100.2, 192.168.100.3, 8.8.8.8;
+     option domain-name "prova.lan";
+     option routers 192.168.100.1;
+     option broadcast-address 192.168.100.255;
+     default-lease-time 600;
+     max-lease-time 7200;
+   }
+   ```
 
 ### **Configuração do Ubuntu**
 1. **Adaptador 1:** Rede Interna `intnet`.
