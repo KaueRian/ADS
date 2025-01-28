@@ -931,7 +931,7 @@ Primeiro, vamos criar os diretórios necessários no caminho especificado para o
 ```bash
 sudo mkdir -p /srv/prova/www
 sudo mkdir -p /srv/aula/web
-sudo mkdir -p /srv/aual/site
+sudo mkdir -p /srv/aula/site
 ```
 
 ### 2. Definir permissões:
@@ -940,7 +940,7 @@ Atribua as permissões adequadas aos diretórios, de modo que o servidor web ten
 ```bash
 sudo chown -R www-data:www-data /srv/prova
 sudo chown -R www-data:www-data /srv/aula/web
-sudo chown -R www-data:www-data /srv/aual/site
+sudo chown -R www-data:www-data /srv/aula/site
 ```
 
 ### 3. Criar os arquivos HTML/PHP em cada diretório:
@@ -958,10 +958,10 @@ echo -e "<html>\n<center>\n<font size=5>\n<br><br><br>\n<?php\n echo getcwd() . 
 echo -e "<html>\n<center>\n<font size=5>\n<br><br><br>\n<?php\n echo getcwd() . \"\\n\";\n?>\n" | sudo tee /srv/aula/web/index.php > /dev/null
 ```
 
-**Para /srv/aual/site:**
+**Para /srv/aula/site:**
 
 ```bash
-echo -e "<html>\n<center>\n<font size=5>\n<br><br><br>\n<?php\n echo getcwd() . \"\\n\";\n?>\n" | sudo tee /srv/aual/site/index.php > /dev/null
+echo -e "<html>\n<center>\n<font size=5>\n<br><br><br>\n<?php\n echo getcwd() . \"\\n\";\n?>\n" | sudo tee /srv/aula/site/index.php > /dev/null
 ```
 
 ### 4. Verificar se os arquivos foram criados:
@@ -977,7 +977,7 @@ Após criar os arquivos, você pode verificar se eles foram criados corretamente
 ```bash
 cat /srv/prova/www/index.php
 cat /srv/aula/web/index.php
-cat /srv/aual/site/index.php
+cat /srv/aula/site/index.php
 ```
 
 Esses comandos exibirão o conteúdo dos arquivos para que você possa verificar se está tudo correto.
