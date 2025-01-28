@@ -452,6 +452,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ```bash
    sudo named-checkconf
    sudo named-checkzone prova.lan prova.db
+   sudo named-checkzone mylena.lab mylena.db
    sudo named-checkzone 100.16.172.in-addr.arpa mylena-prova.rev
    ```
 
