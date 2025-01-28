@@ -32,6 +32,8 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 4. **Configuração de IP em `/etc/network/interfaces`:**
    
    `su root`
+
+   `nano /etc/network/interfaces`
    
    ```bash
    allow-hotplug enp0s8
@@ -433,6 +435,12 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
            allow-transfer { 192.168.100.3; };
    };
 
+   zone "mylena.lab" {
+           type master;
+           file "/etc/bind/ifro/mylena.db";
+           allow-transfer { 192.168.100.3; };
+   };
+
    zone "100.16.172.in-addr.arpa" {
            type master;
            file "/etc/bind/ifro/mylena-prova.rev";
@@ -449,17 +457,8 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    sudo mkdir ifro
    ```
    ```bash
-   sudo cp db.local ifro/prova.db
-   ```
-   ```bash
-   sudo cp db.127 ifro/mylena-prova.rev
-   ```
-   - Edite os arquivos `prova.db` e `mylena-prova.rev` conforme as instruções fornecidas.
-
-   ```bash
    cd ifro
    ```
-
    ```bash
    sudo nano prova.db
    ```
