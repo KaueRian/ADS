@@ -600,46 +600,46 @@ $TTL    604800
 
 ---
 
-### **Configuração para o domínio `kaue.lab`**
-Supondo que o nome seja "kaue.lab", o arquivo `kaue.db` deve conter o seguinte:
+### **Configuração para o domínio `mylena.lab`**
+Supondo que o nome seja "mylena.lab", o arquivo `mylena.db` deve conter o seguinte:
 
-#### Arquivo de Zona Direta (`kaue.db`):
+#### Arquivo de Zona Direta (`mylena.db`):
 ```plaintext
 ;
-; BIND data file for kaue.lab (exemplo: kaue.lab)
+; BIND data file for mylena.lab (exemplo: mylena.lab)
 ;
 $TTL    604800
-@       IN      SOA     kaue.lab. root.kaue.lab. (
+@       IN      SOA     mylena.lab. root.mylena.lab. (
                 1         ; Serial
                 604800    ; Refresh
                 86400     ; Retry
                 2419200   ; Expire
                 604800 )  ; Negative Cache TTL
 ;
-@       IN      NS      ns.kaue.lab.
+@       IN      NS      ns.mylena.lab.
 @       IN      A       192.168.200.2
 ns      IN      A       192.168.200.2
 web     IN      A       192.168.200.3
 site    IN      A       192.168.200.4
 ```
 
-#### Arquivo de Zona Reversa (`kaue.rev`):
+#### Arquivo de Zona Reversa (`mylena.rev`):
 ```plaintext
 ;
-; BIND reverse data file for kaue.lab (exemplo: kaue.lab)
+; BIND reverse data file for mylena.lab (exemplo: mylena.lab)
 ;
 $TTL    604800
-@       IN      SOA     kaue.lab. root.kaue.lab. (
+@       IN      SOA     mylena.lab. root.mylena.lab. (
                 1         ; Serial
                 604800    ; Refresh
                 86400     ; Retry
                 2419200   ; Expire
                 604800 )  ; Negative Cache TTL
 ;
-@       IN      NS      ns.kaue.lab.
-2       IN      PTR     kaue.lab.
-3       IN      PTR     web.kaue.lab.
-4       IN      PTR     site.kaue.lab.
+@       IN      NS      ns.mylena.lab.
+2       IN      PTR     mylena.lab.
+3       IN      PTR     web.mylena.lab.
+4       IN      PTR     site.mylena.lab.
 ```
 
 ---
@@ -660,15 +660,15 @@ $TTL    604800
        file "/etc/bind/prova.rev";
    };
 
-   // Configuração para kaue.lab
-   zone "kaue.lab" {
+   // Configuração para mylena.lab
+   zone "mylena.lab" {
        type master;
-       file "/etc/bind/kaue.db";
+       file "/etc/bind/mylena.db";
    };
 
    zone "200.168.192.in-addr.arpa" {
        type master;
-       file "/etc/bind/kaue.rev";
+       file "/etc/bind/mylena.rev";
    };
    ```
 
@@ -678,8 +678,8 @@ $TTL    604800
    sudo named-checkconf
    sudo named-checkzone prova.lan /etc/bind/prova.db
    sudo named-checkzone 100.168.192.in-addr.arpa /etc/bind/prova.rev
-   sudo named-checkzone kaue.lab /etc/bind/kaue.db
-   sudo named-checkzone 200.168.192.in-addr.arpa /etc/bind/kaue.rev
+   sudo named-checkzone mylena.lab /etc/bind/mylena.db
+   sudo named-checkzone 200.168.192.in-addr.arpa /etc/bind/mylena.rev
    ```
 
 3. **Reinicie o serviço do BIND:**
@@ -701,8 +701,8 @@ $TTL    604800
    ```bash
    nslookup ava.prova.lan
    nslookup www.prova.lan
-   nslookup web.kaue.lab
-   nslookup site.kaue.lab
+   nslookup web.mylena.lab
+   nslookup site.mylena.lab
    ```
 
 
@@ -710,7 +710,7 @@ $TTL    604800
 
 
 
-Aqui está a versão corrigida para refletir o IP correto (**192.168.100.4**) no domínio **kaue.lab**. Todas as ocorrências de **192.168.200.4** foram ajustadas.
+Aqui está a versão corrigida para refletir o IP correto (**192.168.100.4**) no domínio **mylena.lab**. Todas as ocorrências de **192.168.200.4** foram ajustadas.
 
 ---
 
@@ -759,21 +759,21 @@ $TTL    604800
 
 ---
 
-### Configuração do Arquivo **kaue.db**
+### Configuração do Arquivo **mylena.db**
 
 ```bind
 ;
-; BIND data file for kaue.lab
+; BIND data file for mylena.lab
 ;
 $TTL    604800
-@       IN      SOA     kaue.lab. root.kaue.lab. (
+@       IN      SOA     mylena.lab. root.mylena.lab. (
                 1         ; Serial
                 604800    ; Refresh
                 86400     ; Retry
                 2419200   ; Expire
                 604800 )  ; Negative Cache TTL
 ;
-@       IN      NS      ns.kaue.lab.
+@       IN      NS      ns.mylena.lab.
 @       IN      A       192.168.100.2
 ns      IN      A       192.168.100.2
 web     IN      A       192.168.100.3
@@ -782,24 +782,24 @@ site    IN      A       192.168.100.4
 
 ---
 
-### Configuração do Arquivo **kaue.rev**
+### Configuração do Arquivo **mylena.rev**
 
 ```bind
 ;
-; BIND reverse data file for kaue.lab
+; BIND reverse data file for mylena.lab
 ;
 $TTL    604800
-@       IN      SOA     kaue.lab. root.kaue.lab. (
+@       IN      SOA     mylena.lab. root.mylena.lab. (
                 1         ; Serial
                 604800    ; Refresh
                 86400     ; Retry
                 2419200   ; Expire
                 604800 )  ; Negative Cache TTL
 ;
-@       IN      NS      ns.kaue.lab.
-2       IN      PTR     kaue.lab.
-3       IN      PTR     web.kaue.lab.
-4       IN      PTR     site.kaue.lab.
+@       IN      NS      ns.mylena.lab.
+2       IN      PTR     mylena.lab.
+3       IN      PTR     web.mylena.lab.
+4       IN      PTR     site.mylena.lab.
 ```
 
 ---
@@ -820,15 +820,15 @@ zone "100.168.192.in-addr.arpa" {
     file "/etc/bind/prova.rev";
 };
 
-// Configuração para kaue.lab
-zone "kaue.lab" {
+// Configuração para mylena.lab
+zone "mylena.lab" {
     type master;
-    file "/etc/bind/kaue.db";
+    file "/etc/bind/mylena.db";
 };
 
 zone "100.168.192.in-addr.arpa" {
     type master;
-    file "/etc/bind/kaue.rev";
+    file "/etc/bind/mylena.rev";
 };
 ```
 
@@ -842,8 +842,8 @@ zone "100.168.192.in-addr.arpa" {
    sudo named-checkconf
    sudo named-checkzone prova.lan /etc/bind/prova.db
    sudo named-checkzone 100.168.192.in-addr.arpa /etc/bind/prova.rev
-   sudo named-checkzone kaue.lab /etc/bind/kaue.db
-   sudo named-checkzone 100.168.192.in-addr.arpa /etc/bind/kaue.rev
+   sudo named-checkzone mylena.lab /etc/bind/mylena.db
+   sudo named-checkzone 100.168.192.in-addr.arpa /etc/bind/mylena.rev
    ```
 
 2. **Reinicie o BIND9:**
@@ -867,8 +867,8 @@ Teste as resoluções com os comandos:
 ```bash
 nslookup ava.prova.lan
 nslookup www.prova.lan
-nslookup web.kaue.lab
-nslookup site.kaue.lab
+nslookup web.mylena.lab
+nslookup site.mylena.lab
 ```
 
 ---
@@ -1250,10 +1250,10 @@ Edite novamente o arquivo `/etc/apache2/sites-available/prova.lan.conf` para adi
     CustomLog ${APACHE_LOG_DIR}/www_access.log combined
 </VirtualHost>
 
-# web.kaue.lab
+# web.mylena.lab
 <VirtualHost *:443>
     ServerAdmin admin@prova.lan
-    ServerName web.kaue.lab
+    ServerName web.mylena.lab
     DocumentRoot /srv/aula/web
 
     SSLEngine on
@@ -1264,10 +1264,10 @@ Edite novamente o arquivo `/etc/apache2/sites-available/prova.lan.conf` para adi
     CustomLog ${APACHE_LOG_DIR}/web_access.log combined
 </VirtualHost>
 
-# site.kaue.lab
+# site.mylena.lab
 <VirtualHost *:443>
     ServerAdmin admin@prova.lan
-    ServerName site.kaue.lab
+    ServerName site.mylena.lab
     DocumentRoot /srv/aula/site
 
     SSLEngine on
@@ -1291,8 +1291,8 @@ Edite novamente o arquivo `/etc/apache2/sites-available/prova.lan.conf` para adi
 2. **Acessar os domínios configurados via HTTPS no navegador:**
    - `https://ava.prova.lan`
    - `https://www.prova.lan`
-   - `https://web.kaue.lab`
-   - `https://site.kaue.lab`
+   - `https://web.mylena.lab`
+   - `https://site.mylena.lab`
 
 3. **Testar o PHPMyAdmin:**
    Acesse: `https://192.168.100.4/phpmyadmin`.
