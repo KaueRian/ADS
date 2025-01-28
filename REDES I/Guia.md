@@ -781,6 +781,12 @@ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
   -subj "/C=BR/ST=Estado/L=Cidade/O=Organizacao/CN=prova.lan"
 ```
 
+6. Ajuste as permissões dos arquivos:
+   ```bash
+   sudo chmod 600 /etc/apache2/ssl/web.key
+   sudo chmod 600 /etc/apache2/ssl/web.csr
+   ```
+   
 2. **Configurar o Apache para forçar HTTPS**:
    Edite ou crie o arquivo de configuração `/etc/apache2/sites-available/prova.lan.conf` com o seguinte conteúdo:
 
@@ -956,6 +962,13 @@ echo -e "<html>\n<center>\n<font size=5>\n<br><br><br>\n<?php\n echo getcwd() . 
 ### 4. Verificar se os arquivos foram criados:
 Após criar os arquivos, você pode verificar se eles foram criados corretamente com o seguinte comando:
 
+2. Ative o site e os módulos necessários:
+   ```bash
+   sudo a2ensite web-ssl.conf
+   sudo a2enmod ssl
+   sudo a2enmod rewrite
+   ```
+
 ```bash
 cat /srv/prova/www/index.php
 cat /srv/aula/web/index.php
@@ -997,86 +1010,9 @@ sudo systemctl restart apache2
 e salve SNAPSHOT**
 ---
 
-### 2. **Instalação e Configuração de SSL**
-1. Instale os pacotes necessários:
-   ```bash
-   sudo apt install openssl ssl-cert
-   ```
 
-2. Crie o diretório para armazenar os certificados:
-   ```bash
-   sudo mkdir -p /etc/apache2/ssl
-   ```
 
-3. Gere a chave privada e o CSR (Certificate Signing Request):
-   ```bash
-   sudo openssl genrsa -out /etc/apache2/ssl/web.key 2048
-   sudo openssl req -new -key /etc/apache2/ssl/web.key -out /etc/apache2/ssl/web.csr
-   ```
 
-   ```bash
-   Country Name (2 letter code) [AU]:BR
-   State or Province Name (full name) [Some-State]:Rondonia
-   Locality Name (eg, city) []:Ariquemes
-   Organization Name (eg, company) [Internet Widgits Pty td]:Laboratório
-   Organizational Unit Name (eg, section) []:TI
-   Common Name (e.g. server FQDN or YOUR name) []:web.prova.lan
-   Email Address []:suporte@prova.lan
-
-   Please enter the following 'extra' attributes
-   to be sent with your certificate request
-   A challenge password []:aluno
-   An optional company name []:aluno
-   ```
-
-5. Crie o certificado autoassinado:
-   ```bash
-   sudo openssl x509 -req -days 365 -in /etc/apache2/ssl/web.csr -signkey /etc/apache2/ssl/web.key -out /etc/apache2/ssl/web.crt
-   ```
-
-6. Ajuste as permissões dos arquivos:
-   ```bash
-   sudo chmod 600 /etc/apache2/ssl/web.key
-   sudo chmod 600 /etc/apache2/ssl/web.csr
-   ```
-
----
-
-### 3. **Configuração do VirtualHost SSL e Redirecionamento**
-1. Edite o arquivo `sudo nano /etc/apache2/sites-available/web-ssl.conf` com o seguinte conteúdo:
-   ```apache
-   <VirtualHost *:443>
-       ServerAdmin suporte@prova.lan
-       ServerName web.prova.lan:443
-       DocumentRoot /srv/lab/web
-       ErrorLog ${APACHE_LOG_DIR}/web-error.log
-       CustomLog ${APACHE_LOG_DIR}/web.log combined
-
-       SSLEngine on
-       SSLCertificateFile /etc/apache2/ssl/web.crt
-       SSLCertificateKeyFile /etc/apache2/ssl/web.key
-   </VirtualHost>
-
-   <VirtualHost *:80>
-       RewriteEngine on
-       ServerName web.prova.lan
-       Options FollowSymLinks
-       RewriteCond %{SERVER_PORT} 80
-       RewriteRule ^(.*)$ https://web.prova.lan/ [R,L]
-   </VirtualHost>
-   ```
-
-2. Ative o site e os módulos necessários:
-   ```bash
-   sudo a2ensite web-ssl.conf
-   sudo a2enmod ssl
-   sudo a2enmod rewrite
-   ```
-
-3. Reinicie o Apache:
-   ```bash
-   sudo systemctl restart apache2
-   ```
 **TESTE E CRIE SNAPSHOT**
 ---
 
