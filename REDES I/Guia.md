@@ -66,16 +66,10 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 
 ---
 
-### **CONFIGURAÇÃO NO DNS1**
+### **CONFIGURAÇÃO NO GATEWAY**
 1. **Atualize o sistema:**
    ```bash
    sudo apt update
-   ```
-
-2. **Configuração do DNS:**
-   - Edite o arquivo `/etc/dhcp/dhclient.conf` e adicione:
-   ```bash
-   supersede domain-name-servers 192.168.100.2, 192.168.100.3, 8.8.8.8;
    ```
 
 3. **Criação do Script de Firewall:**
@@ -314,6 +308,12 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 1. **Acesse via SSH o DNS1:**
    ```bash
    ssh -p 52000 aluno@192.168.56.2
+   ```
+
+   2. **Configuração do DNS:**
+   - Edite o arquivo `/etc/dhcp/dhclient.conf` e adicione:
+   ```bash
+   supersede domain-name-servers 192.168.100.2, 192.168.100.3, 8.8.8.8;
    ```
 
 2. **Instalar e configurar o servidor DHCP:**
