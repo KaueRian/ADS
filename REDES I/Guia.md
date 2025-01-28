@@ -1165,7 +1165,7 @@ e salve SNAPSHOT**
 
 ---
 
-### 6.2 Configurar o Cliente NFS na Máquina Ubuntu
+### 6.2 Configurar o Cliente NFS na Máquina WEB
 
 1. **Atualizar o sistema**  
    Assim como no servidor, é importante atualizar o sistema do cliente NFS:
@@ -1182,25 +1182,19 @@ e salve SNAPSHOT**
 3. **Criar o diretório de montagem**  
    Crie o diretório onde o compartilhamento NFS será montado:
    ```bash
-   sudo mkdir -p /mnt/nfs_docs
+   sudo mkdir -p /srv
    ```
 
 4. **Montar o compartilhamento NFS**  
    Monte o diretório compartilhado do servidor NFS no diretório de montagem local:
    ```bash
-   sudo mount 192.168.100.4:/srv/web /mnt/nfs_docs
+   sudo mount 192.168.100.4:/srv/web /srv
    ```
 
 5. **Verificar a montagem**  
    Verifique se o compartilhamento foi montado corretamente, utilizando o comando `df -h`:
    ```bash
    df -h
-   ```
-
-6. **Realizar um teste**  
-   Teste o acesso ao compartilhamento, por exemplo, criando um arquivo no diretório montado:
-   ```bash
-   sudo touch /mnt/nsf_docs/teste.txt
    ```
 
 7. **Adicionar ao fstab para montagem automática**  
@@ -1211,7 +1205,7 @@ e salve SNAPSHOT**
 
    Adicione a seguinte linha ao final do arquivo:
    ```txt
-   192.168.100.4:/srv/web /mnt/nfs_docs nfs defaults 0 0
+   192.168.100.4:/srv/web /srv nfs defaults 0 0
    ```
 
 8. **Testar a montagem automática**  
@@ -1231,7 +1225,7 @@ Aqui está a versão melhorada e complementada do seu texto:
 
 ## 7. Configurar o PROXY
 
-## 7.1 Configurar o PROXY na máquina GATEWAY
+## 7.1 Configurar o PROXY na máquina DNS1
 
 ### 1. **Instalar o Squid (Proxy Server)**
    Para instalar o Squid, um dos servidores proxy mais populares, execute o seguinte comando:
@@ -1276,59 +1270,13 @@ Aqui está a versão melhorada e complementada do seu texto:
    Exemplo:
    ```bash
    acl usuarios src 192.168.0.0/24  # Definindo a rede de usuários permitidos
-   acl libera_geral time MTWHF 11:40-13:05  # Definindo o horário de acesso liberado
-   http_access allow usuarios libera_geral  # Permitindo acesso durante o horário especificado
-   ```
-
-#### 5.2. **Estabelecer Restrições Explícitas**
-   Em seguida, defina as regras que bloqueiam acessos indesejados, como bloqueios por URL ou palavras-chave específicas.
-   
-   Exemplo:
-   ```bash
-   # Bloqueando URL que contém a palavra 'ifro'
-   acl blocked_urls url_regex -i ifro
-   http_access deny aula blocked_urls  # Negando acesso para usuários da rede 'aula'
-   ```
-
-#### 5.3. **Permitir Acesso para a Rede Local**
-   Agora, permita o acesso à rede local ou a outros grupos amplos de usuários sem restrições específicas.
-   
-   Exemplo:
-   ```bash
-   # Permitindo o acesso à rede interna (sub-rede 192.168.100.0/24)
-   acl aula src 192.168.100.0/24
-   http_access allow aula  # Permitindo acesso à rede interna
-   ```
-
-#### 5.4. **Definir Bloqueio Geral**
-   Por fim, adicione uma regra que negue todo o tráfego que não corresponda a nenhuma das regras anteriores. Essa é a última linha de defesa, que bloqueia todas as conexões não autorizadas.
-   
-   Exemplo:
-   ```bash
-   # Bloqueando todo o tráfego não autorizado
+   http_access allow usuarios
    http_access deny all
    ```
 
-### 6. **Salvar e Aplicar as Configurações**
-   Após editar o arquivo de configuração, salve as alterações e saia do editor. Para que as novas configurações entrem em vigor, reinicie o serviço do Squid com o seguinte comando:
-   ```bash
-   sudo systemctl restart squid
-   ```
+  **OBSERVAÇÃO: O COMANDO `http_access allow usuarios`, DEVE FICAR ANTES DO COMANDO `http_access deny all`**
 
-### 7. **Verificar o Status do Squid**
-   Verifique se o Squid está funcionando corretamente após reiniciar o serviço:
-   ```bash
-   sudo systemctl status squid
-   ```
-
-   O serviço deve estar ativo e funcionando. Se houver algum erro, verifique os logs para mais informações:
-   ```bash
-   sudo tail -f /var/log/squid/access.log
-   ```
-
----
-
-Aqui está a versão organizada e complementada da parte 2 do texto:
+**PARA TESTAR CONFIGURE O FIREWALL NO FIREFOX DA MÁQUINA UBUNTU**
 
 ---
 
@@ -1343,7 +1291,7 @@ Aqui está a versão organizada e complementada da parte 2 do texto:
    - Selecione a opção **Configuração manual de proxy**.
 
 3. **Inserir os Dados do Proxy**:
-   - **Endereço do Proxy**: Insira o IP do Gateway (por exemplo, `192.168.100.1`).
+   - **Endereço do Proxy**: Insira o IP do DNS1 (`192.168.100.2`).
    - **Porta**: Insira a porta do Squid (geralmente, `3128`).
 
 4. **Configuração para HTTPS**:
@@ -1360,22 +1308,6 @@ Aqui está a versão organizada e complementada da parte 2 do texto:
 
    Após configurar o proxy, abra o navegador (Firefox) e tente acessar alguns sites para garantir que a navegação está sendo feita corretamente através do proxy.
 
-### 2. **Verificar o Uso do Proxy**
-
-   Para confirmar que a máquina Ubuntu está utilizando o proxy corretamente, verifique os logs do Squid na máquina GATEWAY. O log padrão do Squid pode ser encontrado em:
-   ```bash
-   /var/log/squid/access.log
-   ```
-
-### 3. **Testar a Conexão com o Proxy Usando `curl`**
-
-   Você pode usar o comando `curl` para testar a conectividade com o proxy:
-   ```bash
-   curl --proxy http://192.168.100.1:3128 http://example.com
-   ```
-   Isso deve retornar a página solicitada, confirmando que o proxy está funcionando corretamente.
-
----
 
 # 7.4 Criar Snapshot da Máquina Ubuntu
 
