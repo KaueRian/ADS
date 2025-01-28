@@ -667,6 +667,10 @@ sudo rm /etc/resolv.conf
    ```
 
 ---
+   ```bash
+   sudo chown bind:bind /etc/bind/ifro
+   ```
+
 
 #### **Passo 5: Reiniciar o Serviço Bind9**
 1. Reinicie o serviço Bind9 para carregar as novas configurações:
