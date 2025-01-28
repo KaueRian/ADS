@@ -401,6 +401,30 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ```
 
    ```bash
+   sudo nano mylena.db
+   ```
+
+   ```bash
+   ;
+   ; BIND data file for local loopback interface
+   ;
+   $TTL    604800
+   @       IN      SOA     mylena.lan. mylena.prova.lan. (
+                   1         ; Serial
+                   604800    ; Refresh
+                   86400     ; Retry
+                   2419200   ; Expire
+                   604800 )  ; Negative Cache TTL
+   ;
+   @       IN      NS      prova.lan.
+   @       IN      A       192.168.100.2
+   ns      IN      A       192.168.100.2
+   ava     IN      A       192.168.100.4
+   www     IN      CNAME   ava.prova.lan.
+   dns1    IN      CNAME   ns.prova.lan.
+   ```
+
+   ```bash
    sudo nano mylena-prova.rev
    ```
 
@@ -554,6 +578,25 @@ www     IN      CNAME   ava.prova.lan.
 dns1    IN      CNAME   ns.prova.lan.
 ```
 
+```plaintext
+;
+; BIND data file for mylena.lab (exemplo: mylena.lab)
+;
+$TTL    604800
+@       IN      SOA     mylena.lab. root.mylena.lab. (
+                1         ; Serial
+                604800    ; Refresh
+                86400     ; Retry
+                2419200   ; Expire
+                604800 )  ; Negative Cache TTL
+;
+@       IN      NS      ns.mylena.lab.
+@       IN      A       192.168.200.2
+ns      IN      A       192.168.200.2
+web     IN      A       192.168.200.3
+site    IN      A       192.168.200.4
+```
+
 ---
 
 ### **Configuração para o arquivo `mylena-prova.rev`**
@@ -636,7 +679,6 @@ site    IN      A       192.168.200.4
    sudo named-checkzone prova.lan /etc/bind/prova.db
    sudo named-checkzone 100.168.192.in-addr.arpa /etc/bind/mylena-prova.rev
    sudo named-checkzone mylena.lab /etc/bind/mylena.db
-   sudo named-checkzone 200.168.192.in-addr.arpa /etc/bind/mylena.rev
    ```
 
 3. **Reinicie o serviço do BIND:**
@@ -661,13 +703,6 @@ site    IN      A       192.168.200.4
    nslookup web.mylena.lab
    nslookup site.mylena.lab
    ```
-
-
-
-
-
-
-Aqui está a versão corrigida para refletir o IP correto (**192.168.100.4**) no domínio **mylena.lab**. Todas as ocorrências de **192.168.200.4** foram ajustadas.
 
 ---
 
