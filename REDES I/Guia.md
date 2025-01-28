@@ -835,22 +835,6 @@ Se necessário, reconfigure:
 sudo dpkg-reconfigure phpmyadmin
 ```
 
-```bash
-sudo mkdir -p /srv/prova/phpmyadmin
-```
-
-```bash
-sudo ln -s /usr/share/phpmyadmin /srv/prova/phpmyadmin
-```
-
-**NO DNS1 RODE:** 
-```bash
-sudo systemctl restart isc-dhcp-server
-```
-
-
-
-Verifique se o PHPMyAdmin está acessível pelo HTTPS na máquina ubuntu, **TODO ACESSO EM HTTPS, DEVE SER FEITO NA MÁQUINA UBUNTU COM INTERFACE GRAFICA**: `https://192.168.100.4/phpmyadmin`.
 
 ---
 
@@ -931,6 +915,16 @@ Edite novamente o arquivo `/etc/apache2/sites-available/prova.lan.conf` para adi
 
 Para seguir o guia e organizar os diretórios e arquivos conforme as especificações, aqui está o passo a passo para ser executado no terminal:
 
+
+```bash
+sudo mkdir -p /srv/prova/phpmyadmin
+```
+
+```bash
+sudo ln -s /usr/share/phpmyadmin /srv/prova/phpmyadmin
+```
+
+
 ### 1. Criar os diretórios:
 Primeiro, vamos criar os diretórios necessários no caminho especificado para os sites. Use os seguintes comandos:
 
@@ -944,7 +938,7 @@ sudo mkdir -p /srv/aual/site
 Atribua as permissões adequadas aos diretórios, de modo que o servidor web tenha acesso para gravar e ler neles. Isso depende do servidor web que você está utilizando, mas geralmente é necessário garantir que o usuário do servidor web tenha permissões sobre esses diretórios. Por exemplo, se você estiver usando o Apache, o usuário do servidor web geralmente é `www-data`.
 
 ```bash
-sudo chown -R www-data:www-data /srv/prova/www
+sudo chown -R www-data:www-data /srv/prova
 sudo chown -R www-data:www-data /srv/aula/web
 sudo chown -R www-data:www-data /srv/aual/site
 ```
@@ -1003,7 +997,12 @@ sudo a2ensite prova.lan.conf
    sudo systemctl status mysql
    ```
 
-2. **Acessar os domínios configurados via HTTPS no navegador:**
+**NO DNS1 RODE:** 
+```bash
+sudo systemctl restart isc-dhcp-server
+```
+
+2. **Acessar os domínios configurados via HTTPS no navegador do UBUNTU:**
    - `https://ava.prova.lan`
    - `https://www.prova.lan`
    - `https://web.mylena.lab`
@@ -1011,6 +1010,12 @@ sudo a2ensite prova.lan.conf
 
 3. **Testar o PHPMyAdmin:**
    Acesse: `https://192.168.100.4/phpmyadmin`.
+
+
+
+
+
+Verifique se o PHPMyAdmin está acessível pelo HTTPS na máquina ubuntu, **TODO ACESSO EM HTTPS, DEVE SER FEITO NA MÁQUINA UBUNTU COM INTERFACE GRAFICA**: `https://192.168.100.4/phpmyadmin`.
 
 ---
 
