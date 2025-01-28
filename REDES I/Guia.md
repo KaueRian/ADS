@@ -342,36 +342,6 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 
 ---
 
-### **Configuração do Ubuntu**
-1. **Adaptador 1:** Rede Interna `intnet`.
-
-  - Instale o ubuntu normalmente sem internet.
-
-2. **Configuração de IP via DHCP:**
-   - Edite o arquivo `/etc/systemd/resolved.conf`:
-   ```bash
-   [Resolve]
-   DNS=192.168.100.2 192.168.100.3 8.8.8.8
-   Domains=prova.lan
-   ```
-
-3. **Remova a configuração existente:**
-   ```bash
-   sudo rm /etc/resolv.conf
-   ```
-
-4. **Reinicie a máquina:**
-   ```bash
-   sudo reboot
-   ```
-**Desligue e ligue novamente a placa de rede**
-
-5. **Teste a conexão com a internet.**
-
-6. **Desligue a máquina e crie o Snapshot da máquina Gateway e Ubuntu.**
-
----
-
 ### **Configuração do DNS1 (Servidor DNS)**
 1. **Ubuntu Server CLI:**
    - **Adaptador 1:** Rede Interna (mesma do gateway).
@@ -535,7 +505,34 @@ sudo rm /etc/resolv.conf
 
 **Salve o SNAPSHOT do DNS**
 
-A configuração descrita está quase completa. Vou ajudar a ajustá-la para garantir que o BIND9 esteja configurado corretamente para os domínios e entradas especificados.
+
+### **Configuração do Ubuntu**
+1. **Adaptador 1:** Rede Interna `intnet`.
+
+  - Instale o ubuntu normalmente sem internet.
+
+2. **Configuração de IP via DHCP:**
+   - Edite o arquivo `/etc/systemd/resolved.conf`:
+   ```bash
+   [Resolve]
+   DNS=192.168.100.2 192.168.100.3 8.8.8.8
+   Domains=prova.lan
+   ```
+
+3. **Remova a configuração existente:**
+   ```bash
+   sudo rm /etc/resolv.conf
+   ```
+
+4. **Reinicie a máquina:**
+   ```bash
+   sudo reboot
+   ```
+**Desligue e ligue novamente a placa de rede**
+
+5. **Teste a conexão com a internet.**
+
+6. **Desligue a máquina e crie o Snapshot da máquina DNS1 e Ubuntu.**
 
 ### **Configuração para o arquivo `prova.db`**
 Certifique-se de que o arquivo contém as configurações para o domínio `prova.lan` e as entradas correspondentes, como segue:
