@@ -929,6 +929,8 @@ sudo ln -s /usr/share/phpmyadmin /srv/prova/phpmyadmin
 Primeiro, vamos criar os diretórios necessários no caminho especificado para os sites. Use os seguintes comandos:
 
 ```bash
+sudo mkdir -p /srv/prova/ava
+sudo mkdir -p /srv/prova/ava/moodle
 sudo mkdir -p /srv/prova/www
 sudo mkdir -p /srv/aula/web
 sudo mkdir -p /srv/aula/site
