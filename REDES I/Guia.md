@@ -969,7 +969,7 @@ Após criar os arquivos, você pode verificar se eles foram criados corretamente
 
 2. Ative o site e os módulos necessários:
    ```bash
-   sudo a2ensite web-ssl.conf
+   sudo a2ensite prova.lan.conf
    sudo a2enmod ssl
    sudo a2enmod rewrite
    ```
