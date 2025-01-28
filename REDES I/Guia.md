@@ -1654,7 +1654,7 @@ Antes de começar, confirme que seu servidor atende aos requisitos de sistema do
 ### **Passo 2: Atualize o sistema**
 Certifique-se de que o sistema está atualizado:
 ```bash
-sudo apt update && sudo apt upgrade -y
+sudo apt update
 ```
 
 ---
