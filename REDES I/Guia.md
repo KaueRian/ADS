@@ -435,7 +435,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 
    zone "100.16.172.in-addr.arpa" {
            type master;
-           file "/etc/bind/ifro/prova.rev";
+           file "/etc/bind/ifro/mylena-prova.rev";
            allow-transfer { 192.168.100.3; };
    };
    ```
@@ -452,9 +452,9 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    sudo cp db.local ifro/prova.db
    ```
    ```bash
-   sudo cp db.127 ifro/prova.rev
+   sudo cp db.127 ifro/mylena-prova.rev
    ```
-   - Edite os arquivos `prova.db` e `prova.rev` conforme as instruções fornecidas.
+   - Edite os arquivos `prova.db` e `mylena-prova.rev` conforme as instruções fornecidas.
 
    ```bash
    cd ifro
@@ -485,7 +485,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ```
 
    ```bash
-   sudo nano prova.rev
+   sudo nano mylena-prova.rev
    ```
 
    ```bash
@@ -509,7 +509,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ```bash
    sudo named-checkconf
    sudo named-checkzone prova.lan prova.db
-   sudo named-checkzone 100.16.172.in-addr.arpa prova.rev
+   sudo named-checkzone 100.16.172.in-addr.arpa mylena-prova.rev
    ```
 
 **Defina o DNS:**
@@ -578,7 +578,7 @@ dns1    IN      CNAME   ns.prova.lan.
 
 ---
 
-### **Configuração para o arquivo `prova.rev`**
+### **Configuração para o arquivo `mylena-prova.rev`**
 Configure o arquivo de zona reversa para mapear IPs para os nomes de domínio:
 
 ```plaintext
@@ -596,6 +596,9 @@ $TTL    604800
 @       IN      NS      ns.prova.lan.
 2       IN      PTR     prova.lan.
 4       IN      PTR     ava.prova.lan.
+2       IN      PTR     mylena.lab.
+3       IN      PTR     web.mylena.lab.
+4       IN      PTR     site.mylena.lab.
 ```
 
 ---
@@ -623,25 +626,6 @@ web     IN      A       192.168.200.3
 site    IN      A       192.168.200.4
 ```
 
-#### Arquivo de Zona Reversa (`mylena.rev`):
-```plaintext
-;
-; BIND reverse data file for mylena.lab (exemplo: mylena.lab)
-;
-$TTL    604800
-@       IN      SOA     mylena.lab. root.mylena.lab. (
-                1         ; Serial
-                604800    ; Refresh
-                86400     ; Retry
-                2419200   ; Expire
-                604800 )  ; Negative Cache TTL
-;
-@       IN      NS      ns.mylena.lab.
-2       IN      PTR     mylena.lab.
-3       IN      PTR     web.mylena.lab.
-4       IN      PTR     site.mylena.lab.
-```
-
 ---
 
 ### **Passos para Configurar o BIND9**
@@ -657,18 +641,13 @@ $TTL    604800
 
    zone "100.168.192.in-addr.arpa" {
        type master;
-       file "/etc/bind/prova.rev";
+       file "/etc/bind/mylena-prova.rev";
    };
 
    // Configuração para mylena.lab
    zone "mylena.lab" {
        type master;
        file "/etc/bind/mylena.db";
-   };
-
-   zone "200.168.192.in-addr.arpa" {
-       type master;
-       file "/etc/bind/mylena.rev";
    };
    ```
 
@@ -677,7 +656,7 @@ $TTL    604800
    ```bash
    sudo named-checkconf
    sudo named-checkzone prova.lan /etc/bind/prova.db
-   sudo named-checkzone 100.168.192.in-addr.arpa /etc/bind/prova.rev
+   sudo named-checkzone 100.168.192.in-addr.arpa /etc/bind/mylena-prova.rev
    sudo named-checkzone mylena.lab /etc/bind/mylena.db
    sudo named-checkzone 200.168.192.in-addr.arpa /etc/bind/mylena.rev
    ```
@@ -738,7 +717,7 @@ dns1    IN      CNAME   ns.prova.lan.
 
 ---
 
-### Configuração do Arquivo **prova.rev**
+### Configuração do Arquivo **mylena-prova.rev**
 
 ```bind
 ;
@@ -817,7 +796,7 @@ zone "prova.lan" {
 
 zone "100.168.192.in-addr.arpa" {
     type master;
-    file "/etc/bind/prova.rev";
+    file "/etc/bind/mylena-prova.rev";
 };
 
 // Configuração para mylena.lab
@@ -841,7 +820,7 @@ zone "100.168.192.in-addr.arpa" {
    ```bash
    sudo named-checkconf
    sudo named-checkzone prova.lan /etc/bind/prova.db
-   sudo named-checkzone 100.168.192.in-addr.arpa /etc/bind/prova.rev
+   sudo named-checkzone 100.168.192.in-addr.arpa /etc/bind/mylena-prova.rev
    sudo named-checkzone mylena.lab /etc/bind/mylena.db
    sudo named-checkzone 100.168.192.in-addr.arpa /etc/bind/mylena.rev
    ```
@@ -994,7 +973,7 @@ Com essas alterações, todas as entradas DNS agora estão configuradas corretam
    // Zona reversa para 192.168.100.0/24
    zone "100.16.172.in-addr.arpa" {
        type slave;
-       file "/etc/bind/ifro/prova.rev"; // Caminho do arquivo de zona reversa
+       file "/etc/bind/ifro/mylena-prova.rev"; // Caminho do arquivo de zona reversa
        masters { 192.168.100.2; };     // IP do servidor master
    };
    ```
@@ -1041,7 +1020,7 @@ Com essas alterações, todas as entradas DNS agora estão configuradas corretam
 - Para validar arquivos de zona:
   ```bash
   sudo named-checkzone prova.lan /etc/bind/ifro/prova.db
-  sudo named-checkzone 100.16.172.in-addr.arpa /etc/bind/ifro/prova.rev
+  sudo named-checkzone 100.16.172.in-addr.arpa /etc/bind/ifro/mylena-prova.rev
   ```
 - **CRIE UM SNAPSHOT**
 ---
