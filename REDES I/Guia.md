@@ -711,12 +711,7 @@ nslookup web.mylena.lab
 nslookup site.mylena.lab
 ```
 
----
-
 Com essas alterações, todas as entradas DNS agora estão configuradas corretamente para apontar para o IP real (**192.168.100.4**).
-
-
-
 
 **SALVE UM SNAPSHOT**
 
