@@ -1021,7 +1021,7 @@ e salve SNAPSHOT**
    sudo nano /etc/bind/ifro/prova.db
    ```
 
-2. **Adicionar as configurações de DNS**  
+2. **Adicionar as configurações de DNS1**  
    Adicione ou edite as seguintes linhas no arquivo de zona:
 
    ```txt
@@ -1048,7 +1048,7 @@ e salve SNAPSHOT**
 
 ---
 
-### 5.2 Configurações na máquina DNS1
+### 5.2 Configurações na máquina DNS2
 
 1. **Instalar o ProFTPD**  
    Para instalar o servidor FTP ProFTPD, execute o seguinte comando:
@@ -1059,19 +1059,19 @@ e salve SNAPSHOT**
 2. **Criar o diretório FTP**  
    Crie o diretório onde os arquivos do FTP serão armazenados:
    ```bash
-   sudo mkdir -p /srv/lab/ftp
+   sudo mkdir -p /sr/ftp
    ```
 
 3. **Alterar a propriedade do diretório**  
    Modifique a propriedade do diretório para o usuário e grupo `aluno`:
    ```bash
-   sudo chown aluno:aluno /srv/lab/ftp
+   sudo chown aluno:aluno /sr/ftp
    ```
 
 4. **Ajustar as permissões do diretório**  
    Defina as permissões adequadas para o diretório FTP:
    ```bash
-   sudo chmod 755 /srv/lab/ftp
+   sudo chmod 755 /sr/ftp
    ```
 
 5. **Configurar o ProFTPD**  
@@ -1084,7 +1084,7 @@ e salve SNAPSHOT**
    ```txt
    ServerName "Laboratorio"
    # Use this to jail all users in their homes
-   DefaultRoot /srv/lab/ftp
+   DefaultRoot /sr/ftp
    ```
 
 6. **Reiniciar o ProFTPD**  
@@ -1095,19 +1095,19 @@ e salve SNAPSHOT**
 
 ---
 
-### 5.3 Teste no Ubuntu
+### 5.3 Teste no WEB
 
 1. **Testar a conexão FTP**  
    No Ubuntu, execute o comando FTP para testar a conexão com o servidor FTP configurado:
    ```bash
    ftp ftp.prova.lan
    ```
-**TESTE E SALVE SNAPSHOT, NO DNS1 E UBUNTU**
+**TESTE E SALVE SNAPSHOT, NO DNS1 E WEB**
 ---
 
 ## 6. Configuração do NFS
 
-### 6.1 Configurar o Servidor NFS na Máquina DNS1
+### 6.1 Configurar o Servidor NFS na Máquina DNS2
 
 1. **Atualizar o sistema**  
    Antes de instalar o NFS, é importante atualizar o sistema:
@@ -1124,19 +1124,19 @@ e salve SNAPSHOT**
 3. **Criar o diretório compartilhado**  
    Crie o diretório que será compartilhado via NFS:
    ```bash
-   sudo mkdir -p /srv/lab/nfs
+   sudo mkdir -p /srv/web
    ```
 
 4. **Alterar a propriedade do diretório**  
    Defina a propriedade do diretório para o usuário `nobody` e grupo `nogroup`, que são comuns para compartilhamentos NFS:
    ```bash
-   sudo chown nobody:nogroup /srv/lab/nfs
+   sudo chown nobody:nogroup /srv/web
    ```
 
 5. **Ajustar as permissões do diretório**  
    Altere as permissões do diretório para permitir o acesso necessário:
    ```bash
-   sudo chmod 755 /srv/lab/nfs
+   sudo chmod 755 /srv/web
    ```
 
 6. **Configurar o arquivo de exportação**  
@@ -1145,9 +1145,9 @@ e salve SNAPSHOT**
    sudo nano /etc/exports
    ```
 
-   Adicione a seguinte linha para permitir o acesso ao diretório `/srv/lab/nfs` da rede `192.168.100.0/24` com permissões de leitura e gravação:
+   Adicione a seguinte linha para permitir o acesso ao diretório `/srv/web` da rede `192.168.100.0/24` com permissões de leitura e gravação:
    ```txt
-   /srv/lab/nfs 192.168.100.0/24(rw,no_root_squash,sync)
+   /srv/web 192.168.100.0/24(rw,no_root_squash,sync)
    ```
 
 7. **Reiniciar o serviço NFS**  
@@ -1188,7 +1188,7 @@ e salve SNAPSHOT**
 4. **Montar o compartilhamento NFS**  
    Monte o diretório compartilhado do servidor NFS no diretório de montagem local:
    ```bash
-   sudo mount 192.168.100.4:/srv/lab/nfs /mnt/nfs_docs
+   sudo mount 192.168.100.4:/srv/web /mnt/nfs_docs
    ```
 
 5. **Verificar a montagem**  
@@ -1211,7 +1211,7 @@ e salve SNAPSHOT**
 
    Adicione a seguinte linha ao final do arquivo:
    ```txt
-   192.168.100.4:/srv/lab/nfs /mnt/nfs_docs nfs defaults 0 0
+   192.168.100.4:/srv/web /mnt/nfs_docs nfs defaults 0 0
    ```
 
 8. **Testar a montagem automática**  
