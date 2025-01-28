@@ -752,7 +752,7 @@ Com base nos requisitos adicionais fornecidos, vou ajustar a configuração para
 Execute os seguintes comandos para instalar o Apache, PHP, MySQL e PHPMyAdmin:
 
 ```bash
-sudo apt update && sudo apt upgrade -y
+sudo apt update
 
 # Instalar Apache, MySQL e PHP
 sudo apt install apache2 mysql-server php libapache2-mod-php php-mysql php-cli -y
