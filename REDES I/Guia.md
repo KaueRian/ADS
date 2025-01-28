@@ -716,18 +716,7 @@ Com essas alterações, todas as entradas DNS agora estão configuradas corretam
 **SALVE UM SNAPSHOT**
 
 
----
-
 ### **Configuração do DNS2**
-
-1. **Criar Clone Linkado:**
-   - Gere novos endereços MAC para todas as placas de rede.
-   - Acesse a máquina via VirtualBox (não via SSH).
-   
-2. **Definir o Hostname:**
-   ```bash
-   sudo hostnamectl set-hostname dns2
-   ```
 
 **Definir o /etc/hosts:**
    ```bash
