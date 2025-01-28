@@ -14,21 +14,6 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
 
 ---
 
-### **Configurações do VirtualBox**
-1. **Configuração do Host-Only Ethernet Adapter:**
-   - IP fixo: `192.168.56.1/24`
-   - Desative o DHCP.
-
-2. **Criar as 5 VMs:**
-   - Criar o Gateway (Debian CLI).
-   - Configurar a primeira placa de rede como primária, com DHCP ativo.
-   - Defina o domínio como `prova.lan` (ou conforme o professor informar).
-
-3. **Configuração de Rede:**
-   - **Adaptador 1:** Modo NAT.
-   - **Adaptador 2:** Modo Host-Only, nome: `VirtualBox Host-Only Ethernet Adapter`.
-   - **Adaptador 3:** Modo Rede Interna, nome: `que você criou com ip 192.168.56.1/24`.
-
 4. **Configuração de IP em `/etc/network/interfaces`:**
    
    `su root`
@@ -45,6 +30,8 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    address 192.168.56.2/24
    ```
 
+- Acesse via SSH: `ssh aluno@192.168.56.2`.
+  
    - Organize os repositorios:
      ```bash
      nano /etc/apt/sources.list
@@ -76,12 +63,9 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    /sbin/shutdown -h now
    ```
 
-8. **Ligar a máquina em modo headless e acessar via SSH:**
-   - Acesse via SSH: `ssh aluno@192.168.56.2`.
-
 ---
 
-### **Configuração do Firewall e Acesso via SSH**
+### **CONFIGURAÇÃO NO DNS1**
 1. **Atualize o sistema:**
    ```bash
    sudo apt update
