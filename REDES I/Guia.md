@@ -803,7 +803,7 @@ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     ServerAdmin admin@prova.lan
     ServerName prova.lan
 
-    DocumentRoot /var/www/html
+    DocumentRoot /srv/prova/ava/
 
     SSLEngine on
     SSLCertificateFile /etc/apache2/ssl/apache-selfsigned.crt
@@ -812,7 +812,7 @@ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-    <Directory /var/www/html>
+    <Directory /srv/prova/ava/>
         Options Indexes FollowSymLinks
         AllowOverride All
         Require all granted
@@ -837,7 +837,7 @@ sudo dpkg-reconfigure phpmyadmin
 
 
 ```bash
-sudo ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
+sudo ln -s /usr/share/phpmyadmin /srv/prova/ava//phpmyadmin
 ```
 
 Verifique se o PHPMyAdmin está acessível pelo HTTPS na máquina ubuntu, **TODO ACESSO EM HTTPS, DEVE SER FEITO NA MÁQUINA UBUNTU COM INTERFACE GRAFICA**: `https://192.168.100.4/phpmyadmin`.
@@ -1344,7 +1344,7 @@ wget https://download.moodle.org/download.php/stable405/moodle-latest-405.tgz
 Extraia o pacote e mova os arquivos para o diretório do servidor web:
 ```bash
 tar -xvzf moodle-latest-405.tgz
-sudo mv moodle /var/www/html/
+sudo mv moodle /srv/prova/ava/
 ```
 
 ---
@@ -1362,8 +1362,8 @@ sudo chmod -R 770 /var/moodledata
 ### **Passo 6: Configure permissões**
 Certifique-se de que o diretório do Moodle no Apache também tenha permissões apropriadas:
 ```bash
-sudo chown -R www-data:www-data /var/www/html/moodle
-sudo chmod -R 755 /var/www/html/moodle
+sudo chown -R www-data:www-data /srv/prova/ava/moodle
+sudo chmod -R 755 /srv/prova/ava/moodle
 ```
 
 ---
@@ -1392,7 +1392,7 @@ sudo nano /etc/apache2/sites-available/moodle.conf
 
 Adicione o seguinte conteúdo:
 ```apache
-<VirtualHost *:80>
+<VirtualHost *:443>
     ServerAdmin admin@seusite.com
     DocumentRoot /srv/prova/ava/moodle
     ServerName ava.prova.lan
