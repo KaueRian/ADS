@@ -396,7 +396,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    @       IN      A       192.168.100.2
    ns      IN      A       192.168.100.2
    ava     IN      A       192.168.100.4
-   www     IN      CNAME   ava.prova.lan.
+   www     IN      A       192.168.100.4
    dns1    IN      CNAME   ns.prova.lan.
    ```
 
@@ -442,6 +442,10 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    @       IN      NS      prova.lan.
    2       IN      PTR     prova.lan.
    4       IN      PTR     ava.prova.lan.
+   4       IN      PTR     www.prova.lan.
+   2       IN      PTR     mylena.lab
+   4       IN      PTR     web.mylena.lab
+   4       IN      PTR     site.mylena.lab
    ```
   
 5. **Verifique a configuração do BIND9:**
