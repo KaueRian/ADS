@@ -912,30 +912,6 @@ Edite novamente o arquivo `/etc/apache2/sites-available/prova.lan.conf` para adi
 ```
 
 
-
-
-
-### **6. Testes**
-1. **Verificar os serviços do Apache e MySQL**:
-   ```bash
-   sudo systemctl status apache2
-   sudo systemctl status mysql
-   ```
-
-2. **Acessar os domínios configurados via HTTPS no navegador:**
-   - `https://ava.prova.lan`
-   - `https://www.prova.lan`
-   - `https://web.mylena.lab`
-   - `https://site.mylena.lab`
-
-3. **Testar o PHPMyAdmin:**
-   Acesse: `https://192.168.100.4/phpmyadmin`.
-
----
-
-Essa configuração atende aos requisitos fornecidos. Caso tenha dúvidas ou problemas, posso ajudar a ajustar os detalhes.
-
-
 Para seguir o guia e organizar os diretórios e arquivos conforme as especificações, aqui está o passo a passo para ser executado no terminal:
 
 ### 1. Criar os diretórios:
@@ -998,7 +974,24 @@ sudo a2ensite site.seunome.lab.conf
 sudo systemctl restart apache2
 ```
 
-**Teste as urls: https://www.prova.lan, https://web.mylena.lab, https://site.mylena.lab no ubuntu e verifique se aparece os caminhos dos arquivos: por exemplo: /srv/prova/www ou /srv/aula/web.
+
+### **6. Testes**
+1. **Verificar os serviços do Apache e MySQL**:
+   ```bash
+   sudo systemctl status apache2
+   sudo systemctl status mysql
+   ```
+
+2. **Acessar os domínios configurados via HTTPS no navegador:**
+   - `https://ava.prova.lan`
+   - `https://www.prova.lan`
+   - `https://web.mylena.lab`
+   - `https://site.mylena.lab`
+
+3. **Testar o PHPMyAdmin:**
+   Acesse: `https://192.168.100.4/phpmyadmin`.
+
+---
 
 
 e salve SNAPSHOT**
