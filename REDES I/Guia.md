@@ -835,9 +835,12 @@ Se necessário, reconfigure:
 sudo dpkg-reconfigure phpmyadmin
 ```
 
+```bash
+sudo mkdir -p /srv/prova/phpmyadmin
+```
 
 ```bash
-sudo ln -s /usr/share/phpmyadmin /srv/prova/ava//phpmyadmin
+sudo ln -s /usr/share/phpmyadmin /srv/prova/phpmyadmin
 ```
 
 Verifique se o PHPMyAdmin está acessível pelo HTTPS na máquina ubuntu, **TODO ACESSO EM HTTPS, DEVE SER FEITO NA MÁQUINA UBUNTU COM INTERFACE GRAFICA**: `https://192.168.100.4/phpmyadmin`.
