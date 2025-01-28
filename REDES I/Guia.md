@@ -729,7 +729,7 @@ CRIE UM SNAPSHOT
    ```bash
    sudo rm /etc/resolv.conf
    ```
-   - Reinicie a máquina e verifique o IP, teste internet com `ping prova.lan` e `ping` para o gateway.
+   - Reinicie a máquina e verifique o IP, teste internet com `ping prova.lan`.
    - Desligue a máquina e crie um snapshot.
 
 
@@ -758,41 +758,6 @@ sudo apt install apache2 mysql-server php libapache2-mod-php php-mysql php-cli -
 
 # Instalar PHPMyAdmin
 sudo apt install phpmyadmin -y
-```
-
-#### **2. Configurar o IP fixo da máquina para 192.168.100.4**
-Edite o arquivo de configuração de rede, dependendo do gerenciador utilizado. Por exemplo:
-
-```bash
-sudo nano /etc/netplan/01-netcfg.yaml
-```
-
-Adicione ou edite as seguintes configurações:
-
-```yaml
-network:
-  version: 2
-  ethernets:
-    enp0s3:  # Substitua pelo nome correto da interface
-      addresses:
-        - 192.168.100.4/24
-      gateway4: 192.168.100.1
-      nameservers:
-        addresses:
-          - 8.8.8.8
-          - 8.8.4.4
-```
-
-Aplica as configurações:
-
-```bash
-sudo netplan apply
-```
-
-Verifique o IP:
-
-```bash
-ip addr
 ```
 
 #### **3. Configurar Apache para HTTPS e bloquear HTTP**
