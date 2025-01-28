@@ -1302,275 +1302,6 @@ Aqui está a versão melhorada e complementada do seu texto:
 
 ---
 
-# 7.3 Teste da Configuração do Proxy
-
-### 1. **Realizar o Teste de Navegação**
-
-   Após configurar o proxy, abra o navegador (Firefox) e tente acessar alguns sites para garantir que a navegação está sendo feita corretamente através do proxy.
-
-
-# 7.4 Criar Snapshot da Máquina Ubuntu
-
-Após a configuração e os testes, crie um snapshot da máquina Ubuntu para garantir um ponto de recuperação caso necessário.
-
----
-
-# 7.5 Bloquear URLs Usando `url_regex` no Squid
-
-Agora que o Squid está funcionando como proxy, podemos adicionar regras para bloquear acessos a URLs específicas usando expressões regulares (`url_regex`). Vamos configurar isso no arquivo de configuração do Squid (`squid.conf`).
-
-## 7.5.1 Editar o Arquivo `squid.conf`
-
-### 1. **Abrir o Arquivo de Configuração do Squid**
-
-   No diretório `/etc/squid`, abra o arquivo de configuração `squid.conf` para edição:
-   ```bash
-   sudo nano /etc/squid/squid.conf
-   ```
-
-### 2. **Definir as Regras de Bloqueio de URLs**
-
-   O `url_regex` permite bloquear URLs com base em expressões regulares. A seguir, um exemplo para bloquear URLs que contenham a palavra "forbidden":
-
-   - **Exemplo de Bloqueio de URLs**:
-     Adicione a seguinte linha para bloquear URLs com a palavra "forbidden":
-     ```bash
-     acl blocked_urls url_regex -i forbidden
-     ```
-     A opção `-i` torna a expressão regular case-insensitive (ignorando maiúsculas e minúsculas), ou seja, bloqueará "forbidden", "Forbidden", "FORBIDDEN", etc.
-
-### 3. **Aplicar a Regra de Bloqueio**
-
-   Para aplicar a regra de bloqueio no Squid, adicione a seguinte linha após a configuração da rede interna (`http_access allow aula`):
-   ```bash
-   http_access deny blocked_urls
-   ```
-
-   Após editar o arquivo, reconfigure o Squid:
-   ```bash
-   sudo squid -k reconfigure
-   sudo systemctl restart squid
-   sudo systemctl status squid
-   ```
-
-### 4. **Revisar o Fluxo das Regras de Acesso**
-
-   Certifique-se de que as regras de bloqueio estejam posicionadas corretamente, antes da regra geral de negação. O fluxo de regras deve ser similar a este:
-
-   ```bash
-   http_access allow aula
-   http_access deny blocked_urls
-   http_access deny all
-   ```
-
----
-
-# Exemplos de Configuração de Bloqueios Específicos
-
-### 1. **Bloquear uma Faixa de IP para Não Baixar Arquivos ZIP**
-
-   Para bloquear o download de arquivos com a extensão `.zip` para uma faixa de IP específica:
-
-   **Passos**:
-   1. Crie uma ACL para identificar arquivos `.zip`:
-      ```bash
-      acl arquivos_zip url_regex zip
-      ```
-   2. Defina a faixa de IP a ser bloqueada (por exemplo, `192.168.0.0/24`):
-      ```bash
-      acl proibido_acesso src 192.168.0.0/24
-      ```
-   3. Bloqueie o acesso aos arquivos ZIP para essa faixa de IP:
-      ```bash
-      http_access deny proibido_acesso arquivos_zip
-      ```
-
-   **Exemplo de configuração**:
-   ```bash
-   acl arquivos_zip url_regex zip
-   acl proibido_acesso src 192.168.0.0/24
-   http_access deny proibido_acesso arquivos_zip
-   ```
-
----
-
-### 2. **Bloquear um Site para Todos os Usuários da Rede**
-
-   Para bloquear um site (exemplo: Facebook) para todos os usuários da rede:
-
-   **Passos**:
-   1. Crie uma ACL para identificar o site a ser bloqueado:
-      ```bash
-      acl site_proibido dstdomain .facebook.com
-      ```
-   2. Bloqueie o acesso a esse site para todos os usuários:
-      ```bash
-      http_access deny all site_proibido
-      ```
-
-   **Exemplo de configuração**:
-   ```bash
-   acl site_proibido dstdomain .facebook.com
-   http_access deny all site_proibido
-   ```
-
----
-
-### 3. **Controlar o Acesso por Hora**
-
-   Para bloquear o acesso durante determinados horários para usuários de uma faixa de IP específica (por exemplo, `192.168.0.0/24`):
-
-   **Passos**:
-   1. Defina a ACL para o horário (exemplo: segunda a sexta-feira, das 08:05 às 11:40):
-      ```bash
-      acl fechado_para_aula time MTWHF 08:05-11:40
-      ```
-   2. Defina a ACL para a faixa de IP (exemplo: `192.168.0.0/24`):
-      ```bash
-      acl hora_de_aula src 192.168.0.0/24
-      ```
-   3. Bloqueie o acesso durante esse horário:
-      ```bash
-      http_access deny hora_de_aula fechado_para_aula
-      ```
-
-   **Exemplo de configuração**:
-   ```bash
-   acl fechado_para_aula time MTWHF 08:05-11:40
-   acl hora_de_aula src 192.168.0.0/24
-   http_access deny hora_de_aula fechado_para_aula
-   ```
-
----
-
-### 4. **Liberar o Acesso Somente em um Determinado Horário**
-
-   Para permitir o acesso a uma faixa de IP específica (exemplo: `192.168.0.0/24`) apenas em um horário específico (exemplo: segunda a sexta-feira, das 11:40 às 13:05):
-
-   **Passos**:
-   1. Defina a ACL para a faixa de IP:
-      ```bash
-      acl usuarios src 192.168.0.0/24
-      ```
-   2. Defina a ACL para o horário (exemplo: das 11:40 às 13:05):
-      ```bash
-      acl libera_geral time MTWHF 11:40-13:05
-      ```
-   3. Permita o acesso para os usuários nesse horário:
-      ```bash
-      http_access allow usuarios libera_geral
-      ```
-   4. Bloqueie o acesso fora desse horário:
-      ```bash
-      http_access deny usuarios
-      ```
-
-   **Exemplo de configuração**:
-   ```bash
-   acl usuarios src 192.168.0.0/24
-   acl libera_geral time MTWHF 11:40-13:05
-   http_access allow usuarios libera_geral
-   http_access deny usuarios
-   ```
-
----
-
-### 5. **Usar um Arquivo de Texto para Bloquear Diversos Sites**
-
-   Se a lista de sites ou usuários a serem bloqueados for longa, você pode usar um arquivo externo com os sites a serem bloqueados.
-
-   **Passos**:
-   1. Defina uma ACL para a faixa de IP:
-      ```bash
-      acl usuarios src 192.168.0.0/24
-      ```
-   2. Crie uma ACL para carregar a lista de sites bloqueados de um arquivo:
-      ```bash
-      acl sites_proibidos url_regex "/caminho/para/arquivo_sites.txt"
-      ```
-   3. Bloqueie o acesso a esses sites para a faixa de IP:
-      ```bash
-      http_access deny usuarios sites_proibidos
-      ```
-
-   **Exemplo de configuração**:
-   ```bash
-   acl usuarios src 192.168.0.0/24
-   acl sites_proibidos url_regex "/etc/squid/arquivo_sites.txt"
-   http_access deny usuarios sites_proibidos
-   ```
-
----
-
-### Considerações Finais
-
-- **Testar as Configurações**: Sempre teste as configurações após realizar alterações:
-  ```bash
-  sudo squid -k reconfigure
-  ```
-
-- **Backup**: Antes de realizar qualquer modificação, é recomendável fazer um backup:
-  ```bash
-  sudo cp /etc/squid/squid.conf /etc/squid/squid.conf.backup
-  ```
-
-- **Logs**: Para diagnóstico de problemas ou verificação das regras, consulte os logs do Squid, geralmente encontrados em:
-  ```bash
-  /var/log/squid/access.log
-  ```
-
-
-
-
-### 4. Configurar o Apache (se necessário)
-Se o Apache não foi configurado automaticamente, você precisa ativar o phpMyAdmin. Faça isso criando um link simbólico para o diretório do phpMyAdmin dentro do diretório do Apache:
-
-```bash
-sudo ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
-```
-
-### 5. Configurar o acesso ao phpMyAdmin
-Verifique se o phpMyAdmin está acessível diretamente pelo navegador. Vá até `http://<seu-servidor>/phpmyadmin` e você deverá ver a interface de login.
-
-Se não conseguir acessar, pode ser necessário ajustar as permissões ou configurações no Apache. Para isso, adicione as seguintes configurações ao arquivo de configuração do Apache:
-
-```bash
-sudo nano /etc/apache2/conf-available/phpmyadmin.conf
-```
-
-Adicione ou verifique as configurações de segurança e permissões adequadas.
-
-Após isso, reinicie o Apache:
-
-```bash
-sudo systemctl restart apache2
-```
-
-### 6. Configurar a segurança (opcional)
-É altamente recomendável garantir a segurança da instalação do phpMyAdmin. Você pode adicionar uma camada de autenticação ao acessar a interface, configurando um `.htpasswd` ou restringindo o acesso a partir de certos IPs.
-
----
-
-### Função do phpMyAdmin em relação ao pacote PHP
-
-O **phpMyAdmin** é uma aplicação web baseada em PHP que permite gerenciar bancos de dados MySQL ou MariaDB de forma visual, com facilidade. Ele substitui a necessidade de usar a linha de comando para realizar tarefas como:
-
-- Criar, editar e excluir bancos de dados e tabelas
-- Executar consultas SQL
-- Gerenciar usuários e permissões
-- Importar e exportar dados
-
-Já o **PHP** é uma linguagem de programação que serve para criar aplicações web. O **phpMyAdmin** é um exemplo de aplicação feita com PHP. Assim, o phpMyAdmin usa o PHP para interagir com o servidor de banco de dados MySQL/MariaDB por meio de uma interface gráfica, enquanto o PHP sozinho é usado para desenvolver qualquer tipo de aplicação web.
-
-Se você estava se referindo a algo mais específico em relação ao "pacote PHP", me avise que posso esclarecer mais!
-
-
-
-
-
-
-
-
 Aqui está um passo a passo detalhado para configurar uma instância do Moodle em um servidor Ubuntu que já possui Apache e PHPMyAdmin instalados:
 
 ---
@@ -1607,12 +1338,12 @@ sudo systemctl restart apache2
 ### **Passo 4: Baixe o Moodle**
 Baixe a versão mais recente do Moodle diretamente do site oficial:
 ```bash
-wget https://download.moodle.org/releases/latest/moodle-latest.tgz
+wget https://download.moodle.org/download.php/stable405/moodle-latest-405.tgz
 ```
 
 Extraia o pacote e mova os arquivos para o diretório do servidor web:
 ```bash
-tar -xvzf moodle-latest.tgz
+tar -xvzf moodle-latest-405.tgz
 sudo mv moodle /var/www/html/
 ```
 
@@ -1645,7 +1376,7 @@ sudo mysql -u root -p
 2. Crie um banco de dados e um usuário:
 ```sql
 CREATE DATABASE moodle DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'moodleuser'@'localhost' IDENTIFIED BY 'senha_segura';
+CREATE USER 'moodleuser'@'localhost' IDENTIFIED BY 'Ifro@2025';
 GRANT ALL PRIVILEGES ON moodle.* TO 'moodleuser'@'localhost';
 FLUSH PRIVILEGES;
 EXIT;
@@ -1663,10 +1394,10 @@ Adicione o seguinte conteúdo:
 ```apache
 <VirtualHost *:80>
     ServerAdmin admin@seusite.com
-    DocumentRoot /var/www/html/moodle
-    ServerName seusite.com
+    DocumentRoot /srv/prova/ava/moodle
+    ServerName ava.prova.lan
 
-    <Directory /var/www/html/moodle>
+    <Directory /srv/prova/ava/moodle>
         Options FollowSymlinks
         AllowOverride All
         Require all granted
