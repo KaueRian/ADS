@@ -397,6 +397,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    ns      IN      A       192.168.100.2
    ava     IN      A       192.168.100.4
    www     IN      A       192.168.100.4
+   ftp     IN      A       192.168.100.4
    dns1    IN      CNAME   ns.prova.lan.
    ```
 
@@ -982,9 +983,6 @@ Agora, ative as configurações dos sites e reinicie o servidor Apache:
 
 ```bash
 sudo a2ensite prova.lan.conf
-sudo a2ensite web.seunome.lab.conf
-sudo a2ensite site.seunome.lab.conf
-sudo systemctl restart apache2
 ```
 
 
@@ -1009,9 +1007,6 @@ sudo systemctl restart apache2
 
 e salve SNAPSHOT**
 ---
-
-
-
 
 **TESTE E CRIE SNAPSHOT**
 ---
