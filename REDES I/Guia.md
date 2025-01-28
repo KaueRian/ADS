@@ -833,7 +833,7 @@ sudo dpkg-reconfigure phpmyadmin
 sudo ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
 ```
 
-Verifique se o PHPMyAdmin está acessível pelo HTTPS: `https://192.168.100.4/phpmyadmin`.
+Verifique se o PHPMyAdmin está acessível pelo HTTPS na máquina ubuntu, **TODO ACESSO EM HTTPS, DEVE SER FEITO NA MÁQUINA UBUNTU COM INTERFACE GRAFICA**: `https://192.168.100.4/phpmyadmin`.
 
 ---
 
@@ -936,34 +936,72 @@ Edite novamente o arquivo `/etc/apache2/sites-available/prova.lan.conf` para adi
 Essa configuração atende aos requisitos fornecidos. Caso tenha dúvidas ou problemas, posso ajudar a ajustar os detalhes.
 
 
-11. **Criar o diretório do site**:
-    ```bash
-    sudo mkdir -p /srv/lab/web
-    ```
+Para seguir o guia e organizar os diretórios e arquivos conforme as especificações, aqui está o passo a passo para ser executado no terminal:
 
-12. **Criar o arquivo de teste do site**:
-    ```bash
-    sudo nano /srv/lab/web/index.php
-    ```
-    - Adicionar o seguinte conteúdo:
-      ```php
-      <?php
-          echo getcwd() . "\n";
-          chdir('cvs');
-      ?>
-      ```
+### 1. Criar os diretórios:
+Primeiro, vamos criar os diretórios necessários no caminho especificado para os sites. Use os seguintes comandos:
 
-13. **Ativar o site**:
-    ```bash
-    sudo a2ensite web.lab.conf
-    ```
+```bash
+sudo mkdir -p /srv/prova/www
+sudo mkdir -p /srv/aula/web
+sudo mkdir -p /srv/aual/site
+```
 
-14. **Recarregar o Apache**:
-    ```bash
-    sudo systemctl reload apache2
-    ```
-    
-**Teste e salve SNAPSHOT**
+### 2. Definir permissões:
+Atribua as permissões adequadas aos diretórios, de modo que o servidor web tenha acesso para gravar e ler neles. Isso depende do servidor web que você está utilizando, mas geralmente é necessário garantir que o usuário do servidor web tenha permissões sobre esses diretórios. Por exemplo, se você estiver usando o Apache, o usuário do servidor web geralmente é `www-data`.
+
+```bash
+sudo chown -R www-data:www-data /srv/prova/www
+sudo chown -R www-data:www-data /srv/aula/web
+sudo chown -R www-data:www-data /srv/aual/site
+```
+
+### 3. Criar os arquivos HTML/PHP em cada diretório:
+Agora, vamos criar o arquivo HTML/PHP em cada diretório com o conteúdo solicitado.
+
+**Para /srv/prova/www:**
+
+```bash
+echo -e "<html>\n<center>\n<font size=5>\n<br><br><br>\n<?php\n echo getcwd() . \"\\n\";\n?>\n" | sudo tee /srv/prova/www/index.php > /dev/null
+```
+
+**Para /srv/aula/web:**
+
+```bash
+echo -e "<html>\n<center>\n<font size=5>\n<br><br><br>\n<?php\n echo getcwd() . \"\\n\";\n?>\n" | sudo tee /srv/aula/web/index.php > /dev/null
+```
+
+**Para /srv/aual/site:**
+
+```bash
+echo -e "<html>\n<center>\n<font size=5>\n<br><br><br>\n<?php\n echo getcwd() . \"\\n\";\n?>\n" | sudo tee /srv/aual/site/index.php > /dev/null
+```
+
+### 4. Verificar se os arquivos foram criados:
+Após criar os arquivos, você pode verificar se eles foram criados corretamente com o seguinte comando:
+
+```bash
+cat /srv/prova/www/index.php
+cat /srv/aula/web/index.php
+cat /srv/aual/site/index.php
+```
+
+Esses comandos exibirão o conteúdo dos arquivos para que você possa verificar se está tudo correto.
+
+### 6. Habilitar os sites e reiniciar o servidor:
+Agora, ative as configurações dos sites e reinicie o servidor Apache:
+
+```bash
+sudo a2ensite prova.lan.conf
+sudo a2ensite web.seunome.lab.conf
+sudo a2ensite site.seunome.lab.conf
+sudo systemctl restart apache2
+```
+
+**Teste as urls: https://www.prova.lan, https://web.mylena.lab, https://site.mylena.lab no ubuntu e verifique se aparece os caminhos dos arquivos: por exemplo: /srv/prova/www ou /srv/aula/web.
+
+
+e salve SNAPSHOT**
 ---
 
 ### 2. **Instalação e Configuração de SSL**
