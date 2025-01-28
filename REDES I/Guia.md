@@ -1048,7 +1048,7 @@ e salve SNAPSHOT**
 
 ---
 
-### 5.2 Configurações na máquina WEB
+### 5.2 Configurações na máquina DNS1
 
 1. **Instalar o ProFTPD**  
    Para instalar o servidor FTP ProFTPD, execute o seguinte comando:
@@ -1102,12 +1102,12 @@ e salve SNAPSHOT**
    ```bash
    ftp ftp.prova.lan
    ```
-**TESTE E SALVE SNAPSHOT, NO DNS1, WEB, E UBUNTU**
+**TESTE E SALVE SNAPSHOT, NO DNS1 E UBUNTU**
 ---
 
 ## 6. Configuração do NFS
 
-### 6.1 Configurar o Servidor NFS na Máquina WEB
+### 6.1 Configurar o Servidor NFS na Máquina DNS1
 
 1. **Atualizar o sistema**  
    Antes de instalar o NFS, é importante atualizar o sistema:
