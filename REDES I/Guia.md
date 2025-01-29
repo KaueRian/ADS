@@ -358,7 +358,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
            allow-transfer { 192.168.100.3; };
    };
 
-   zone "100.16.172.in-addr.arpa" {
+   zone "100.168.192.in-addr.arpa" {
            type master;
            file "/etc/bind/ifro/mylena-prova.rev";
            allow-transfer { 192.168.100.3; };
@@ -454,7 +454,7 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    sudo named-checkconf
    sudo named-checkzone prova.lan prova.db
    sudo named-checkzone mylena.lab mylena.db
-   sudo named-checkzone 100.16.172.in-addr.arpa mylena-prova.rev
+   sudo named-checkzone 100.168.192.in-addr.arpa mylena-prova.rev
    ```
    
 2. Teste as resoluções:
@@ -635,7 +635,7 @@ sudo rm /etc/resolv.conf
    ```bash
    sudo nano /etc/bind/named.conf.local
    ```
-2. Adicione as configurações abaixo para criar as zonas **prova.lan** e a zona reversa **100.16.172.in-addr.arpa**:
+2. Adicione as configurações abaixo para criar as zonas **prova.lan** e a zona reversa **100.168.192.in-addr.arpa**:
    ```bash
    // Zona direta para prova.lan
    zone "prova.lan" {
@@ -651,7 +651,7 @@ sudo rm /etc/resolv.conf
    };
 
    // Zona reversa para 192.168.100.0/24
-   zone "100.16.172.in-addr.arpa" {
+   zone "100.168.192.in-addr.arpa" {
        type slave;
        file "/etc/bind/ifro/mylena-prova.rev"; // Caminho do arquivo de zona reversa
        masters { 192.168.100.2; };     // IP do servidor master
