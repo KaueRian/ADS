@@ -392,9 +392,8 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
                    2419200   ; Expire
                    604800 )  ; Negative Cache TTL
    ;
-   @       IN      NS      prova.lan.
-   @       IN      A       192.168.100.2
-   ns      IN      A       192.168.100.2
+   @       IN      NS      ns1.prova.lan.
+   ns1     IN      A       192.168.100.2
    ava     IN      A       192.168.100.4
    www     IN      A       192.168.100.4
    ftp     IN      A       192.168.100.4
@@ -417,9 +416,8 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
                    2419200   ; Expire
                    604800 )  ; Negative Cache TTL
    ;
-   @       IN      NS      mylena.lab.
-   @       IN      A       192.168.100.2
-   ns      IN      A       192.168.100.2
+   @       IN      NS      ns1.mylena.lab.
+   ns1     IN      A       192.168.100.2  ; Definição do servidor de nomes
    site    IN      A       192.168.100.4
    web     IN      A       192.168.100.4
    ```
@@ -440,13 +438,13 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
                    2419200   ; Expire
                    604800 )  ; Negative Cache TTL
    ;
-   @       IN      NS      prova.lan.
+   @       IN      NS      ns1.prova.lan.
    2       IN      PTR     prova.lan.
    4       IN      PTR     ava.prova.lan.
    4       IN      PTR     www.prova.lan.
-   2       IN      PTR     mylena.lab
-   4       IN      PTR     web.mylena.lab
-   4       IN      PTR     site.mylena.lab
+   2       IN      PTR     mylena.lab.
+   4       IN      PTR     web.mylena.lab.
+   4       IN      PTR     site.mylena.lab.
    ```
   
 5. **Verifique a configuração do BIND9:**
@@ -457,6 +455,12 @@ Caso haja erros ao iniciar uma VM utilizando o modo Host-Only, apague a configur
    sudo named-checkzone 100.168.192.in-addr.arpa mylena-prova.rev
    ```
    
+   ```bash
+   sudo systemctl restart bind9
+   sudo systemctl status bind9
+   ```
+   
+
 2. Teste as resoluções:
    ```bash
    nslookup ava.prova.lan
